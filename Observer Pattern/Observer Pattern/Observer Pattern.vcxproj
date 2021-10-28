@@ -127,11 +127,13 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Observer.cpp" />
     <ClCompile Include="Subject.cpp" />
+    <ClCompile Include="WeatherData.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DisplayElement.h" />
     <ClInclude Include="Observer.h" />
     <ClInclude Include="Subject.h" />
+    <ClInclude Include="WeatherData.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

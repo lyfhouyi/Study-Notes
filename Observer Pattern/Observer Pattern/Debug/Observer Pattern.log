@@ -1,2 +1,6 @@
-﻿  main.cpp
-  Observer Pattern.vcxproj -> D:\MachineLearning_Programme\DIY\Head First Design Patterns\Observer Pattern\Debug\Observer Pattern.exe
+﻿  Observer.cpp
+  Subject.cpp
+  WeatherData.cpp
+  main.cpp
+  正在生成代码...
+  Observer Pattern.vcxproj -> C:\Users\lyfhouyi\Desktop\git\Study-Notes\Observer Pattern\Debug\Observer Pattern.exe
