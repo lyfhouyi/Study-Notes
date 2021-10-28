@@ -5,7 +5,7 @@ bytedance 期间自己做的小游戏，游戏效果参见视频。
 使用纯代码制作 UI
 
 ### 私有变量/方法
-```
+```objc
 
 @interface ViewController ()
 
@@ -54,7 +54,7 @@ bytedance 期间自己做的小游戏，游戏效果参见视频。
 ```
 
 ### UI界面
-```
+```objc
 
 -(void)setUI
 {
@@ -189,7 +189,7 @@ bytedance 期间自己做的小游戏，游戏效果参见视频。
 ```
 
 ###  按下出题按钮
-```
+```objc
 
 -(IBAction)newQuestion
 {
@@ -255,7 +255,7 @@ bytedance 期间自己做的小游戏，游戏效果参见视频。
 ```
 
 ### 按下开始/停止按钮
-```
+```objc
 
 -(IBAction)gameStartOrStop
 {
@@ -282,7 +282,7 @@ bytedance 期间自己做的小游戏，游戏效果参见视频。
 ```
 
 ### 开始/停止键的弹窗
-```
+```objc
 
 -(void)showStartAlert
 {
@@ -361,7 +361,7 @@ bytedance 期间自己做的小游戏，游戏效果参见视频。
 ```
 
 ### 计时器响应
-```
+```objc
 -(IBAction)responseTotimerGlobal
 {
     NSLog(@"%s---%lf",__func__,self.timerGlobal.timeInterval);
@@ -379,7 +379,7 @@ bytedance 期间自己做的小游戏，游戏效果参见视频。
 ```
 
 ### 计算结果
-```
+```objc
 
 -(int)compute
 {
@@ -408,7 +408,7 @@ bytedance 期间自己做的小游戏，游戏效果参见视频。
 ```
 
 ### 试题难度分布由困难等级决定
-```
+```objc
 
 -(int)myRandomNumberBetween:(int)value1 and:(int)value2
 {
