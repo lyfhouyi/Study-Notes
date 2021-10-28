@@ -1,8 +1,5 @@
-# Study-Notes
-ios开发学习笔记
-
-## 数字速算
-<video src="https://github.com/lyfhouyi/Study-Notes/blob/FastCompute/数字速算.mov" controls="controls" width="500" height="300">您的浏览器不支持播放视频！</video>
+# 数字速算
+bytedance 期间自己做的小游戏，游戏效果参见视频。
 
 ## 代码逻辑
 使用纯代码制作 UI
