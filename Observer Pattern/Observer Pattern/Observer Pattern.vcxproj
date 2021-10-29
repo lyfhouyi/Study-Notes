@@ -123,15 +123,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CurrentConditionsDisplay.cpp" />
     <ClCompile Include="DisplayElement.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Observer.cpp" />
+    <ClCompile Include="StatisticsDisplay.cpp" />
     <ClCompile Include="Subject.cpp" />
     <ClCompile Include="WeatherData.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CurrentConditionsDisplay.h" />
     <ClInclude Include="DisplayElement.h" />
     <ClInclude Include="Observer.h" />
+    <ClInclude Include="StatisticsDisplay.h" />
     <ClInclude Include="Subject.h" />
     <ClInclude Include="WeatherData.h" />
   </ItemGroup>

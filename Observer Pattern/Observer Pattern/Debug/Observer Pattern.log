@@ -1,6 +1,2 @@
-﻿  Observer.cpp
-  Subject.cpp
-  WeatherData.cpp
-  main.cpp
-  正在生成代码...
+﻿  WeatherData.cpp
   Observer Pattern.vcxproj -> C:\Users\lyfhouyi\Desktop\git\Study-Notes\Observer Pattern\Debug\Observer Pattern.exe

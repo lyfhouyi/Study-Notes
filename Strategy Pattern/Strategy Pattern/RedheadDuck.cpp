@@ -3,7 +3,7 @@
 
 using namespace std;
 
-RedheadDuck::RedheadDuck(FlyBehavior * fb, QuackBehavior * qb):Duck(fb,qb)
+RedheadDuck::RedheadDuck(FlyBehavior * fb, QuackBehavior * qb) :Duck(fb, qb)
 {
 
 	//this->setFlyBehavior(new FlyWithWings); //默认使用 用翅膀飞 算法
