@@ -343,7 +343,7 @@
         [self.timerGlobal fire];
         
         self.btnQuestion.enabled=YES;
-        self.btnResult.enabled=YES;
+        self.btnResult.enabled=NO;
     }];
     UIAlertAction *cancel=[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         NSLog(@"按下了取消按钮");
