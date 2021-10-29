@@ -3,4 +3,4 @@
 
 [策略模式 Strategy Pattern]()
 
-[观察者模式 Observer Pattern]()
+[观察者模式 Observer Pattern](https://github.com/lyfhouyi/Study-Notes/tree/Design-Pattern/Observer%20Pattern)
