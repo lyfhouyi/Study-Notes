@@ -11,13 +11,13 @@ int main()
 {
 	WeatherData weatherData;
 	CurrentConditionsDisplay currentConditionsDisplay(&weatherData);
-	StatisticsDisplay statisticsDisplay(&weatherData);
 	DataMeasurements dm1{ 28.3,0.65,103 };
-	DataMeasurements dm2{ 30.4,0.70,104 };
-	DataMeasurements dm3{ 31.5,0.75,105 };
+	DataMeasurements dm2{ 31.5,0.75,105 };
 
+	cout << "只有一个观察者：" << endl;
 	weatherData.setMeasurements(dm1);
+	cout << "又增加了一个观察者：" << endl;
+	StatisticsDisplay statisticsDisplay(&weatherData);
 	weatherData.setMeasurements(dm2);
-	weatherData.setMeasurements(dm3);
 	return 0;
 }

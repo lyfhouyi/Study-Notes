@@ -1,2 +1,7 @@
-﻿  WeatherData.cpp
-  Observer Pattern.vcxproj -> C:\Users\lyfhouyi\Desktop\git\Study-Notes\Observer Pattern\Debug\Observer Pattern.exe
+﻿  CurrentConditionsDisplay.cpp
+  StatisticsDisplay.cpp
+  WeatherData.cpp
+  main.cpp
+c:\users\monkey.e\desktop\git\study-notes\observer pattern\observer pattern\main.cpp(14): warning C4305: “初始化”: 从“double”到“float”截断
+  正在生成代码...
+  Observer Pattern.vcxproj -> C:\Users\Monkey.E\Desktop\git\Study-Notes\Observer Pattern\Debug\Observer Pattern.exe

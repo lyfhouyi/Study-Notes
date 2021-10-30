@@ -12,6 +12,7 @@
 
    ```cpp
    void swim();
+   ```
 
 2. 当子类的方法共性很少，具有极大的个性时，可使用公有继承的虚方法：
 
@@ -75,10 +76,10 @@ p22
 
 ## 代码解释
 
-1. display() 为一般的虚函数，因为每个鸭子子类的展示方式不同；
+1. `display()` 为一般的虚函数，因为每个鸭子子类的展示方式不同；
 
-2. FlyBehavior和 QuackBehavior是提供商虚基类，MuteQuack 等是提供商（算法）；
+2. `FlyBehavior` 和 `QuackBehavior` 是提供商虚基类，`MuteQuack` 等是提供商（算法）；
 
-3. Duck 是用户基类；
+3. `Duck` 是用户基类；
 
-4. RedheadDuck 是用户。
+4. `RedheadDuck` 是用户。
