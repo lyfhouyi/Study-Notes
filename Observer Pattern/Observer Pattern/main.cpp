@@ -19,5 +19,8 @@ int main()
 	cout << "又增加了一个观察者：" << endl;
 	StatisticsDisplay statisticsDisplay(&weatherData);
 	weatherData.setMeasurements(dm2);
+	cout << "删除了一个观察者：" << endl;
+	weatherData.removeObserver(&currentConditionsDisplay);
+	weatherData.setMeasurements(dm2);
 	return 0;
 }

@@ -5,6 +5,6 @@ class DisplayElement
 {
 public:
 	virtual void display() = 0;
-	~DisplayElement() {}
+	virtual ~DisplayElement() {}
 };
 

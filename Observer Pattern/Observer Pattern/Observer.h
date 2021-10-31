@@ -9,6 +9,6 @@ class Observer
 {
 public:
 	virtual void update(Subject *, void *) = 0; // Subject * 用来拉数据，void * 用来推数据
-	~Observer() {}
+	virtual ~Observer() {}
 };
 
