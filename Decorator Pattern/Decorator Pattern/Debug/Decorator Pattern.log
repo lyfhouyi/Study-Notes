@@ -1,10 +1,2 @@
-﻿  Beverage.cpp
-  CondimentDecorator.cpp
-  DarkRoast.cpp
-  HouseBlend.cpp
-  Milk.cpp
-  Mocha.cpp
-  Soy.cpp
-  mian.cpp
-  正在生成代码...
-  Decorator Pattern.vcxproj -> C:\Users\lyfhouyi\Desktop\git\Study-Notes\Decorator Pattern\Debug\Decorator Pattern.exe
+﻿  mian.cpp
+  Decorator Pattern.vcxproj -> C:\Users\Monkey.E\Desktop\git\Study-Notes\Decorator Pattern\Debug\Decorator Pattern.exe

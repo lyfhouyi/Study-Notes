@@ -4,7 +4,7 @@
 class HouseBlend :public Beverage
 {
 public:
-	HouseBlend();
+	HouseBlend(Size size = TALL);
 	virtual double cost();
 };
 

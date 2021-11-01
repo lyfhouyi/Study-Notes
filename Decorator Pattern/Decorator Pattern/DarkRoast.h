@@ -4,7 +4,7 @@
 class DarkRoast :public Beverage
 {
 public:
-	DarkRoast();
+	DarkRoast(Size size = TALL);
 	virtual double cost();
 };
 
