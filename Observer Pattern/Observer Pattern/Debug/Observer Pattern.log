@@ -1,8 +1,5 @@
 ﻿  CurrentConditionsDisplay.cpp
-  DisplayElement.cpp
-  Observer.cpp
   StatisticsDisplay.cpp
-  Subject.cpp
   WeatherData.cpp
   main.cpp
 c:\users\lyfhouyi\desktop\git\study-notes\observer pattern\observer pattern\main.cpp(14): warning C4305: “初始化”: 从“double”到“float”截断

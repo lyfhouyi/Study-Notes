@@ -5,11 +5,12 @@
 
 class Milk :public CondimentDecorator
 {
+private:
+	Beverage *beverage;
+
 public:
 	Milk(Beverage *beverage);
 	virtual string getDescription();
 	virtual double cost();
-private:
-	Beverage *beverage;
 };
 

@@ -1,2 +1,11 @@
-﻿  mian.cpp
-  Decorator Pattern.vcxproj -> C:\Users\Monkey.E\Desktop\git\Study-Notes\Decorator Pattern\Debug\Decorator Pattern.exe
+﻿  Beverage.cpp
+  CondimentDecorator.cpp
+  DarkRoast.cpp
+  HouseBlend.cpp
+  Milk.cpp
+  Mocha.cpp
+  Soy.cpp
+  mian.cpp
+  正在生成代码...
+  LINK : 没有找到 C:\Users\lyfhouyi\Desktop\git\Study-Notes\Decorator Pattern\Debug\Decorator Pattern.exe 或上一个增量链接没有生成它；正在执行完全链接
+  Decorator Pattern.vcxproj -> C:\Users\lyfhouyi\Desktop\git\Study-Notes\Decorator Pattern\Debug\Decorator Pattern.exe

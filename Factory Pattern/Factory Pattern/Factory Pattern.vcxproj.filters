@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="头文件\比萨店">
+      <UniqueIdentifier>{e782915e-64e8-477d-841c-4b77edb83fc5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\比萨店">
+      <UniqueIdentifier>{0572ef9f-4924-4ef7-ac1e-9a0e7a58b29f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\比萨">
+      <UniqueIdentifier>{9fc8ecc6-e3d5-41ae-8eb8-70e2ee03d1d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\比萨">
+      <UniqueIdentifier>{083e197b-3fdd-42ed-a839-aa42821a40c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\原料">
+      <UniqueIdentifier>{75af91c0-b3fc-483a-901d-dd5e32a6ecff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\原料">
+      <UniqueIdentifier>{25e571ae-d937-4a1d-9335-c7a258d9864d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="PizzaStore.cpp">
+      <Filter>源文件\比萨店</Filter>
+    </ClCompile>
+    <ClCompile Include="Pizza.cpp">
+      <Filter>源文件\比萨</Filter>
+    </ClCompile>
+    <ClCompile Include="PizzaIngredientFactory.cpp">
+      <Filter>源文件\原料</Filter>
+    </ClCompile>
+    <ClCompile Include="Clams.cpp">
+      <Filter>源文件\原料</Filter>
+    </ClCompile>
+    <ClCompile Include="NYPizzaIngredientFactory.cpp">
+      <Filter>源文件\原料</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="PizzaStore.h">
+      <Filter>头文件\比萨店</Filter>
+    </ClInclude>
+    <ClInclude Include="Pizza.h">
+      <Filter>头文件\比萨</Filter>
+    </ClInclude>
+    <ClInclude Include="Clams.h">
+      <Filter>头文件\原料</Filter>
+    </ClInclude>
+    <ClInclude Include="PizzaIngredientFactory.h">
+      <Filter>头文件\原料</Filter>
+    </ClInclude>
+    <ClInclude Include="Ingredients.h">
+      <Filter>头文件\原料</Filter>
+    </ClInclude>
+    <ClInclude Include="NYPizzaIngredientFactory.h">
+      <Filter>头文件\原料</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

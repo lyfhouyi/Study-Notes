@@ -6,6 +6,10 @@
 
 class Duck
 {
+private:
+	FlyBehavior* flyBehavior;
+	QuackBehavior* quackBehavior;
+
 public:
 	virtual ~Duck();
 	Duck(FlyBehavior* fb, QuackBehavior* qb);
@@ -15,8 +19,5 @@ public:
 	void performFly();
 	void swim();
 	virtual void display() {};
-private:
-	FlyBehavior* flyBehavior;
-	QuackBehavior* quackBehavior;
 };
 

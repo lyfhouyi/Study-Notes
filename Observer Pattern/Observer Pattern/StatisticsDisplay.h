@@ -7,11 +7,12 @@
 
 class StatisticsDisplay :public Observer, public DisplayElement
 {
+private:
+	DataMeasurements dm;
+	Subject *weatherData;
+
 public:
 	StatisticsDisplay(Subject *weatherData);
 	void update(Subject *, void *);
 	void display();
-private:
-	DataMeasurements dm;
-	Subject *weatherData;
 };
