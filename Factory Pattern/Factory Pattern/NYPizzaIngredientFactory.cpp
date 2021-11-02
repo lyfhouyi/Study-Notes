@@ -12,13 +12,11 @@ Dough * NYPizzaIngredientFactory::createDough()
 Clams * NYPizzaIngredientFactory::createClam()
 {
 	cout << "NYPizzaIngredientFactory：取得了 FreshClams" << endl;
-
 	return new FreshClams;
 }
 
 Sauce * NYPizzaIngredientFactory::createSauce()
 {
 	cout << "NYPizzaIngredientFactory：取得了 MarinaraSauce" << endl;
-
 	return new MarinaraSauce;
 }

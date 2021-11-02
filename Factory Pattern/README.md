@@ -32,7 +32,7 @@
 
   * 实际案例：
 
-    本例中，用户维护的类型为 `PizzaStore *` 的指针指向了不同的子类实例：
+    本例中，用户是 `main` 函数，用户维护的类型为 `PizzaStore *` 的指针指向了不同的子类实例：
 
     ```cpp
     PizzaStore *nyPizzaStore = new NYPizzaStore;
@@ -41,7 +41,7 @@
 
     这个基类 `PizzaStore` 中包含了非工厂方法 `Pizza *orderPizza(string type);` 和工厂方法 `virtual Pizza *createPizza(string type) = 0;`；
 
-    不同的子类实例，其工厂方法的实现不同：
+    不同的子类，其工厂方法的实现不同：
 
     ```cpp
     // NYPizzaStore 子类工厂方法的实现
@@ -114,7 +114,7 @@
 
   * 使用方式：
 
-  * 用户维护一个类型为基类的指向子类的指针 `AbstractFactory *`，这个基类中声明了工厂接口。使用时，用户令 `AbstractFactory *` 指针指向不同的子类实例，由于指向的子类实例不同，工厂接口会创建出不同的对象，从而实现多态。若工厂接口会创建出多个对象，我们成这组对象为一个家族。即，每个子类实例都会创建出一个不同的产品家族（不同的产品家族可能包含相同类型的对象），不同产品家族间的关系是平行的。
+    用户维护一个类型为基类的指向子类的指针 `AbstractFactory *`，这个基类中声明了工厂接口。使用时，用户令 `AbstractFactory *` 指针指向不同的子类实例，由于指向的子类实例不同，工厂接口会创建出不同的对象，从而实现多态。若工厂接口会创建出多个对象，我们成这组对象为一个家族。即，每个子类实例都会创建出一个不同的产品家族（不同的产品家族可能包含相同类型的对象），不同产品家族间的关系是平行的。
 
     抽象工厂可以实现：客户可以使用相同的接口（`AbstractFactory *` 指针指向的工厂接口），创建出不同的产品家族，具体创建出的产品家族的内容（即包括哪些对象类型）由`AbstractFactory *` 指针指向的是哪个子类实例决定。
 
@@ -122,26 +122,87 @@
 
   * 实际案例：
 
-  * 
+    本例中，用户是 `ClamPizza` 类或 `CheesePizza` 类，用户维护的类型为 `PizzaIngredientFactory *` 的指针指向了不同的子类实例：
+  
+    ```cpp
+    class ClamPizza :public Pizza
+    {
+    public:
+    	ClamPizza(PizzaIngredientFactory * pizzaIngredientFactory) :Pizza()
+        {
+            this->pizzaIngredientFactory = pizzaIngredientFactory;
+        }
+    private:
+    	PizzaIngredientFactory * pizzaIngredientFactory;
+    	virtual void prepare();
+    };
+    
+    Pizza *pizza = new ClamPizza(new NYPizzaIngredientFactory);
+    ```
+  
+    这个 `PizzaIngredientFactory` 基类中声明了三个工厂接口：
+  
+    ```cpp
+    virtual Dough *createDough() = 0;
+    virtual Clams *createClam() = 0;
+    virtual Sauce *createSauce() = 0;
+    ```
+  
+    不同的子类，其工厂接口的实现不同：
+  
+    ```cpp
+    // NYPizzaIngredientFactory 子类工厂接口的实现
+    Dough * NYPizzaIngredientFactory::createDough()
+    {
+    	cout << "NYPizzaIngredientFactory：取得了 ThinCrustDough" << endl;
+    	return new ThinCrustDough;
+    }
+    Clams * NYPizzaIngredientFactory::createClam()
+    {
+    	cout << "NYPizzaIngredientFactory：取得了 FreshClams" << endl;
+    	return new FreshClams;
+    }
+    Sauce * NYPizzaIngredientFactory::createSauce()
+    {
+    	cout << "NYPizzaIngredientFactory：取得了 MarinaraSauce" << endl;
+    	return new MarinaraSauce;
+    }
+    
+    // ChicagoPizzaIngredientFactory 子类工厂接口的实现
+    Dough * ChicagoPizzaIngredientFactory::createDough()
+    {
+    	cout << "ChicagoPizzaIngredientFactory：取得了 ThickCrustDough" << endl;
+    	return new ThickCrustDough;
+    }
+    Clams * ChicagoPizzaIngredientFactory::createClam()
+    {
+    	cout << "ChicagoPizzaIngredientFactory：取得了 FrozenClams" << endl;
+    	return new FrozenClams;
+    }
+    Sauce * ChicagoPizzaIngredientFactory::createSauce()
+    {
+    	cout << "ChicagoPizzaIngredientFactory：取得了 PlumTomatoSauce" << endl;
+    	return new PlumTomatoSauce;
+    }
+    ```
+  
+    由于不同的子类，其工厂接口的实现不同，因而不同子类可以创建出不同的产品家族。
+  
+    使用时，用户通过调用工厂接口获得一个产品家族：
+  
+    ```cpp
+    void ClamPizza::prepare()
+    {
+    	cout << "ClamPizza：准备 " << this->getName() << endl;
+    	this->dough = this->pizzaIngredientFactory->createDough();
+    	this->sauce = this->pizzaIngredientFactory->createSauce();
+    	this->clam = this->pizzaIngredientFactory->createClam();
+    }
+    ```
+  
+    虽然用户调用了相同的接口，但是接口的“行为”却因子类实例的不同而不同。
 
-
-
-
-
-当需要动态地扩展某（已有）组件的功能时，可使用装饰者模式：
-
-令装饰者和被装饰对象有相同的超类型，在装饰者中维护一个类型为该超类型指针的变量。则装饰者可以在所委托被装饰者的行为之前/或之后，加上自己的行为，以达到特定的目的。
-
-```cpp
-Beverage *beverage;
-
-double Milk::cost()
-{
-	return this->beverage->cost() + 0.1;
-}
-```
-
-## 装饰者模式的必要性和可行性
+##  工厂模式的必要性和可行性
 
 当需要扩展某组件的功能时，若采用一般的硬编码方法，会面临“类爆炸”，且每次扩展组件的功能都需要修改代码，无法做到“对修改关闭”。
 
@@ -166,13 +227,17 @@ double Milk::cost()
 
 ## UML 图
 
-装饰者模式的“理论”类图：p91
+工厂方法模式的“理论”类图：p134
 
-![“理论”类图](UML1.jpg)
+![工厂方法“理论”类图](UML1.jpg)
 
-装饰者模式的“实际”类图：p92
+抽象工厂模式的“理论”类图：p156
 
-![“实际”类图](UML2.jpg)
+![抽象工厂“理论”类图](UML2.jpg)
+
+工厂模式的“案例”类图：p160-161
+
+![工厂模式“案例”类图](UML3.jpg)
 
 ## 代码解释
 
