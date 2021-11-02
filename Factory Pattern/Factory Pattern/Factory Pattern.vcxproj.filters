@@ -31,6 +31,12 @@
     <Filter Include="源文件\原料">
       <UniqueIdentifier>{25e571ae-d937-4a1d-9335-c7a258d9864d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\原料工厂">
+      <UniqueIdentifier>{303c10a3-362e-4fcf-9f25-eac23fa491fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\原料工厂">
+      <UniqueIdentifier>{87371e09-a39c-46ce-a4ad-3c11d334a84f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -42,14 +48,53 @@
     <ClCompile Include="Pizza.cpp">
       <Filter>源文件\比萨</Filter>
     </ClCompile>
+    <ClCompile Include="ClamPizza.cpp">
+      <Filter>源文件\比萨</Filter>
+    </ClCompile>
+    <ClCompile Include="NYPizzaStore.cpp">
+      <Filter>源文件\比萨店</Filter>
+    </ClCompile>
+    <ClCompile Include="CheesePizza.cpp">
+      <Filter>源文件\比萨</Filter>
+    </ClCompile>
     <ClCompile Include="PizzaIngredientFactory.cpp">
-      <Filter>源文件\原料</Filter>
+      <Filter>源文件\原料工厂</Filter>
+    </ClCompile>
+    <ClCompile Include="NYPizzaIngredientFactory.cpp">
+      <Filter>源文件\原料工厂</Filter>
     </ClCompile>
     <ClCompile Include="Clams.cpp">
       <Filter>源文件\原料</Filter>
     </ClCompile>
-    <ClCompile Include="NYPizzaIngredientFactory.cpp">
+    <ClCompile Include="Dough.cpp">
       <Filter>源文件\原料</Filter>
+    </ClCompile>
+    <ClCompile Include="FreshClams.cpp">
+      <Filter>源文件\原料</Filter>
+    </ClCompile>
+    <ClCompile Include="FrozenClams.cpp">
+      <Filter>源文件\原料</Filter>
+    </ClCompile>
+    <ClCompile Include="MarinaraSauce.cpp">
+      <Filter>源文件\原料</Filter>
+    </ClCompile>
+    <ClCompile Include="PlumTomatoSauce.cpp">
+      <Filter>源文件\原料</Filter>
+    </ClCompile>
+    <ClCompile Include="Sauce.cpp">
+      <Filter>源文件\原料</Filter>
+    </ClCompile>
+    <ClCompile Include="ThickCrustDough.cpp">
+      <Filter>源文件\原料</Filter>
+    </ClCompile>
+    <ClCompile Include="ThinCrustDough.cpp">
+      <Filter>源文件\原料</Filter>
+    </ClCompile>
+    <ClCompile Include="ChicagoPizzaIngredientFactory.cpp">
+      <Filter>源文件\原料工厂</Filter>
+    </ClCompile>
+    <ClCompile Include="ChicagoPizzaStore.cpp">
+      <Filter>源文件\比萨店</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -59,17 +104,65 @@
     <ClInclude Include="Pizza.h">
       <Filter>头文件\比萨</Filter>
     </ClInclude>
-    <ClInclude Include="Clams.h">
-      <Filter>头文件\原料</Filter>
-    </ClInclude>
-    <ClInclude Include="PizzaIngredientFactory.h">
-      <Filter>头文件\原料</Filter>
-    </ClInclude>
     <ClInclude Include="Ingredients.h">
       <Filter>头文件\原料</Filter>
     </ClInclude>
+    <ClInclude Include="ClamPizza.h">
+      <Filter>头文件\比萨</Filter>
+    </ClInclude>
+    <ClInclude Include="NYPizzaStore.h">
+      <Filter>头文件\比萨店</Filter>
+    </ClInclude>
+    <ClInclude Include="Pizzas.h">
+      <Filter>头文件\比萨</Filter>
+    </ClInclude>
+    <ClInclude Include="CheesePizza.h">
+      <Filter>头文件\比萨</Filter>
+    </ClInclude>
+    <ClInclude Include="PizzaIngredientFactorys.h">
+      <Filter>头文件\原料工厂</Filter>
+    </ClInclude>
+    <ClInclude Include="PizzaIngredientFactory.h">
+      <Filter>头文件\原料工厂</Filter>
+    </ClInclude>
     <ClInclude Include="NYPizzaIngredientFactory.h">
+      <Filter>头文件\原料工厂</Filter>
+    </ClInclude>
+    <ClInclude Include="Clams.h">
       <Filter>头文件\原料</Filter>
+    </ClInclude>
+    <ClInclude Include="Dough.h">
+      <Filter>头文件\原料</Filter>
+    </ClInclude>
+    <ClInclude Include="FreshClams.h">
+      <Filter>头文件\原料</Filter>
+    </ClInclude>
+    <ClInclude Include="FrozenClams.h">
+      <Filter>头文件\原料</Filter>
+    </ClInclude>
+    <ClInclude Include="MarinaraSauce.h">
+      <Filter>头文件\原料</Filter>
+    </ClInclude>
+    <ClInclude Include="PlumTomatoSauce.h">
+      <Filter>头文件\原料</Filter>
+    </ClInclude>
+    <ClInclude Include="Sauce.h">
+      <Filter>头文件\原料</Filter>
+    </ClInclude>
+    <ClInclude Include="ThickCrustDough.h">
+      <Filter>头文件\原料</Filter>
+    </ClInclude>
+    <ClInclude Include="ThinCrustDough.h">
+      <Filter>头文件\原料</Filter>
+    </ClInclude>
+    <ClInclude Include="ChicagoPizzaIngredientFactory.h">
+      <Filter>头文件\原料工厂</Filter>
+    </ClInclude>
+    <ClInclude Include="ChicagoPizzaStore.h">
+      <Filter>头文件\比萨店</Filter>
+    </ClInclude>
+    <ClInclude Include="PizzaStores.h">
+      <Filter>头文件\比萨店</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

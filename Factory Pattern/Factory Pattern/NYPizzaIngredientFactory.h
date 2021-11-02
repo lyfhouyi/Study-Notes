@@ -6,8 +6,9 @@
 class NYPizzaIngredientFactory :public PizzaIngredientFactory
 {
 public:
+	NYPizzaIngredientFactory() :PizzaIngredientFactory() {}
 	virtual Dough *createDough();
-	virtual Clams *createClams();
+	virtual Clams *createClam();
 	virtual Sauce *createSauce();
 };
 

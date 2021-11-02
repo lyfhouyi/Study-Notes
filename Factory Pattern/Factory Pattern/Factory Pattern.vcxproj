@@ -123,20 +123,49 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CheesePizza.cpp" />
+    <ClCompile Include="ChicagoPizzaIngredientFactory.cpp" />
+    <ClCompile Include="ChicagoPizzaStore.cpp" />
     <ClCompile Include="Clams.cpp" />
+    <ClCompile Include="Dough.cpp" />
+    <ClCompile Include="FreshClams.cpp" />
+    <ClCompile Include="FrozenClams.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MarinaraSauce.cpp" />
     <ClCompile Include="NYPizzaIngredientFactory.cpp" />
+    <ClCompile Include="ClamPizza.cpp" />
+    <ClCompile Include="NYPizzaStore.cpp" />
     <ClCompile Include="Pizza.cpp" />
     <ClCompile Include="PizzaIngredientFactory.cpp" />
     <ClCompile Include="PizzaStore.cpp" />
+    <ClCompile Include="PlumTomatoSauce.cpp" />
+    <ClCompile Include="Sauce.cpp" />
+    <ClCompile Include="ThickCrustDough.cpp" />
+    <ClCompile Include="ThinCrustDough.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CheesePizza.h" />
+    <ClInclude Include="ChicagoPizzaIngredientFactory.h" />
+    <ClInclude Include="ChicagoPizzaStore.h" />
     <ClInclude Include="Clams.h" />
+    <ClInclude Include="Dough.h" />
+    <ClInclude Include="FreshClams.h" />
+    <ClInclude Include="FrozenClams.h" />
     <ClInclude Include="Ingredients.h" />
+    <ClInclude Include="MarinaraSauce.h" />
     <ClInclude Include="NYPizzaIngredientFactory.h" />
+    <ClInclude Include="ClamPizza.h" />
+    <ClInclude Include="NYPizzaStore.h" />
     <ClInclude Include="Pizza.h" />
     <ClInclude Include="PizzaIngredientFactory.h" />
+    <ClInclude Include="PizzaIngredientFactorys.h" />
+    <ClInclude Include="Pizzas.h" />
     <ClInclude Include="PizzaStore.h" />
+    <ClInclude Include="PizzaStores.h" />
+    <ClInclude Include="PlumTomatoSauce.h" />
+    <ClInclude Include="Sauce.h" />
+    <ClInclude Include="ThickCrustDough.h" />
+    <ClInclude Include="ThinCrustDough.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

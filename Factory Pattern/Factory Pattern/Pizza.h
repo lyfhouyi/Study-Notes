@@ -11,14 +11,16 @@ class Pizza
 protected:
 	string name;
 	Dough *dough;
-	Clams *clams;
+	Clams *clam;
 	Sauce *sauce;
 
 public:
 	string getName();
-	virtual void prepare()=0;
+	void setName(string name);
+	virtual void prepare() = 0;
 	void bake();
 	void cut();
 	void box();
+	~Pizza() {}
 };
 
