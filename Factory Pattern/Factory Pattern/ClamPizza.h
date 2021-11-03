@@ -8,6 +8,7 @@ class ClamPizza :public Pizza
 {
 public:
 	ClamPizza(PizzaIngredientFactory * pizzaIngredientFactory);
+	~ClamPizza();
 private:
 	PizzaIngredientFactory * pizzaIngredientFactory;
 	virtual void prepare();

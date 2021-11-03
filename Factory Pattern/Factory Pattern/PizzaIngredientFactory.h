@@ -9,6 +9,6 @@ public:
 	virtual Dough *createDough() = 0;
 	virtual Clams *createClam() = 0;
 	virtual Sauce *createSauce() = 0;
-	virtual ~PizzaIngredientFactory() {}
+	virtual ~PizzaIngredientFactory();
 };
 

@@ -8,6 +8,7 @@ class CheesePizza :public Pizza
 {
 public:
 	CheesePizza(PizzaIngredientFactory * pizzaIngredientFactory);
+	~CheesePizza();
 private:
 	PizzaIngredientFactory * pizzaIngredientFactory;
 	virtual void prepare();

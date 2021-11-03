@@ -20,3 +20,8 @@ Sauce * NYPizzaIngredientFactory::createSauce()
 	cout << "NYPizzaIngredientFactory£ºÈ¡µÃÁË MarinaraSauce" << endl;
 	return new MarinaraSauce;
 }
+
+NYPizzaIngredientFactory::~NYPizzaIngredientFactory()
+{
+	cout << "~NYPizzaIngredientFactory" << endl;
+}

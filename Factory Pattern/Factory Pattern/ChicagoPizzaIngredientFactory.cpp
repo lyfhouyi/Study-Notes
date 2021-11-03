@@ -20,3 +20,8 @@ Sauce * ChicagoPizzaIngredientFactory::createSauce()
 	cout << "ChicagoPizzaIngredientFactory£ºÈ¡µÃÁË PlumTomatoSauce" << endl;
 	return new PlumTomatoSauce;
 }
+
+ChicagoPizzaIngredientFactory::~ChicagoPizzaIngredientFactory()
+{
+	cout << "~ChicagoPizzaIngredientFactory" << endl;
+}

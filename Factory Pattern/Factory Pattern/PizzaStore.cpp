@@ -1,4 +1,7 @@
+#include <iostream>
 #include "PizzaStore.h"
+
+using namespace std;
 
 Pizza * PizzaStore::orderPizza(string type)
 {
@@ -8,4 +11,9 @@ Pizza * PizzaStore::orderPizza(string type)
 	pizza->cut();
 	pizza->box();
 	return pizza;
+}
+
+PizzaStore::~PizzaStore()
+{
+	cout << "~PizzaStore" << endl;
 }

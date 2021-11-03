@@ -9,6 +9,7 @@ class NYPizzaStore :public PizzaStore
 {
 public:
 	NYPizzaStore() :PizzaStore() {}
+	~NYPizzaStore();
 private:
 	virtual Pizza *createPizza(string type);
 };

@@ -21,6 +21,6 @@ public:
 	void bake();
 	void cut();
 	void box();
-	~Pizza() {}
+	virtual ~Pizza();
 };
 

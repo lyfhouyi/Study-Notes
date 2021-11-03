@@ -9,5 +9,6 @@ public:
 	virtual Dough *createDough();
 	virtual Clams *createClam();
 	virtual Sauce *createSauce();
+	~ChicagoPizzaIngredientFactory();
 };
 

@@ -1,21 +1,2 @@
-﻿  CheesePizza.cpp
-  ChicagoPizzaIngredientFactory.cpp
-  ChicagoPizzaStore.cpp
-  Clams.cpp
-  Dough.cpp
-  FreshClams.cpp
-  FrozenClams.cpp
-  main.cpp
-  MarinaraSauce.cpp
-  NYPizzaIngredientFactory.cpp
-  ClamPizza.cpp
-  NYPizzaStore.cpp
-  Pizza.cpp
-  PizzaIngredientFactory.cpp
-  PizzaStore.cpp
-  PlumTomatoSauce.cpp
-  Sauce.cpp
-  ThickCrustDough.cpp
-  ThinCrustDough.cpp
-  正在生成代码...
+﻿  main.cpp
   Factory Pattern.vcxproj -> C:\Users\Monkey.E\Desktop\git\Study-Notes\Factory Pattern\Debug\Factory Pattern.exe

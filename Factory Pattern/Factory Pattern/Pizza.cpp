@@ -25,3 +25,12 @@ void Pizza::box()
 {
 	cout << "比萨装盒" << endl;
 }
+
+Pizza::~Pizza()
+{
+	cout << "~Pizza" << endl;
+	delete this->dough;
+	delete this->clam;
+	delete this->sauce;
+	cout << "~Pizza：三种原料已释放" << endl;
+}

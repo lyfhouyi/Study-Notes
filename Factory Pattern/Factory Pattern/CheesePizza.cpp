@@ -8,6 +8,11 @@ CheesePizza::CheesePizza(PizzaIngredientFactory * pizzaIngredientFactory) :Pizza
 	this->pizzaIngredientFactory = pizzaIngredientFactory;
 }
 
+CheesePizza::~CheesePizza()
+{
+	cout << "~CheesePizza" << endl;
+}
+
 void CheesePizza::prepare()
 {
 	cout << "CheesePizza£º×¼±¸ " << this->name << endl;
