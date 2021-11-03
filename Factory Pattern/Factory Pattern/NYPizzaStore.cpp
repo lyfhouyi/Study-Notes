@@ -15,14 +15,12 @@ Pizza * NYPizzaStore::createPizza(string type)
 	if (type == "clam")
 	{
 		pizza = new ClamPizza(pizzaIngredientFactory);
-		pizza->setName("NYPizzaStore 使用 NYPizzaIngredientFactory 的原料生产的 ClamPizza");
+		pizza->setName("createPizza：NYPizzaStore 使用 NYPizzaIngredientFactory 的原料生产的 ClamPizza");
 	}
 	else if (type == "cheese")
 	{
 		pizza = new CheesePizza(pizzaIngredientFactory);
-		pizza->setName("NYPizzaStore 使用 NYPizzaIngredientFactory 的原料生产的 CheesePizza");
+		pizza->setName("createPizza：NYPizzaStore 使用 NYPizzaIngredientFactory 的原料生产的 CheesePizza");
 	}
-	delete pizzaIngredientFactory;
-	cout << "pizzaIngredientFactory 已释放" << endl;
 	return pizza;
 }

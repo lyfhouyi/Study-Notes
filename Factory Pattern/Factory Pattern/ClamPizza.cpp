@@ -11,6 +11,8 @@ ClamPizza::ClamPizza(PizzaIngredientFactory * pizzaIngredientFactory) :Pizza()
 ClamPizza::~ClamPizza()
 {
 	cout << "~ClamPizza" << endl;
+	delete this->pizzaIngredientFactory;
+	cout << "~ClamPizza£ºpizzaIngredientFactory ÒÑÊÍ·Å" << endl;
 }
 
 void ClamPizza::prepare()

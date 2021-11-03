@@ -11,6 +11,8 @@ CheesePizza::CheesePizza(PizzaIngredientFactory * pizzaIngredientFactory) :Pizza
 CheesePizza::~CheesePizza()
 {
 	cout << "~CheesePizza" << endl;
+	delete this->pizzaIngredientFactory;
+	cout << "~ClamPizza£ºpizzaIngredientFactory ÒÑÊÍ·Å" << endl;
 }
 
 void CheesePizza::prepare()
