@@ -6,4 +6,4 @@
 
 ## 软件开发
 + [Objective-C bytedance 期间学习总结](https://github.com/lyfhouyi/Study-Notes/tree/Objective-C)
-+ [使用 c++ 实现各种设计模式](https://github.com/lyfhouyi/Study-Notes/tree/Design-Pattern)
++ [设计模式的 c++ 实现](https://github.com/lyfhouyi/Study-Notes/tree/Design-Pattern)
