@@ -8,3 +8,6 @@
 [装饰者模式 Decorator Pattern](https://github.com/lyfhouyi/Study-Notes/tree/Design-Pattern/Decorator%20Pattern)
 
 [工厂模式 Factory Pattern](https://github.com/lyfhouyi/Study-Notes/tree/Design-Pattern/Factory%20Pattern)
+
+[单件模式 Singleton Pattern](https://github.com/lyfhouyi/Study-Notes/tree/Design-Pattern/Singleton%20Pattern)
+
