@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="头文件\命令类">
+      <UniqueIdentifier>{bae7ea09-e87e-4613-bfb5-6abe8c2a5aea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\命令类">
+      <UniqueIdentifier>{b8ea651d-f302-4755-a7ef-b2539eae6ae0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\接收者类">
+      <UniqueIdentifier>{f57857d6-ee9f-4fa8-b9a1-acabc9ff36c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\接收者类">
+      <UniqueIdentifier>{bec8c28e-1b94-4e33-9013-883a4613c369}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\调用者类">
+      <UniqueIdentifier>{7ea04635-e3aa-419e-b804-c182b52593ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\调用者类">
+      <UniqueIdentifier>{5beb3be1-5f5d-496e-aed2-353da7e5d79e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="mian.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="GarageDoor.cpp">
+      <Filter>源文件\接收者类</Filter>
+    </ClCompile>
+    <ClCompile Include="Command.cpp">
+      <Filter>源文件\命令类</Filter>
+    </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>源文件\接收者类</Filter>
+    </ClCompile>
+    <ClCompile Include="GarageDoorUpCommand.cpp">
+      <Filter>源文件\命令类</Filter>
+    </ClCompile>
+    <ClCompile Include="GarageDoorDownCommand.cpp">
+      <Filter>源文件\命令类</Filter>
+    </ClCompile>
+    <ClCompile Include="LightOnCommand.cpp">
+      <Filter>源文件\命令类</Filter>
+    </ClCompile>
+    <ClCompile Include="LightOffCommand.cpp">
+      <Filter>源文件\命令类</Filter>
+    </ClCompile>
+    <ClCompile Include="RemoteControl.cpp">
+      <Filter>源文件\调用者类</Filter>
+    </ClCompile>
+    <ClCompile Include="NoCommand.cpp">
+      <Filter>源文件\命令类</Filter>
+    </ClCompile>
+    <ClCompile Include="MacroCommand.cpp">
+      <Filter>源文件\命令类</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GarageDoor.h">
+      <Filter>头文件\接收者类</Filter>
+    </ClInclude>
+    <ClInclude Include="Command.h">
+      <Filter>头文件\命令类</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>头文件\接收者类</Filter>
+    </ClInclude>
+    <ClInclude Include="GarageDoorDownCommand.h">
+      <Filter>头文件\命令类</Filter>
+    </ClInclude>
+    <ClInclude Include="GarageDoorUpCommand.h">
+      <Filter>头文件\命令类</Filter>
+    </ClInclude>
+    <ClInclude Include="LightOnCommand.h">
+      <Filter>头文件\命令类</Filter>
+    </ClInclude>
+    <ClInclude Include="LightOffCommand.h">
+      <Filter>头文件\命令类</Filter>
+    </ClInclude>
+    <ClInclude Include="RemoteControl.h">
+      <Filter>头文件\调用者类</Filter>
+    </ClInclude>
+    <ClInclude Include="NoCommand.h">
+      <Filter>头文件\命令类</Filter>
+    </ClInclude>
+    <ClInclude Include="Commonds.h">
+      <Filter>头文件\命令类</Filter>
+    </ClInclude>
+    <ClInclude Include="MacroCommand.h">
+      <Filter>头文件\命令类</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
