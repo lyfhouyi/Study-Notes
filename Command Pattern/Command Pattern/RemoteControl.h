@@ -22,5 +22,4 @@ public:
 	void onButtonWasPushed(int slot);
 	void offButtonWasPushed(int slot);
 	void undoButtonWasPushed();
-
 };

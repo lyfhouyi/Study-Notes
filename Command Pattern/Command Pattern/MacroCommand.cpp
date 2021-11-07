@@ -15,4 +15,7 @@ void MacroCommand::execute()
 
 void MacroCommand::undo()
 {
+	for_each(this->commands.begin(), this->commands.end(), [this](Command * command) {
+		command->undo();
+	});
 }

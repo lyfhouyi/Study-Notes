@@ -31,8 +31,18 @@ int main()
 	partyOn.push_back(&lightOnCommand);
 	partyOn.push_back(&garageDoorUpCommand);
 	MacroCommand partyOnMacro(partyOn);
-	remoteControl.setCommand(0, &partyOnMacro, nullptr);
+
+	vector<Command *> partyOff;
+	partyOff.push_back(&lightOffCommand);
+	partyOff.push_back(&garageDoorDownCommand);
+	MacroCommand partyOffMacro(partyOff);
+
+	remoteControl.setCommand(0, &partyOnMacro, &partyOffMacro);
+	cout << "派对开始" << endl;
 	remoteControl.onButtonWasPushed(0);
+	cout << "派对结束" << endl;
+	remoteControl.offButtonWasPushed(0);
+	remoteControl.undoButtonWasPushed();
 
 	return 0;
 }

@@ -1,2 +1,6 @@
-﻿  MacroCommand.cpp
+﻿  LightOffCommand.cpp
+  MacroCommand.cpp
+  RemoteControl.cpp
+  mian.cpp
+  正在生成代码...
   Command Pattern.vcxproj -> C:\Users\Monkey.E\Desktop\git\Study-Notes\Command Pattern\Debug\Command Pattern.exe
