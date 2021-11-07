@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="头文件\目标类">
+      <UniqueIdentifier>{c4eb6f3d-d6e8-49dc-9c37-fd24c3f6f6a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\目标类">
+      <UniqueIdentifier>{34a8b205-3cb4-47dd-9c48-dfe7798f34e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\被适配者">
+      <UniqueIdentifier>{8594f81e-0084-40e6-8262-8abb335f3a3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\被适配者">
+      <UniqueIdentifier>{975db7f7-1134-4918-b146-f006faa81567}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\适配器">
+      <UniqueIdentifier>{b1084d27-92da-4f9e-b3a9-ee2d8630843b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\适配器">
+      <UniqueIdentifier>{f63a7e5b-b6bd-4070-87d6-22d4e3551a6a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Duck.cpp">
+      <Filter>源文件\目标类</Filter>
+    </ClCompile>
+    <ClCompile Include="Turkey.cpp">
+      <Filter>源文件\被适配者</Filter>
+    </ClCompile>
+    <ClCompile Include="MallardDuck.cpp">
+      <Filter>源文件\目标类</Filter>
+    </ClCompile>
+    <ClCompile Include="WildTurkey.cpp">
+      <Filter>源文件\被适配者</Filter>
+    </ClCompile>
+    <ClCompile Include="TurkeyAdapter.cpp">
+      <Filter>源文件\适配器</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Duck.h">
+      <Filter>头文件\目标类</Filter>
+    </ClInclude>
+    <ClInclude Include="Turkey.h">
+      <Filter>头文件\被适配者</Filter>
+    </ClInclude>
+    <ClInclude Include="WildTurkey.h">
+      <Filter>头文件\被适配者</Filter>
+    </ClInclude>
+    <ClInclude Include="MallardDuck.h">
+      <Filter>头文件\目标类</Filter>
+    </ClInclude>
+    <ClInclude Include="TurkeyAdapter.h">
+      <Filter>头文件\适配器</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

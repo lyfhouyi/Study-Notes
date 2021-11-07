@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="头文件\子系统">
+      <UniqueIdentifier>{f0ee7be7-ce97-423a-a0a3-3220213f3286}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\子系统">
+      <UniqueIdentifier>{a26252e6-8302-4321-8f01-64b37180e353}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\外观">
+      <UniqueIdentifier>{5201664b-eeba-443a-8660-994fd81718f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\外观">
+      <UniqueIdentifier>{f8970c9e-9f7e-4aeb-afcd-191553c7cb81}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="PopcornPopper.cpp">
+      <Filter>源文件\子系统</Filter>
+    </ClCompile>
+    <ClCompile Include="DvdPlayer.cpp">
+      <Filter>源文件\子系统</Filter>
+    </ClCompile>
+    <ClCompile Include="Screen.cpp">
+      <Filter>源文件\子系统</Filter>
+    </ClCompile>
+    <ClCompile Include="HomeTheaterFacade.cpp">
+      <Filter>源文件\外观</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="PopcornPopper.h">
+      <Filter>头文件\子系统</Filter>
+    </ClInclude>
+    <ClInclude Include="DvdPlayer.h">
+      <Filter>头文件\子系统</Filter>
+    </ClInclude>
+    <ClInclude Include="Screen.h">
+      <Filter>头文件\子系统</Filter>
+    </ClInclude>
+    <ClInclude Include="HomeTheaterFacade.h">
+      <Filter>头文件\外观</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
