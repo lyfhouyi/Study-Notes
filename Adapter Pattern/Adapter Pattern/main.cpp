@@ -17,8 +17,10 @@ int main()
 	WildTurkey wildTurkey;
 	TurkeyAdapter turkeyAdapter(&wildTurkey);
 
-	testDuck(&mallardDuck);
-	testDuck(&turkeyAdapter);
+	turkeyAdapter.quack();
+	turkeyAdapter.fly();
+	//testDuck(&mallardDuck);
+	//testDuck(&turkeyAdapter);
 
 	return 0;
 }
