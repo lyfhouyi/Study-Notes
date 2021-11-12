@@ -18,3 +18,7 @@
 [外观模式 Facade Pattern](https://github.com/lyfhouyi/Study-Notes/tree/Design-Pattern/Facade%20Pattern)
 
 [模板方法模式 Template Method Pattern](https://github.com/lyfhouyi/Study-Notes/tree/Design-Pattern/Template%20Method%20Pattern)
+
+[迭代器模式 Iterator Pattern](https://github.com/lyfhouyi/Study-Notes/tree/Design-Pattern/Iterator%20Pattern)
+
+
