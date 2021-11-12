@@ -1,0 +1,3 @@
+﻿  DinerMenu.cpp
+c:\users\monkey.e\desktop\git\study-notes\iterator pattern\iterator pattern\dinermenu.cpp(16): warning C4018: “>=”: 有符号/无符号不匹配
+  Iterator Pattern.vcxproj -> C:\Users\Monkey.E\Desktop\git\Study-Notes\Iterator Pattern\Debug\Iterator Pattern.exe

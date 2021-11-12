@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="头文件\迭代器">
+      <UniqueIdentifier>{4a3462d8-ce78-4c25-ab0c-f06e1ae23a51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\菜单">
+      <UniqueIdentifier>{bf7dc847-e5af-41f0-810c-df51af5a885f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\菜单项">
+      <UniqueIdentifier>{66750111-d243-461e-b1b6-ba7fdc4d1773}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\迭代器">
+      <UniqueIdentifier>{6ce006d5-1b4f-4236-b94c-530520797ce0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\菜单">
+      <UniqueIdentifier>{98e30915-67e5-47c3-8cdb-954a83bec386}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\菜单项">
+      <UniqueIdentifier>{000f8cd1-9b6e-4415-b3c6-249ab32349cd}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Iterator.cpp">
+      <Filter>源文件\迭代器</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu.cpp">
+      <Filter>源文件\菜单</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuItem.cpp">
+      <Filter>源文件\菜单项</Filter>
+    </ClCompile>
+    <ClCompile Include="DinerMenu.cpp">
+      <Filter>源文件\菜单</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MenuItem.h">
+      <Filter>头文件\菜单项</Filter>
+    </ClInclude>
+    <ClInclude Include="Iterator.h">
+      <Filter>头文件\迭代器</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu.h">
+      <Filter>头文件\菜单</Filter>
+    </ClInclude>
+    <ClInclude Include="DinerMenu.h">
+      <Filter>头文件\菜单</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
