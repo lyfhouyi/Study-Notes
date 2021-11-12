@@ -31,6 +31,12 @@
     <Filter Include="源文件\菜单项">
       <UniqueIdentifier>{000f8cd1-9b6e-4415-b3c6-249ab32349cd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\服务员">
+      <UniqueIdentifier>{eb50724b-0342-4bb9-b9f4-1833b5ee5c43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\服务员">
+      <UniqueIdentifier>{841d0e29-556d-48d7-8173-25adcd278439}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -48,6 +54,18 @@
     <ClCompile Include="DinerMenu.cpp">
       <Filter>源文件\菜单</Filter>
     </ClCompile>
+    <ClCompile Include="DinerMenuIterator.cpp">
+      <Filter>源文件\迭代器</Filter>
+    </ClCompile>
+    <ClCompile Include="Waitress.cpp">
+      <Filter>源文件\服务员</Filter>
+    </ClCompile>
+    <ClCompile Include="CafeMenu.cpp">
+      <Filter>源文件\菜单</Filter>
+    </ClCompile>
+    <ClCompile Include="CafeMenuIterator.cpp">
+      <Filter>源文件\迭代器</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MenuItem.h">
@@ -61,6 +79,21 @@
     </ClInclude>
     <ClInclude Include="DinerMenu.h">
       <Filter>头文件\菜单</Filter>
+    </ClInclude>
+    <ClInclude Include="DinerMenuIterator.h">
+      <Filter>头文件\迭代器</Filter>
+    </ClInclude>
+    <ClInclude Include="Waitress.h">
+      <Filter>头文件\服务员</Filter>
+    </ClInclude>
+    <ClInclude Include="Menus.h">
+      <Filter>头文件\菜单</Filter>
+    </ClInclude>
+    <ClInclude Include="CafeMenu.h">
+      <Filter>头文件\菜单</Filter>
+    </ClInclude>
+    <ClInclude Include="CafeMenuIterator.h">
+      <Filter>头文件\迭代器</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

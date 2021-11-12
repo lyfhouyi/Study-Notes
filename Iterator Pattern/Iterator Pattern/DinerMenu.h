@@ -4,6 +4,7 @@
 #include <vector>
 #include "Menu.h"
 #include "MenuItem.h"
+#include "DinerMenuIterator.h"
 
 using namespace std;
 
@@ -15,7 +16,7 @@ private:
 public:
 	DinerMenu();
 	void addItem(string name, string description, bool vegetarian, double price);
-	virtual Iterator * createIterator() { return nullptr; }
+	virtual Iterator * createIterator();
 	~DinerMenu();
 };
 

@@ -24,6 +24,11 @@ void DinerMenu::addItem(string name, string description, bool vegetarian, double
 	}
 }
 
+Iterator * DinerMenu::createIterator()
+{
+	return new DinerMenuIterator(this->menuItems);
+}
+
 DinerMenu::~DinerMenu()
 {
 	cout << "~DinerMenu" << endl;

@@ -123,17 +123,26 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CafeMenu.cpp" />
+    <ClCompile Include="CafeMenuIterator.cpp" />
     <ClCompile Include="DinerMenu.cpp" />
+    <ClCompile Include="DinerMenuIterator.cpp" />
     <ClCompile Include="Iterator.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="MenuItem.cpp" />
+    <ClCompile Include="Waitress.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CafeMenu.h" />
+    <ClInclude Include="CafeMenuIterator.h" />
     <ClInclude Include="DinerMenu.h" />
+    <ClInclude Include="DinerMenuIterator.h" />
     <ClInclude Include="Iterator.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="MenuItem.h" />
+    <ClInclude Include="Menus.h" />
+    <ClInclude Include="Waitress.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
