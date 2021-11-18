@@ -19,5 +19,3 @@ public:
 	virtual Iterator * createIterator();
 	~DinerMenu();
 };
-
-

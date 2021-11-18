@@ -6,23 +6,62 @@
 
 ## 使用场景
 
-当想要遍历聚合对象中的元素（在元素间游走）时，可使用迭代器模式：
+当想要遍历聚合对象中的元素（在元素间游走）时，可使用迭代器模式。
 
-主题维护一个观察者集合，这些观察者都实现了 update() 接口，当主题想要通知观察者时，遍历观察者集合，调用每个观察者的 `update()` 方法。
+具体聚合根据自身数据的存储方式，给出用于遍历自己的迭代器（及其实现）：
 
 ```cpp
-set<Observer *> observers;
-
-void WeatherData::measurementsChanged()
+DinerMenuIterator::DinerMenuIterator(const vector<MenuItem*> &menuItems) :Iterator(), position(0)
 {
-	this->notifyObservers();
+	this->menuItems = menuItems;
 }
 
-void WeatherData::notifyObservers()
+bool DinerMenuIterator::hasNext()
 {
-	for_each(this->observers.begin(), this->observers.end(), [&](Observer *o) {
-		o->update(this, this->dm);
-	});
+	if (position >= this->menuItems.size())
+	{
+		return false;
+	}
+	return true;
+}
+
+void * DinerMenuIterator::next()
+{
+	MenuItem * menuItem = this->menuItems[this->position];
+	this->position++;
+	return menuItem;
+}
+
+Iterator * DinerMenu::createIterator()
+{
+	return new DinerMenuIterator(this->menuItems);
+}
+```
+
+用户从具体聚合处拿到具体迭代器，由于所有的迭代器具有相同的超类（提供了一个通用的接口），因此当用户编码使用聚合的项时，可以使用多态机制。
+
+```cpp
+void Waitress::printMenu(Iterator * iterator)
+{
+	if (iterator == nullptr)
+		return;
+	MenuItem * menuItem = nullptr;
+	while (iterator->hasNext())
+	{
+		menuItem = (MenuItem *)iterator->next();
+		cout << menuItem->getName() << ", " << menuItem->getPrice() << " -- " << 				menuItem->getDescription() << endl;
+	}
+}
+
+void Waitress::printMenu()
+{
+	for (Menu * menu : menus)
+	{
+		Iterator * iterator = menu->createIterator();
+		printMenu(iterator);
+		delete iterator;
+		iterator = nullptr;
+	}
 }
 ```
 
@@ -68,7 +107,7 @@ void WeatherData::notifyObservers()
 
 ## 设计理念
 
-1. 聚合类只负责存储数据，由迭代器类负责遍历数据（在元素之间游走）。
+1. 聚合类只负责存储数据，由迭代器类负责遍历数据（在元素之间游走）。迭代器模式将遍历聚合的工作封装进一个对象（迭代器）中。
 2. 用户使用抽象聚合以及抽象迭代器，可以实现多态。
 3. 由具体聚合类负责创建（可以在其内部存储的元素间游走的）具体迭代器类。
 
@@ -78,7 +117,7 @@ void WeatherData::notifyObservers()
 
 ## UML 图
 
-p56
+p335
 
 ![类图](UML.jpg)
 
