@@ -117,68 +117,10 @@ void Waitress::printMenu()
 
 ## UML 图
 
-p335
+p359
 
 ![类图](UML.jpg)
 
 ## 代码解释
 
-1. range-based for loop 是 c++ 11 中新加入的特性，若想修改容器内的数据，必须将循环变量声明为引用：
-
-   ```cpp
-   //声明为引用时，操作的是容器中的变量
-   DinerMenu::~DinerMenu()
-   {
-   	cout << "~DinerMenu" << endl;
-   
-   	cout <<"真值地址："<< &(this->menuItems[0]) <<'\n'<< endl;
-   
-   	for (MenuItem * &menuItem : this->menuItems)
-   	{
-   		delete menuItem;
-   		menuItem = nullptr;
-   		cout << "循环变量地址：" << &menuItem << endl;
-   	}
-   }
-   
-   //输出
-   ~DinerMenu
-   真值地址：00A9F1F8
-   
-   ~MenuItem
-   循环变量地址：00A9F1F8
-   ~MenuItem
-   循环变量地址：00A9F1FC
-   ~MenuItem
-   循环变量地址：00A9F200
-   ~Menu
-   
-   //不声明为引用时，操作的是容器中的变量的副本（本例容器中存放的是指针，若容器中存放的是对象本身，则生成副本时会调用该对象的拷贝构造函数）
-   DinerMenu::~DinerMenu()
-   {
-   	cout << "~DinerMenu" << endl;
-   
-   	cout <<"真值地址："<< &(this->menuItems[0]) <<'\n'<< endl;
-   
-   	for (MenuItem * menuItem : this->menuItems)
-   	{
-   		delete menuItem;
-   		menuItem = nullptr;
-   		cout << "循环变量地址：" << &menuItem << endl;
-   	}
-   }
-   
-   //输出
-   ~DinerMenu
-   真值地址：0094DAF0
-   
-   ~MenuItem
-   循环变量地址：0055FC48
-   ~MenuItem
-   循环变量地址：0055FC48
-   ~MenuItem
-   循环变量地址：0055FC48
-   ~Menu
-   ```
-
-   
+1. 折衷

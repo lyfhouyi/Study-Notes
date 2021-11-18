@@ -13,10 +13,60 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="头文件\组件">
+      <UniqueIdentifier>{02fe08b4-99ee-4adc-a82a-f85a840d4b4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\组件">
+      <UniqueIdentifier>{878f4c59-3a5d-4487-b085-a9d493b4447b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\组合对象">
+      <UniqueIdentifier>{e0440ad8-8d1a-4281-adf6-ca7926634e2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\组合对象">
+      <UniqueIdentifier>{edaab87c-fd12-4dd9-8f7c-065122153ed2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\个别对象">
+      <UniqueIdentifier>{10c72fa6-52a1-459e-ab1e-71d6f1ae2d7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\个别对象">
+      <UniqueIdentifier>{f8f55cda-2168-4776-b73e-83f8a783c25c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\用户">
+      <UniqueIdentifier>{6192e8ef-b20a-40c2-88a3-152079b63b92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\用户">
+      <UniqueIdentifier>{57b2e77b-1170-4aad-832b-07a49d40e396}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="MenuComponent.cpp">
+      <Filter>源文件\组件</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuItem.cpp">
+      <Filter>源文件\个别对象</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu.cpp">
+      <Filter>源文件\组合对象</Filter>
+    </ClCompile>
+    <ClCompile Include="Waitress.cpp">
+      <Filter>源文件\用户</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MenuComponent.h">
+      <Filter>头文件\组件</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuItem.h">
+      <Filter>头文件\个别对象</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu.h">
+      <Filter>头文件\组合对象</Filter>
+    </ClInclude>
+    <ClInclude Include="Waitress.h">
+      <Filter>头文件\用户</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
