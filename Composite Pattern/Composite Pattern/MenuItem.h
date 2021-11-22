@@ -15,10 +15,10 @@ private:
 	double price;
 public:
 	MenuItem(string name, string description, bool vegetarian, double price);
-	string getName();
-	string getDescription();
-	bool isVegetarian();
-	double getPrice();
+	virtual string getName();
+	virtual string getDescription();
+	virtual bool isVegetarian();
+	virtual double getPrice();
 	virtual void print();
 	~MenuItem();
 };

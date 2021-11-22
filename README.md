@@ -21,4 +21,6 @@
 
 [迭代器模式 Iterator Pattern](https://github.com/lyfhouyi/Study-Notes/tree/Design-Pattern/Iterator%20Pattern)
 
+[组合模式 Composite Pattern](https://github.com/lyfhouyi/Study-Notes/tree/Design-Pattern/Composite%20Pattern)
+
 

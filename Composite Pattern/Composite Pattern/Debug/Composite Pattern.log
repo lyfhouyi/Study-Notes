@@ -1,2 +1,8 @@
-﻿  Menu.cpp
-  Composite Pattern.vcxproj -> C:\Users\Monkey.E\Desktop\git\Study-Notes\Composite Pattern\Debug\Composite Pattern.exe
+﻿  main.cpp
+  Menu.cpp
+  MenuComponent.cpp
+  MenuItem.cpp
+  Waitress.cpp
+  正在生成代码...
+  LINK : 没有找到 C:\Users\lyfhouyi\Desktop\git\Study-Notes\Composite Pattern\Debug\Composite Pattern.exe 或上一个增量链接没有生成它；正在执行完全链接
+  Composite Pattern.vcxproj -> C:\Users\lyfhouyi\Desktop\git\Study-Notes\Composite Pattern\Debug\Composite Pattern.exe

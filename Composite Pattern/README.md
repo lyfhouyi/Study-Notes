@@ -117,9 +117,13 @@ void Waitress::printMenu()
 
 ## UML 图
 
-p359
+组合模式的“理论”类图：p207
 
-![类图](UML.jpg)
+![类图](UML1.jpg)
+
+组合模式的“案例”类图：p215
+
+![“案例”类图](UML2.jpg)
 
 ## 代码解释
 
