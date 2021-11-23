@@ -1,15 +1,17 @@
-#include <iostream>
 #include "GumballMachine.h"
+#include "HasQuarterState.h"
+#include "NoQuarterState.h"
+#include "SoldOutState.h"
+#include "SoldState.h"
+#include "WinnerState.h"
 
-using namespace std;
+shared_ptr<State> GumballMachine::soldOutState = shared_ptr<State>(new SoldOutState);
+shared_ptr<State> GumballMachine::noQuarterState = shared_ptr<State>(new NoQuarterState);
+shared_ptr<State> GumballMachine::hasQuarterState = shared_ptr<State>(new HasQuarterState);
+shared_ptr<State> GumballMachine::soldState = shared_ptr<State>(new SoldState);
+shared_ptr<State> GumballMachine::winnerState = shared_ptr<State>(new WinnerState);
 
-State *  GumballMachine::soldOutState = new State;
-State *  GumballMachine::noQuarterState = new State;
-State *  GumballMachine::hasQuarterState = new State;
-State *  GumballMachine::soldState = new State;
-State *  GumballMachine::winnerState = new State;
-
-GumballMachine::GumballMachine(int numberGumballs):count(numberGumballs)
+GumballMachine::GumballMachine(int numberGumballs) :count(numberGumballs)
 {
 	if (this->count > 0)
 		this->curState = noQuarterState;
@@ -19,28 +21,37 @@ GumballMachine::GumballMachine(int numberGumballs):count(numberGumballs)
 
 void GumballMachine::insertQuater()
 {
-	this->curState->insertQuarter();
+	this->curState->insertQuarter(this);
 }
 
 void GumballMachine::ejectQuarter()
 {
-	this->curState->ejectQuarter();
+	this->curState->ejectQuarter(this);
 }
 
 void GumballMachine::turnCrank()
 {
-	if (this->curState->turnCrank())
-		this->curState->dispense();
+	if (this->curState->turnCrank(this))
+		this->curState->dispense(this);
 }
 
-void GumballMachine::setCurState(State * state)
+void GumballMachine::setCurState(shared_ptr<State> state)
 {
 	this->curState = state;
 }
 
 void GumballMachine::releaseBall()
 {
-	cout << "来喽！接好糖果！！！" << endl;
+	cout << this << "来喽！接好糖果！！！" << endl;
+	if (this->count != 0)
+		this->count--;
+}
+
+void GumballMachine::refill(int count)
+{
+	cout << this << "装填糖果" << endl;
+	this->count = count;
+	this->curState = this->noQuarterState;
 }
 
 int GumballMachine::getCount()
@@ -48,27 +59,27 @@ int GumballMachine::getCount()
 	return this->count;
 }
 
-State * GumballMachine::getSoldOutState()
+shared_ptr<State> GumballMachine::getSoldOutState()
 {
 	return this->soldOutState;
 }
 
-State * GumballMachine::getNoQuarterState()
+shared_ptr<State> GumballMachine::getNoQuarterState()
 {
 	return this->noQuarterState;
 }
 
-State * GumballMachine::getHasQuarterState()
+shared_ptr<State> GumballMachine::getHasQuarterState()
 {
 	return this->hasQuarterState;
 }
 
-State * GumballMachine::getSoldState()
+shared_ptr<State> GumballMachine::getSoldState()
 {
 	return this->soldState;
 }
 
-State * GumballMachine::getWinnerState()
+shared_ptr<State> GumballMachine::getWinnerState()
 {
 	return this->winnerState;
 }

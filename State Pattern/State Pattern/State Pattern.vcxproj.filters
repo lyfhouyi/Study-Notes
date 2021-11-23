@@ -39,6 +39,18 @@
     <ClCompile Include="HasQuarterState.cpp">
       <Filter>源文件\状态</Filter>
     </ClCompile>
+    <ClCompile Include="NoQuarterState.cpp">
+      <Filter>源文件\状态</Filter>
+    </ClCompile>
+    <ClCompile Include="SoldOutState.cpp">
+      <Filter>源文件\状态</Filter>
+    </ClCompile>
+    <ClCompile Include="SoldState.cpp">
+      <Filter>源文件\状态</Filter>
+    </ClCompile>
+    <ClCompile Include="WinnerState.cpp">
+      <Filter>源文件\状态</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GumballMachine.h">
@@ -48,6 +60,18 @@
       <Filter>头文件\状态</Filter>
     </ClInclude>
     <ClInclude Include="HasQuarterState.h">
+      <Filter>头文件\状态</Filter>
+    </ClInclude>
+    <ClInclude Include="NoQuarterState.h">
+      <Filter>头文件\状态</Filter>
+    </ClInclude>
+    <ClInclude Include="SoldOutState.h">
+      <Filter>头文件\状态</Filter>
+    </ClInclude>
+    <ClInclude Include="SoldState.h">
+      <Filter>头文件\状态</Filter>
+    </ClInclude>
+    <ClInclude Include="WinnerState.h">
       <Filter>头文件\状态</Filter>
     </ClInclude>
   </ItemGroup>

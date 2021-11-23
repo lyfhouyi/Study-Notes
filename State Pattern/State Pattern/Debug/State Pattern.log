@@ -1,6 +1,5 @@
 ﻿  GumballMachine.cpp
-  HasQuarterState.cpp
+  WinnerState.cpp
   main.cpp
-  State.cpp
   正在生成代码...
-  State Pattern.vcxproj -> C:\Users\Monkey.E\Desktop\git\Study-Notes\State Pattern\Debug\State Pattern.exe
+  State Pattern.vcxproj -> C:\Users\lyfhouyi\Desktop\git\Study-Notes\State Pattern\Debug\State Pattern.exe

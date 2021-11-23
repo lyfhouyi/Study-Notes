@@ -3,23 +3,23 @@
 
 using namespace std;
 
-void State::insertQuarter()
+void State::insertQuarter(GumballMachine * gumballMachine)
 {
 	cout << "´íÎó²Ù×÷£ºinsertQuarter" << endl;
 }
 
-void State::ejectQuarter()
+void State::ejectQuarter(GumballMachine * gumballMachine)
 {
 	cout << "´íÎó²Ù×÷£ºejectQuarter" << endl;
 }
 
-bool State::turnCrank()
+bool State::turnCrank(GumballMachine * gumballMachine)
 {
 	cout << "´íÎó²Ù×÷£ºturnCrank" << endl;
 	return false;
 }
 
-void State::dispense()
+void State::dispense(GumballMachine * gumballMachine)
 {
 	cout << "´íÎó²Ù×÷£ºdispense" << endl;
 }

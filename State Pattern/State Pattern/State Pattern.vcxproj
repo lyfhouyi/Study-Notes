@@ -126,12 +126,20 @@
     <ClCompile Include="GumballMachine.cpp" />
     <ClCompile Include="HasQuarterState.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="NoQuarterState.cpp" />
+    <ClCompile Include="SoldOutState.cpp" />
+    <ClCompile Include="SoldState.cpp" />
     <ClCompile Include="State.cpp" />
+    <ClCompile Include="WinnerState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GumballMachine.h" />
     <ClInclude Include="HasQuarterState.h" />
+    <ClInclude Include="NoQuarterState.h" />
+    <ClInclude Include="SoldOutState.h" />
+    <ClInclude Include="SoldState.h" />
     <ClInclude Include="State.h" />
+    <ClInclude Include="WinnerState.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
