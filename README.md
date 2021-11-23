@@ -23,4 +23,6 @@
 
 [组合模式 Composite Pattern](https://github.com/lyfhouyi/Study-Notes/tree/Design-Pattern/Composite%20Pattern)
 
+[状态模式 State Pattern](https://github.com/lyfhouyi/Study-Notes/tree/Design-Pattern/Composite%20Pattern)
+
 
