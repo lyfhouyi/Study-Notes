@@ -2,129 +2,111 @@
 
 ## 定义
 
-提供一种方法顺序访问一个聚合对象中的各个元素，而又不暴露其内部的表示。
+允许你将对象组合成树形结构来表现”整体/部分“层次结构。组合能让客户以一致的方式处理个别对象以及对象组合。
 
 ## 使用场景
 
-当想要遍历聚合对象中的元素（在元素间游走）时，可使用迭代器模式。
+当客户需要以相同的方式统一处理个别对象和组合对象时，可使用组合模式。
 
-具体聚合根据自身数据的存储方式，给出用于遍历自己的迭代器（及其实现）：
+在树形结构中，个别对象作为叶节点，组合对象作为一般节点。个别对象和组合对象具有相同的超类（此时继承的目的在于类型匹配）：
 
 ```cpp
-DinerMenuIterator::DinerMenuIterator(const vector<MenuItem*> &menuItems) :Iterator(), position(0)
+//超类：组件
+class MenuComponent
 {
-	this->menuItems = menuItems;
-}
+public:
+	virtual string getName();
+	virtual string getDescription();
+	virtual double getPrice();
+	virtual bool isVegetarian();
+	virtual void print();
+	virtual void add(MenuComponent * menuComponent);
+	virtual void remove(MenuComponent * menuComponent);
+	virtual ~MenuComponent();
+};
 
-bool DinerMenuIterator::hasNext()
+//个别对象
+class MenuItem :public MenuComponent
 {
-	if (position >= this->menuItems.size())
-	{
-		return false;
-	}
-	return true;
-}
+private:
+	string name;
+	string description;
+	bool vegetarian;
+	double price;
+public:
+	MenuItem(string name, string description, bool vegetarian, double price);
+	virtual string getName();
+	virtual string getDescription();
+	virtual bool isVegetarian();
+	virtual double getPrice();
+	virtual void print();
+	~MenuItem();
+};
 
-void * DinerMenuIterator::next()
+//组合对象
+class Menu :public MenuComponent
 {
-	MenuItem * menuItem = this->menuItems[this->position];
-	this->position++;
-	return menuItem;
-}
-
-Iterator * DinerMenu::createIterator()
-{
-	return new DinerMenuIterator(this->menuItems);
-}
+private:
+	set<MenuComponent *>menuComponents;
+	string name;
+	string description;
+public:
+	Menu(string name, string description);
+	virtual string getName();
+	virtual string getDescription();
+	virtual void add(MenuComponent * menuComponent);
+	virtual void remove(MenuComponent * menuComponent);
+	virtual void print();
+	~Menu();
+};
 ```
 
-用户从具体聚合处拿到具体迭代器，由于所有的迭代器具有相同的超类（提供了一个通用的接口），因此当用户编码使用聚合的项时，可以使用多态机制。
+用户使用基类（组件）指针，可以忽略组合对象和个别对象之间的差别，多态地调用相同的接口：
 
 ```cpp
-void Waitress::printMenu(Iterator * iterator)
-{
-	if (iterator == nullptr)
-		return;
-	MenuItem * menuItem = nullptr;
-	while (iterator->hasNext())
-	{
-		menuItem = (MenuItem *)iterator->next();
-		cout << menuItem->getName() << ", " << menuItem->getPrice() << " -- " << 				menuItem->getDescription() << endl;
-	}
-}
+MenuComponent * allMenus;
 
 void Waitress::printMenu()
 {
-	for (Menu * menu : menus)
-	{
-		Iterator * iterator = menu->createIterator();
-		printMenu(iterator);
-		delete iterator;
-		iterator = nullptr;
-	}
+	this->allMenus->print();
 }
 ```
 
-迭代器的引入可以使得用户在访问聚合对象中的元素时无需关心数据的具体存储方式；同时，用户针对聚合及迭代器的接口编程，而非针对具体聚合类的实现编程，可以将用户与具体聚合对象解耦，并提高聚合类的内聚程度（即高内聚、低耦合）。
+使用组合结构，用户可以把相同的操作应用在组合和个别对象上，而无需关系操作的对象究竟是组合对象还是个别对象。
 
-## 迭代器模式的必要性和可行性
+## 组合模式的必要性和可行性
 
-当需要遍历聚合变量时，应该使用迭代器模式，针对迭代器的接口进行遍历；不应该使用硬编码的方式针对特定的聚合实现进行遍历。如果不使用迭代器模式遍历聚合对象，下列两种实现方式均存在问题：
+当客户需要统一处理具有”整体/部分“层次结构的对象（这个”对象“可能是个别的对象也可能是对象的集合）时，需要使用组合模式。
 
-1. 若硬编码直接在特定的对象实例上遍历，无法实现多态，后期维护困难，且违反了“针对接口编程，不针对实现编程”、“对修改关闭，对扩展开放”的面向对象设计原则；
+若不使用组合模式，用户在对对象进行操作前，必须判断对象类型到底是组合对象还是个别对象，并对二者分别进行不同的操作，这失去了透明性。
 
-2. 若令聚合类实现统一的遍历接口如
-
-   ```cpp
-   class MenuWithForEach
-   {
-   public:
-   	virtual bool hasNext() = 0;
-   	virtual void * next() = 0;
-   	virtual ~MenuWithForEach() {}
-   };
-   
-   class DinerMenu :public MenuWithForEach
-   {
-   private:
-   	static int MAX_ITEMS;
-   	vector<MenuItem *> menuItems;
-   public:
-   	DinerMenu();
-   	void addItem(string name, string description, bool vegetarian, double price);
-     virtual bool hasNext();
-   	virtual void * next();
-   	~DinerMenu();
-   };
-   ```
-
-   虽然用户在使用时可以对 `MenuWithForEach` 接口编程，但是聚合类 `DinerMenu` 内聚程度较低：它既需要提供储存数据的服务，还需要提供遍历数据的服务，这不满足“一个类应该只有一个引起变化的原因”原则。当遍历数据的方式需要调整或增加例如 `remove()` 的方法时，需要打开这个聚合类进行修改。其原因在于 `DinerMenu` 这个类具有不止一个责任，应该让一个类只具有一个责任。
-
-若使用迭代器模式，通过引入迭代器类，可以避免上述两个问题：
-
-1. 由于不同的具体迭代器都继承自相同的超类 `Iterator` ，因而具有相同的接口。这使得用户可以对 `Iterator` 接口编程，从而可以编写多态的代码和不同的聚合类搭配，而不用关心该聚合类存储数据的方式，这遵循了“针对接口编程，不针对实现编程”的面向对象设计原则；当用户选用不同的聚合类存储数据时，可以实现动态插拔，遵循了“对修改关闭，对扩展开放”的原则。
-2. 使用具体迭代器遍历具体聚合，将遍历数据的责任转交给迭代器，因而聚合类只需负责存储数据即可，提高了聚合类的内聚程度。当遍历需求改变时，只需修改具体迭代器，而无需修改具体聚合类，遵循了“一个类应该只有一个引起变化的原因”的原则。
+使用组合模式，由于个别对象和组合对象继承自相同的超类，因而具有相同的接口。用户可以在二者上调用该接口，而无需关心操作的对象究竟是组合对象还是个别对象，从而实现了”统一处理“个别对象和组合对象，使得一个元素究竟是组合还是叶节点对客户是透明的。
 
 ## 设计理念
 
-1. 聚合类只负责存储数据，由迭代器类负责遍历数据（在元素之间游走）。迭代器模式将遍历聚合的工作封装进一个对象（迭代器）中。
-2. 用户使用抽象聚合以及抽象迭代器，可以实现多态。
-3. 由具体聚合类负责创建（可以在其内部存储的元素间游走的）具体迭代器类。
+1. 组合模式的意义在于透明性：组合模式使得客户可以统一处理个别对象和组合对象。在大多数情况下，客户可以忽略个别对象和组合对象之间的差别，将对象的集合以及个别的对象一视同仁。
+2. 组件的角色是为叶节点和组合节点提供一个共同的接口，此时继承的目的在于类型匹配。
+3. 使用组合模式组织数据时，最终会得到一个由上而下的树形结构，树的根部是一个组合，而组合的分支逐渐往下延伸，直到叶节点为止。（注：组合和叶节点都继承自组件超类）
+4. 组合模式以单一责任设计原则换取透明性，同时也是安全性和透明性的折衷。
 
 ## 设计原则
 
-1. 一个类应该只有一个引起变化的原因。
+
 
 ## UML 图
 
-组合模式的“理论”类图：p207
+组合模式的“理论”类图：p358
 
 ![类图](UML1.jpg)
 
-组合模式的“案例”类图：p215
+组合模式的“案例”类图：p359
 
 ![“案例”类图](UML2.jpg)
 
 ## 代码解释
 
-1. 折衷
+1. 组合模式是安全性和透明性的折衷。
+   * 使用组合模式时，由于在超类（组件类）中同时具有两种类型的操作（个别对象的操作和组合对象的操作），因而客户有机会对一个元素做一些不恰当或是没有意义的操作（例如对个别对象进行组合对象的操作，或者对组合对象进行个别对象的操作），从而失去了”安全性“。
+   * 使用组合模式使得客户无需动态判断操作的对象究竟是个别对象还是组合对象，从而将元素的类型对客户透明，获得了”透明性“。
+
+2. try/catch是一种错误处理的方法，不应该是程序逻辑的方法。
