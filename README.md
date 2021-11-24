@@ -25,3 +25,5 @@
 
 [状态模式 State Pattern](https://github.com/lyfhouyi/Study-Notes/tree/Design-Pattern/State%20Pattern)
 
+[代理模式 Proxy Pattern](https://github.com/lyfhouyi/Study-Notes/tree/Design-Pattern/State%20Pattern)
+
