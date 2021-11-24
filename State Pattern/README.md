@@ -6,57 +6,85 @@
 
 ## 使用场景
 
-当需要将发出请求的对象和执行请求的对象解耦时，可以使用命令模式。将“请求”封装成命令对象（即，将执行者执行“请求”的过程封装到命令对象的 `execute()` 方法中）：
+当 `Context` 需要在多个状态中切换，并根据不同的状态表现出不同的行为时，可以使用状态模式。
+
+`Context` 可以（通过组合）持有多个状态对象，但只能”激活“一个状态对象为当前状态：
 
 ```cpp
-void LightOnCommand::execute()
+class GumballMachine
 {
-	this->light->on();
+private:
+	static shared_ptr<State>soldOutState;
+	static shared_ptr<State>noQuarterState;
+	static shared_ptr<State>hasQuarterState;
+	static shared_ptr<State>soldState;
+	static shared_ptr<State>winnerState;
+
+	shared_ptr<State> curState;
+};
+```
+
+`Context` 将动作委托给当前状态对象（去执行）：
+
+```cpp
+void GumballMachine::insertQuater()
+{
+	this->curState->insertQuarter(this);
+}
+
+void GumballMachine::ejectQuarter()
+{
+	this->curState->ejectQuarter(this);
+}
+
+void GumballMachine::turnCrank()
+{
+	if (this->curState->turnCrank(this))
+		this->curState->dispense(this);
 }
 ```
 
-调用者通过调用命令对象的 `execute()` 方法发出请求，间接使得接收者的动作被调用。
+`Context` 的当前状态的切换可以是 `Context` 自己决定的，也可以是当前状态对象决定的：
 
 ```cpp
-void RemoteControl::onButtonWasPushed(int slot)
+//由当前状态对象决定 Context 状态的切换
+void HasQuarterState::ejectQuarter(GumballMachine * gumballMachine)
 {
-	this->onCommands[slot]->execute();
-	this->lastCommand = this->onCommands[slot];
+	cout << gumballMachine << "退回25分钱" << endl;
+	gumballMachine->setCurState(gumballMachine->getNoQuarterState());
+}
+
+//由 Context 本身决定其状态的切换
+void GumballMachine::refill(int count)
+{
+	cout << this << "装填糖果" << endl;
+	this->count = count;
+	this->curState = this->noQuarterState;
 }
 ```
 
 ## 状态模式的必要性和可行性
 
-不同的执行者执行请求的实现不同。若不使用命令模式。则：
+`Context` 的功能需求可能变化，潜在的状态也可能变化。若不使用状态模式（即，在动作方法内通过条件判断语句处理不同的状态），则：
 
-1. 客户必须了解每一个执行者执行请求的逻辑，才能完成特定的任务，这将耗费客户很多的精力和资源。
-2. 客户使用“硬编码”调用各执行者的方法，使得客户和执行者之间的耦合程度过高，无法实现动态绑定，不易于代码维护。
+1. 当 `Context` 需要增加新的状态时，每个动作方法都需要修改。因为必须要在每个动作方法中加入一个新的条件判断来处理新状态。
+2. 没能封装变化（潜在状态的改变），针对某个状态的改变可能对代码的其他部分造成影响，不易于维护。
+3. `Context` 的状态转换被埋藏在条件语句中，所以并不明显。
 
-使用命令模式可以避免上述两个弊端：
+使用状态模式可以避免上述两个弊端：
 
-1. 客户无需了解各个执行者执行请求的逻辑，将这项任务交给命令对象去做。由命令对象去了解特定执行者的业务逻辑，并将请求执行的过程封装到命令对象中。这个命令对象甚至可以由执行者厂家负责编写。
-2. 所有的命令对象都用相同的超类，并具有统一的接口。客户可以通过“组合”的方式，动态绑定需要的命令对象。通过命令对象，将发出请求的对象和执行请求的对象解耦（即，将命令对象作为发出请求的对象和执行请求的对象间沟通的桥梁）。
+1. 当 `Context` 需要增加新的状态时，动作方法无需做任何修改，因为 `Context` 的动作委托给了状态对象，只需令新增的状态实现相应的动作即可。
+2. 局部化每个状态的行为，将 `Context` 的动作委托给状态对象。针对某个状态的改变不会对其他状态（代码的其他部分）造成影响，遵守了”封装变化“原则，易于维护。
+3. 状态模式把一个状态的所有行为放在一个类中，将行为局部化的同时，使得 `Context` 状态的改变显而易见。
+
+
 
 ## 设计理念
 
-1. 命令对象通过在特定的接收者上绑定一组动作来封装一个请求。即，将执行者执行“请求”的过程封装到命令对象的 `execute()` 方法中，调用者通过调用命令对象的 `execute()` 方法发出请求，间接使得接收者的动作被调用。
-
-2. 调用者可以持有（即“组合”）多个不同的命令对象，客户使用调用者调用命令对象。
-
-3. 若某个“请求”需要多个命令对象协作完成，客户可以创建一个宏命令对象（本质也是一个命令对象）。其中宏命令对象的 `execute()` 方法会按逻辑调用其“组合”的其他命令对象的 `execute()` 方法。封装宏命令的实现方式，比创建一个专用的命令对象并硬编码实现的方式更灵活。
-
-4. 可以支持“请求”的撤销，做法是在命令对象中实现一个 `undo()` 方法来回到 `execute()` 方法被执行前的状态。
-
-5. 在效果上，“接收者“的存在不是必须的，命令对象可以直接实现 `execute()` 方法的细节：
-
-   ```cpp
-   void GarageDoorUpCommand::execute()
-   {
-   	cout << "车库大门打开" << endl;
-   }
-   ```
-
-   效果上虽然相同，但是接收者的引入使得命令对象和硬件之间的耦合程度更低。
+1.  通过将状态封装成为独立的类，可以将以后需要做的改变局部化。
+2. `Context` 持有一组状态对象（多个 `Context` 可共享同一组状态对象）并”激活“某一个状态作为当前状态对象，将动作委托给当前状态对象执行。
+3. 使用组合，`Context` 通过简单引用不同的状态对象来造成类改变的假象。
+4. `Context` 的当前状态在状态对象集合中游走改变，但是 `Context` 的客户对于状态对象了解不多，甚至根本是浑然不觉。
 
 ## 设计原则
 
@@ -77,3 +105,4 @@ p410
    * 共享状态对象需要使用类内静态成员变量；
    * 如果状态需要利用到 `Context` 中的方法或者实例变量，则必须在状态对象的 `handle()` 方法内传入一个 `Context` 的引用（或指针），以指明是哪个 `Context` 在使用这个状态对象。
 5. 注意类内静态成员变量的生命周期，本例使用智能指针防止内存泄漏。
+6. `turnCrank()` 方法返回 `true` 的本质是：状态对象可以将 `Context` 的当前状态转换到一个可以正确执行 `dispense()` 方法的状态。

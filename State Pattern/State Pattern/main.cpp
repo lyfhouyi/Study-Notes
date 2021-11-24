@@ -9,6 +9,7 @@ int main()
 	GumballMachine GumballMachineB(0);
 	cout << &GumballMachineA << "\n" << &GumballMachineB << endl;
 
+	GumballMachineA.turnCrank();
 	GumballMachineA.insertQuater();
 	GumballMachineA.turnCrank();
 	GumballMachineA.insertQuater();
