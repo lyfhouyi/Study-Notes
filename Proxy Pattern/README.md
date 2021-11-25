@@ -2,7 +2,7 @@
 
 ## 定义
 
-定义了对象之间的一对多依赖，这样一来，当一个对象改变状态时，它的所有依赖者都会收到通知并自动更新。
+为另一个对象提供一个替身或占位符以控制对这个对象的访问。
 
 ## 使用场景
 
@@ -67,6 +67,12 @@ p56
 
 ## 代码解释
 
-1. 代理和装饰者的异同
+1. 代理和装饰者的异同。代理的意图是控制访问，装饰者的意图是增加行为
 2. 代理的最终目的都是控制访问，只不过形式不同。
 
+3. 多线程的使用，使用&ImageProxy::myRun指定函数入口，成员函数隐含着this参数
+4. 必须使用二级指针，即一级指针的地址传递
+5. 线程被销毁前，必须 joined或的detached
+6. [thread](http://www.cplusplus.com/thread) objects that are *joinable* shall either be *joined* or *detached* before they are *destroyed*.
+
+7. 本例实现了虚拟代理，用延时模拟开销大的过程

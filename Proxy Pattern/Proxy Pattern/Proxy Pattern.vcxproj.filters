@@ -13,10 +13,48 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="头文件\代理对象">
+      <UniqueIdentifier>{6d1cdd5c-e046-4ddf-b626-6223dcd07be2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\真实对象">
+      <UniqueIdentifier>{0e05c3a3-bd76-4d64-9a38-b8355901145a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\真实对象">
+      <UniqueIdentifier>{5bc67036-3701-4b6b-88f6-88f69ced1764}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\代理对象">
+      <UniqueIdentifier>{4ffd682a-f245-4f37-bf26-21c7829c7a82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\主题">
+      <UniqueIdentifier>{8513d896-541e-440f-a9bb-005df071656c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\主题">
+      <UniqueIdentifier>{6f39532f-375c-40ba-bfaf-de348d8b50d4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Icon.cpp">
+      <Filter>源文件\主题</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageProxy.cpp">
+      <Filter>源文件\代理对象</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageIcon.cpp">
+      <Filter>源文件\真实对象</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Icon.h">
+      <Filter>头文件\主题</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageIcon.h">
+      <Filter>头文件\真实对象</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageProxy.h">
+      <Filter>头文件\代理对象</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
