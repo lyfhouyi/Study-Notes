@@ -1,11 +1,8 @@
 //此为 代理图像 类
 
 #pragma once
-#include <thread>
 #include "Icon.h"
 #include "ImageIcon.h"
-
-using namespace std;
 
 class ImageProxy : public Icon
 {

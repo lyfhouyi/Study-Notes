@@ -1,4 +1,4 @@
-//此为 图像接口 抽象基类
+//此为 主题 抽象基类
 
 #pragma once
 class Icon

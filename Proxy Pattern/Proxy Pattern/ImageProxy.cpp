@@ -1,5 +1,8 @@
 #include <iostream>
+#include <thread>
 #include "ImageProxy.h"
+
+using namespace std;
 
 ImageProxy::ImageProxy() :Icon(), retrieving(false), imageIcon(nullptr) {}
 

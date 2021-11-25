@@ -6,73 +6,120 @@
 
 ## 使用场景
 
-当多个对象想观察某个对象的变化时，可使用观察者模式：
+当需要控制客户对对象的访问时，需要使用代理模式。
 
-主题维护一个观察者集合，这些观察者都实现了 update() 接口，当主题想要通知观察者时，遍历观察者集合，调用每个观察者的 `update()` 方法。
+代理对象和真实对象实现了相同的主题接口：
 
 ```cpp
-set<Observer *> observers;
-
-void WeatherData::measurementsChanged()
+class Icon
 {
-	this->notifyObservers();
+public:
+	virtual void getIconWidth() = 0;
+	virtual void getIconHeight() = 0;
+	virtual void paintIcon() = 0;
+	virtual ~Icon();
+};
+```
+
+客户调用代理对象的方法：
+
+```cpp
+Icon * image2 = new ImageProxy;
+image2->getIconHeight();
+image2->getIconWidth();
+image2->paintIcon();
+```
+
+代理对象将客户的请求委托（转发）给真实对象。代理对象调用真实对象的方法处理客户的请求，并从中进行访问控制：
+
+```cpp
+ImageIcon * imageIcon;
+
+void ImageProxy::getIconWidth()
+{
+	if (this->imageIcon != nullptr)
+		this->imageIcon->getIconWidth();
+	else
+	{
+		cout << "ImageProxy：默认宽度" << endl;
+	}
 }
 
-void WeatherData::notifyObservers()
+void ImageProxy::getIconHeight()
 {
-	for_each(this->observers.begin(), this->observers.end(), [&](Observer *o) {
-		o->update(this, this->dm);
-	});
+	if (this->imageIcon != nullptr)
+		this->imageIcon->getIconHeight();
+	else
+	{
+		cout << "ImageProxy：默认高度" << endl;
+	}
+}
+
+void ImageProxy::paintIcon()
+{
+	if (this->imageIcon != nullptr)
+		this->imageIcon->paintIcon();
+	else
+	{
+		cout << "ImageProxy：图像加载中..." << endl;
+		if (!this->retrieving)
+		{
+			this->retrieving = true;
+			thread retrievalThread(&ImageProxy::myRun, this, &this->imageIcon);
+			retrievalThread.detach();
+		}
+	}
 }
 ```
+
+对客户而言，代理对象的存在是完全透明的。
+
+访问控制的需求可能出于多种目的，即代理的根本目的是控制访问，但实际中的表现形式可能不同：
+
+- 远程代理：管理客户和远程对象之间的交互。（远程对象指，在不同的地址空间运行的远程对象）
+- 虚拟代理：控制访问实例化开销大的对象。
+- 保护代理：根据访问权限决定客户可否访问对象。
 
 ## 代理模式的必要性和可行性
 
-当多个观察者对象想监听某个主题对象的变化时，若由主题对象本身通过硬编码调用观察者对象的方法去推送数据，则会破坏主题对象的封装性，且无法做到观察者的动态插拔，不易于代码维护：
+当真实对象是远程对象，或创建开销大的对象，或需要被保护的对象，或基于其他考虑时，需要使用代理模式。若不用代理模式：
 
-硬编码实现
+1. 用户需要处理和远程对象交互的网络细节，这对客户而言是繁琐且不必要的。
+2. 实例化一个创建开销大的对象会阻塞用户的进程。
+3. 用户可能调用真实对象中超出自己权限范围的成员方法。
 
-```cpp
-void WeatherData::measurementsChanged()
-{
-	currentConditionsDisplay.update(this->dm);
-  	statisticsDisplay.update(this->dm);  
-}
-```
+使用代理模式，可以避免上述弊端：
 
-1. `void WeatherData::measurementsChanged()` 是主题对象在测量值变化时调用的函数，是不变的部分；观察者 update() 方法的调用是变化的部分（因为观察者可能会改变）；因而需要将变化的部分封装起来，否则会破坏主题对象的封装性。
-2. 将特定的观察者写在主题 `measurementsChanged()` 方法的内部无法动态增加或删除观察者。
-3. 针对具体实现编程，导致以后在增加或删除观察者时，必须修改程序，不易于代码维护。
-
-若使用观察者模式，可以避免上述这三个问题：
-
-1. `update()` 方法是变化的部分，将其封装在 `notifyObservers()` 中调用。当观察者部分需要修改时（增加/删除观察者），不用更改 `measurementsChanged()` 方法，保护了主题对象的封装性。
-2. 主题中维护一个观察者集合，可以做到观察者的动态插拔。
-3. 观察者的 `update()` 方法采用了统一的接口，做到了针对接口编程，代码易于维护。
+1. 用户可以像操作本地对象一样操作远程对象，而不用关心网络交互的细节；由代理对象实现底层的网络交互。
+2. 代理对象基于多线程实例化真实对象，不会阻塞用户的进程；且在真实对象创建完成前， 代理对象可以做一些替代操作。
+3. 代理对象基于用户的访问权限控制用户是否可以访问真实对象的某些方法，使用户无法僭越。
 
 ## 设计理念
 
-1. 从众多观察者中抽象出 `update()` 接口，主题维护一个观察者集合，在需要通知观察者时，依次调用集合中各个观察者的 `update()` 方法。
-2. 主题通过维护观察者集合实现观察者的动态插拔。
+1. 所谓的代理（proxy），就是代表某个真实的对象。使用代理模式创建代表（representative）对象，让代表对象控制某对象的访问，被代理的对象可以是远程的对象、创建开销大的对象或需要安全控制的对象。
+2. 因为 `Proxy` 和 `RealSubject` 实现相同的接口 `Subject` ，所以任何用到 `RealSubject` 的地方，都可以用 `Proxy` 取代。
+3. 代理模式有许多变体，这些变体都有共通点：代理对象都会将客户对主题（Subject）施加的方法调用拦截下来。
 
 ## 设计原则
 
-1. 为了交互对象之间的松耦合设计而努力。
+
 
 ## UML 图
 
-p56
+p461
 
 ![类图](UML.jpg)
 
 ## 代码解释
 
-1. 代理和装饰者的异同。代理的意图是控制访问，装饰者的意图是增加行为
-2. 代理的最终目的都是控制访问，只不过形式不同。
+1. 本例实现了虚拟代理，用 `Sleep()` 模拟创建开销大的对象。使用虚拟代理防止创建开销大的对象的实例化过程阻塞客户进程。
 
-3. 多线程的使用，使用&ImageProxy::myRun指定函数入口，成员函数隐含着this参数
-4. 必须使用二级指针，即一级指针的地址传递
-5. 线程被销毁前，必须 joined或的detached
-6. [thread](http://www.cplusplus.com/thread) objects that are *joinable* shall either be *joined* or *detached* before they are *destroyed*.
+2. 装饰者模式、代理模式，二者形式相似，但是意图不同：装饰者为对象增加行为，而代理是控制对象的访问。
 
-7. 本例实现了虚拟代理，用延时模拟开销大的过程
+3. `std::thread` 多线程的使用：当线程函数是类成员函数时，须像这样 `&ImageProxy::myRun` 指定函数入口，且成员函数隐含着 `this` 参数。
+
+4. 本例中，线程函数的参数需使用二级指针，以通过地址传递改变 `this->imageIcon` 的值。
+
+5. 线程在被销毁前，必须调用过 `join()` 或 `detach()` 。
+
+   > thread objects that are *joinable* shall either be *joined* or *detached* before they are *destroyed*.
