@@ -44,7 +44,7 @@ int main(){
     // matrix multiply i * j
     // matrix multiply vector i * v
  
-    // houyi
+    // houyi 2021.12.2
     std::cout<<"houyi"<<std::endl;
     Eigen::Vector3f p(2.0f,1.0f,1.0f);
     Eigen::Matrix3f r,t;
