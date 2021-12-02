@@ -43,6 +43,18 @@ int main(){
     // matrix scalar multiply i * 2.0
     // matrix multiply i * j
     // matrix multiply vector i * v
+ 
+    // houyi
+    std::cout<<"houyi"<<std::endl;
+    Eigen::Vector3f p(2.0f,1.0f,1.0f);
+    Eigen::Matrix3f r,t;
+    r<<std::cos(45.0/180.0*acos(-1)),-1*std::sin(45.0/180.0*acos(-1)),0,std::sin(45.0/180.0*acos(-1)),cos(45.0/180.0*acos(-1)),0,0,0,1;
+    t<<1.0,0,1.0,0,1.0,2.0,0,0,1;
+    Eigen::Matrix3f affine=t*r;
+    std::cout<<affine<<std::endl;
+    Eigen::Vector3f p_prime=affine*p;
+    std::cout<<"p_prime = \n"<<p_prime<<std::endl;
+
 
     return 0;
 }
