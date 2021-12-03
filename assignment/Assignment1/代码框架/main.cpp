@@ -102,7 +102,6 @@ int main(int argc, const char** argv)
         image.convertTo(image, CV_8UC3, 1.0f);
 
         cv::imwrite(filename, image);
-
         return 0;
     }
 
