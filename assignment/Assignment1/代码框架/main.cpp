@@ -52,7 +52,7 @@ Eigen::Matrix4f get_projection_matrix(float eye_fov, float aspect_ratio,
 	float r=t*aspect_ratio;
 	float l=-r;
 	Eigen::Matrix4f persp2ortho,ortho,rotate,translate;
-	persp2ortho << zNear,0,0,0,0,zNear,0,0,0,0,zNear+zFar,-zNear*zFar,0,0,1,0;
+	persp2ortho << -zNear,0,0,0,0,-zNear,0,0,0,0,-zNear-zFar,zNear*zFar,0,0,1,0; //houyi 2021.12.5
 	translate<<1,0,0,-0.5*(r+l),0,1,0,-0.5*(t+b),0,0,1,-0.5*(zNear+zFar),0,0,0,1;
 	rotate<<2.0/(r-l),0,0,0,0,2.0/(t-b),0,0,0,0,2.0/(zNear-zFar),0,0,0,0,1;
     ortho=rotate*translate;
