@@ -149,7 +149,7 @@ float myMax(float a,float b,float c)
 //Screen space rasterization
 void rst::rasterizer::rasterize_triangle(const Triangle& t) {
     auto v = t.toVector4();
-    
+
     // TODO : Find out the bounding box of current triangle.
     // iterate through the pixel and find if the current pixel is inside the triangle
 
@@ -167,7 +167,7 @@ void rst::rasterizer::rasterize_triangle(const Triangle& t) {
     int yMin=int(myMin(t.v[0][1],t.v[1][1],t.v[2][1]));
     int yMax=int(myMax(t.v[0][1],t.v[1][1],t.v[2][1])+1);
 
-
+    // t.v 可以拿到三角形的三个顶点，其中 t.v[i][2] 是深度 z
     for(int x=xMin;x<xMax;x++)
     {
         for(int y=yMin;y<yMax;y++)
