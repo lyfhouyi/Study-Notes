@@ -40,9 +40,39 @@ auto to_vec4(const Eigen::Vector3f& v3, float w = 1.0f)
 }
 
 
-static bool insideTriangle(int x, int y, const Vector3f* _v)
+static int insideTriangle(float x, float y, const Vector3f* _v)
 {   
     // TODO : Implement this function to check if the point (x, y) is inside the triangle represented by _v[0], _v[1], _v[2]
+
+    // houyi 2021.12.6
+    Vector3f ab=_v[1]-_v[0];
+    ab[2]=0;
+    Vector3f bc=_v[2]-_v[1];
+    bc[2]=0;
+    Vector3f ca=_v[0]-_v[2];
+    ca[2]=0;
+    
+    Vector3f ap;
+    ap<<x-_v[0][0],y-_v[0][1],0.0;
+
+    Vector3f bp;
+    bp<<x-_v[1][0],y-_v[1][1],0.0;
+
+    Vector3f cp;
+    cp<<x-_v[2][0],y-_v[2][1],0.0;
+
+    Vector3f ab_ap=ab.cross(ap);
+    Vector3f bc_bp=bc.cross(bp);
+    Vector3f ca_cp=ca.cross(cp);
+
+    if((ab_ap[2]>0 && bc_bp[2]>0 && ca_cp[2]>0)||(ab_ap[2]<0 && bc_bp[2]<0 && ca_cp[2]<0))
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
 }
 
 static std::tuple<float, float, float> computeBarycentric2D(float x, float y, const Vector3f* v)
@@ -80,7 +110,7 @@ void rst::rasterizer::draw(pos_buf_id pos_buffer, ind_buf_id ind_buffer, col_buf
         {
             vert.x() = 0.5*width*(vert.x()+1.0);
             vert.y() = 0.5*height*(vert.y()+1.0);
-            vert.z() = vert.z() * f1 + f2;
+            vert.z() = -vert.z() * f1 + f2;
         }
 
         for (int i = 0; i < 3; ++i)
@@ -102,6 +132,20 @@ void rst::rasterizer::draw(pos_buf_id pos_buffer, ind_buf_id ind_buffer, col_buf
     }
 }
 
+// houyi 2021.12.6
+float myMin(float a,float b,float c)
+{
+    float minAB=a<b?a:b;
+    return minAB<c?minAB:c;
+}
+
+// houyi 2021.12.6
+float myMax(float a,float b,float c)
+{
+    float maxAB=a>b?a:b;
+    return maxAB>c?maxAB:c;
+}
+
 //Screen space rasterization
 void rst::rasterizer::rasterize_triangle(const Triangle& t) {
     auto v = t.toVector4();
@@ -116,6 +160,67 @@ void rst::rasterizer::rasterize_triangle(const Triangle& t) {
     //z_interpolated *= w_reciprocal;
 
     // TODO : set the current pixel (use the set_pixel function) to the color of the triangle (use getColor function) if it should be painted.
+
+    // houyi 2021.12.6
+    int xMin=int(myMin(t.v[0][0],t.v[1][0],t.v[2][0]));
+    int xMax=int(myMax(t.v[0][0],t.v[1][0],t.v[2][0])+1);
+    int yMin=int(myMin(t.v[0][1],t.v[1][1],t.v[2][1]));
+    int yMax=int(myMax(t.v[0][1],t.v[1][1],t.v[2][1])+1);
+
+
+    for(int x=xMin;x<xMax;x++)
+    {
+        for(int y=yMin;y<yMax;y++)
+        {
+            // improved
+            int inside=0;
+            float depth=0.0;
+            for(int i=0;i<4;i++)
+            {
+                inside += insideTriangle(x+0.33*(i%2+1),y+0.33*(i/2+1),t.v);
+            }
+            float percent = inside / 4.0;
+            if(inside>0)
+            {
+                for(int i=0;i<4;i++)
+                {
+                    std::tuple<float, float, float>foo =computeBarycentric2D(x+0.33*(i%2+1),y+0.33*(i/2+1), t.v);
+                    float alpha=std::get<0>(foo);
+                    float beta=std::get<1>(foo);
+                    float gamma=std::get<2>(foo);
+                    float w_reciprocal = 1.0/(alpha / v[0].w() + beta / v[1].w() + gamma / v[2].w());
+                    float z_interpolated = alpha * v[0].z() / v[0].w() + beta * v[1].z() / v[1].w() + gamma * v[2].z() / v[2].w();
+                    z_interpolated *= w_reciprocal;
+                    depth += z_interpolated;
+                }
+                depth /= 4;
+                if(depth<depth_buf[get_index(x,y)])
+                {
+                    set_pixel(Vector3f(x,y,0.0),percent*t.getColor());
+                    depth_buf[get_index(x,y)]=depth;
+                }
+            }
+
+            // // original
+            // if(insideTriangle(x+0.5,y+0.5,t.v))
+            // {
+            //     std::tuple<float, float, float>foo =computeBarycentric2D(x+0.5,y+0.5, t.v);
+            //     float alpha=std::get<0>(foo);
+            //     float beta=std::get<1>(foo);
+            //     float gamma=std::get<2>(foo);
+            //     float w_reciprocal = 1.0/(alpha / v[0].w() + beta / v[1].w() + gamma / v[2].w());
+            //     float z_interpolated = alpha * v[0].z() / v[0].w() + beta * v[1].z() / v[1].w() + gamma * v[2].z() / v[2].w();
+            //     z_interpolated *= w_reciprocal;
+
+            //     if(z_interpolated<depth_buf[get_index(x,y)])
+            //     {
+            //         set_pixel(Vector3f(x,y,0.0),t.getColor());
+            //         depth_buf[get_index(x,y)]=z_interpolated;
+            //     }
+
+            // }
+        }
+    }
 }
 
 void rst::rasterizer::set_model(const Eigen::Matrix4f& m)
