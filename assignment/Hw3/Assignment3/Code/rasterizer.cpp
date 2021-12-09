@@ -174,7 +174,7 @@ void rst::rasterizer::draw(std::vector<Triangle *> &TriangleList) {
 
     float f1 = (50 - 0.1) / 2.0;
     float f2 = (50 + 0.1) / 2.0;
-
+  
     Eigen::Matrix4f mvp = projection * view * model;
     for (const auto& t:TriangleList)
     {
@@ -191,12 +191,13 @@ void rst::rasterizer::draw(std::vector<Triangle *> &TriangleList) {
         std::transform(mm.begin(), mm.end(), viewspace_pos.begin(), [](auto& v) {
             return v.template head<3>();
         });
-
+        
         Eigen::Vector4f v[] = {
                 mvp * t->v[0],
                 mvp * t->v[1],
                 mvp * t->v[2]
         };
+
         //Homogeneous division
         for (auto& vec : v) {
             vec.x()/=vec.w();
@@ -216,7 +217,7 @@ void rst::rasterizer::draw(std::vector<Triangle *> &TriangleList) {
         {
             vert.x() = 0.5*width*(vert.x()+1.0);
             vert.y() = 0.5*height*(vert.y()+1.0);
-            vert.z() = vert.z() * f1 + f2;
+            vert.z() = -vert.z() * f1 + f2;
         }
 
         for (int i = 0; i < 3; ++i)
@@ -256,6 +257,20 @@ static Eigen::Vector2f interpolate(float alpha, float beta, float gamma, const E
     return Eigen::Vector2f(u, v);
 }
 
+// houyi 2021.12.6
+float myMin(float a,float b,float c)
+{
+    float minAB=a<b?a:b;
+    return minAB<c?minAB:c;
+}
+
+// houyi 2021.12.6
+float myMax(float a,float b,float c)
+{
+    float maxAB=a>b?a:b;
+    return maxAB>c?maxAB:c;
+}
+
 //Screen space rasterization
 void rst::rasterizer::rasterize_triangle(const Triangle& t, const std::array<Eigen::Vector3f, 3>& view_pos) 
 {
@@ -280,7 +295,63 @@ void rst::rasterizer::rasterize_triangle(const Triangle& t, const std::array<Eig
     // Use: Instead of passing the triangle's color directly to the frame buffer, pass the color to the shaders first to get the final color;
     // Use: auto pixel_color = fragment_shader(payload);
 
- 
+    // houyi 2021.12.9
+    // view_pos 是 view 空间（透视投影前的空间）中的顶点坐标数组
+    // 实际上，插值应该在 view 空间进行，这里在 screen 空间进行插值是有一定误差的。需要进行矫正，但本作业中未矫正
+    auto v = t.toVector4();
+
+    // houyi 2021.12.6
+    int xMin=int(myMin(t.v[0][0],t.v[1][0],t.v[2][0]));
+    int xMax=int(myMax(t.v[0][0],t.v[1][0],t.v[2][0])+1);
+    int yMin=int(myMin(t.v[0][1],t.v[1][1],t.v[2][1]));
+    int yMax=int(myMax(t.v[0][1],t.v[1][1],t.v[2][1])+1);
+    // t.v 可以拿到三角形的三个顶点，其中 t.v[i][2] 是深度 z
+    for(int x=xMin;x<xMax;x++)
+    {
+        for(int y=yMin;y<yMax;y++)
+        {
+            if(insideTriangle(x+0.5,y+0.5,t.v))
+            {
+                std::tuple<float, float, float>foo =computeBarycentric2D(x+0.5,y+0.5, t.v);
+                float alpha=std::get<0>(foo);
+                float beta=std::get<1>(foo);
+                float gamma=std::get<2>(foo);
+                
+                float w_reciprocal = 1.0/(alpha / v[0].w() + beta / v[1].w() + gamma / v[2].w());
+                
+                // Interpolate the depth
+                float z_interpolated = alpha * v[0].z() / v[0].w() + beta * v[1].z() / v[1].w() + gamma * v[2].z() / v[2].w();
+                z_interpolated *= w_reciprocal;
+                
+                // Interpolate the color
+                Eigen::Vector3f interpolated_color = alpha * t.color[0] / v[0].w() + beta * t.color[1] / v[1].w() + gamma *  t.color[2] / v[2].w();
+                interpolated_color *= w_reciprocal;
+
+                // Interpolate the normal
+                Eigen::Vector3f interpolated_normal = alpha * t.normal[0] / v[0].w() + beta * t.normal[1] / v[1].w() + gamma *  t.normal[2] / v[2].w();
+                interpolated_normal *= w_reciprocal;
+
+                // Interpolate the texcoords
+                Eigen::Vector2f texcoords_interpolated;
+                Vector2f interpolated_texcoords = alpha * t.tex_coords[0] / v[0].w() + beta * t.tex_coords[1] / v[1].w() + gamma *  t.tex_coords[2] / v[2].w();
+                interpolated_texcoords *= w_reciprocal;
+
+                // Interpolate the shadingcoords
+                Eigen::Vector3f interpolated_shadingcoords = interpolate(alpha,beta,gamma,view_pos[0],view_pos[1],view_pos[2],w_reciprocal);
+
+                fragment_shader_payload payload( interpolated_color, interpolated_normal.normalized(), interpolated_texcoords, texture ? &*texture : nullptr);
+                payload.view_pos = interpolated_shadingcoords;
+
+                // set color
+                if(z_interpolated<depth_buf[get_index(x,y)])
+                {
+                    auto pixel_color = fragment_shader(payload);
+                    set_pixel(Eigen::Vector2i(x,y),pixel_color);
+                    depth_buf[get_index(x,y)]=z_interpolated;
+                }
+            }
+        }
+    }
 }
 
 void rst::rasterizer::set_model(const Eigen::Matrix4f& m)
