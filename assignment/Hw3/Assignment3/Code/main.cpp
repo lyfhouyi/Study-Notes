@@ -126,7 +126,8 @@ Eigen::Vector3f texture_fragment_shader(const fragment_shader_payload& payload)
         // houyi 2021.12.9
         float u=1.0<payload.tex_coords.x()?1.0:payload.tex_coords.x();
         float v=1.0<payload.tex_coords.y()?1.0:payload.tex_coords.y();
-        return_color=payload.texture->getColor(u,v);
+        // return_color=payload.texture->getColor(u,v);
+        return_color=payload.texture->getColorBilinear(u,v); // houyi 2021.12.14
     }
     Eigen::Vector3f texture_color;
     texture_color << return_color.x(), return_color.y(), return_color.z();
@@ -376,8 +377,10 @@ int main(int argc, const char** argv)
     auto texture_path = "hmap.jpg";
     r.set_texture(Texture(obj_path + texture_path));
 
-    std::function<Eigen::Vector3f(fragment_shader_payload)> active_shader = displacement_fragment_shader; // houyi 2021.12.9
-
+    std::function<Eigen::Vector3f(fragment_shader_payload)> active_shader = texture_fragment_shader; // houyi 2021.12.9
+    texture_path = "spot_texture.png";
+    r.set_texture(Texture(obj_path + texture_path));
+    
     if (argc >= 2)
     {
         command_line = true;
