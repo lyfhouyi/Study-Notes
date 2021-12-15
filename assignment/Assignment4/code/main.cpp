@@ -3,10 +3,11 @@
 #include <opencv2/opencv.hpp>
 
 std::vector<cv::Point2f> control_points;
+int CtrlPointCnt=4; // houyi 2021.12.15
 
 void mouse_handler(int event, int x, int y, int flags, void *userdata) 
 {
-    if (event == cv::EVENT_LBUTTONDOWN && control_points.size() < 4) 
+    if (event == cv::EVENT_LBUTTONDOWN && control_points.size() < CtrlPointCnt) 
     {
         std::cout << "Left button of the mouse is clicked - position (" << x << ", "
         << y << ")" << '\n';
@@ -33,8 +34,19 @@ void naive_bezier(const std::vector<cv::Point2f> &points, cv::Mat &window)
 cv::Point2f recursive_bezier(const std::vector<cv::Point2f> &control_points, float t) 
 {
     // TODO: Implement de Casteljau's algorithm
-    return cv::Point2f();
-
+    
+    // houyi 2021.12.15
+    int pointCnt=control_points.size();
+    if(pointCnt==1)
+    {
+        return cv::Point2f(control_points.front());
+    }
+    std::vector<cv::Point2f> newControl_points;
+    for(int i=0;i<pointCnt-1;i++)
+    {
+        newControl_points.emplace_back(control_points[i]+t*(control_points[i+1]-control_points[i]));
+    }
+    return recursive_bezier(newControl_points,t);
 }
 
 void bezier(const std::vector<cv::Point2f> &control_points, cv::Mat &window) 
@@ -42,7 +54,55 @@ void bezier(const std::vector<cv::Point2f> &control_points, cv::Mat &window)
     // TODO: Iterate through all t = 0 to t = 1 with small steps, and call de Casteljau's 
     // recursive Bezier algorithm.
 
+    // houyi 2021.12.15
+    for (float t = 0.0; t <= 1.0; t += 0.001) 
+    {
+        cv::Point2f point = recursive_bezier(control_points,t) ;
+
+        window.at<cv::Vec3b>(point.y, point.x)[1] = 255;
+    }
 }
+
+// houyi 2021.12.15
+void setPixel(int row, int col,cv::Point2f point,cv::Mat &window)
+{
+    float row_c=row+0.5;
+    float col_c=col+0.5;
+    float dis=sqrt(pow(point.y-row_c,2)+pow(point.x-col_c,2));
+    int color=255*(1-dis);
+    if(color>0)
+    {
+        window.at<cv::Vec3b>(row, col)[1] += color;
+        // std::cout<<"color = "<<color<<std::endl;
+    }
+}
+
+// houyi 2021.12.15
+void bezier_antiallased(const std::vector<cv::Point2f> &control_points, cv::Mat &window) 
+{
+    // TODO: Iterate through all t = 0 to t = 1 with small steps, and call de Casteljau's 
+    // recursive Bezier algorithm.
+
+    for (float t = 0.0; t <= 1.0; t += 0.001) 
+    {
+        cv::Point2f point = recursive_bezier(control_points,t) ;
+
+        int pixel_row=floor(point.y);
+        int pixel_col=floor(point.x);
+        window.at<cv::Vec3b>(point.y, point.x)[1] = 255;
+        
+        setPixel(pixel_row-1,pixel_col,point,window);
+        setPixel(pixel_row+1,pixel_col,point,window);
+        setPixel(pixel_row,pixel_col-1,point,window);
+        setPixel(pixel_row,pixel_col+1,point,window);
+        
+        setPixel(pixel_row-1,pixel_col-1,point,window);
+        setPixel(pixel_row-1,pixel_col+1,point,window);
+        setPixel(pixel_row+1,pixel_col-1,point,window);
+        setPixel(pixel_row+1,pixel_col+1,point,window);
+    }
+}
+
 
 int main() 
 {
@@ -60,11 +120,11 @@ int main()
             cv::circle(window, point, 3, {255, 255, 255}, 3);
         }
 
-        if (control_points.size() == 4) 
+        if (control_points.size() == CtrlPointCnt) 
         {
             naive_bezier(control_points, window);
-            //   bezier(control_points, window);
-
+            bezier(control_points, window); // houyi 2021.12.15
+            bezier_antiallased(control_points, window); // houyi 2021.12.15
             cv::imshow("Bezier Curve", window);
             cv::imwrite("my_bezier_curve.png", window);
             key = cv::waitKey(0);
