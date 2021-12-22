@@ -63,7 +63,6 @@ Vector3f Scene::castRay(const Ray &ray, int depth) const
     Vector2f uv;
     uint32_t index = 0;
     if(intersection.happened) {
-
         Vector3f hitPoint = intersection.coords;
         Vector3f N = intersection.normal; // normal
         Vector2f st; // st coordinates

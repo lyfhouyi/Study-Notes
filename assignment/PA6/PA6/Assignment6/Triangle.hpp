@@ -33,6 +33,7 @@ bool rayTriangleIntersect(const Vector3f& v0, const Vector3f& v1,
     float invDet = 1 / det;
 
     tnear = dotProduct(edge2, qvec) * invDet;
+
     u *= invDet;
     v *= invDet;
 
@@ -230,11 +231,15 @@ inline Intersection Triangle::getIntersection(Ray ray)
     if (v < 0 || u + v > 1)
         return inter;
     t_tmp = dotProduct(e2, qvec) * det_inv;
-
     // TODO find ray triangle intersection
 
-
-
+    // houyi 2021.12.17
+    inter.happened=true;
+    inter.distance=t_tmp;
+    inter.coords=ray(t_tmp);
+    inter.normal=this->normal;
+    inter.m=this->m;
+    inter.obj=this;
 
     return inter;
 }
