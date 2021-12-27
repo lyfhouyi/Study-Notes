@@ -254,6 +254,17 @@ inline Intersection Triangle::getIntersection(Ray ray)
 
     // TODO find ray triangle intersection
 
+    // houyi 2021.12.17
+    inter.happened=true;
+    inter.distance=t_tmp;
+    inter.coords=ray(t_tmp);
+    inter.normal=this->normal;
+    inter.m=this->m;
+    inter.obj=this;
+    // houyi 2021.12.24
+    if(inter.m!=nullptr)
+        inter.emit=inter.m->getEmission();
+
     return inter;
 }
 
