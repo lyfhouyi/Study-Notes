@@ -17,6 +17,6 @@ struct Spring {
 
   Mass *m1;
   Mass *m2;
-}; // struct Spring
-}
+};  // struct Spring
+}  // namespace CGL
 #endif /* SPRING_H */

@@ -1,6 +1,7 @@
+#include "application.h"
+
 #include <iostream>
 
-#include "application.h"
 #include "rope.h"
 
 namespace CGL {
@@ -22,15 +23,15 @@ void Application::init() {
   glLineWidth(4);
 
   glColor3f(1.0, 1.0, 1.0);
-  // Create two ropes 
-  ropeEuler = new Rope(Vector2D(0, 200), Vector2D(-400, 200), 3, config.mass,
-                       config.ks, {0});
-  ropeVerlet = new Rope(Vector2D(0, 200), Vector2D(-400, 200), 3, config.mass,
-                        config.ks, {0});
+  // Create two ropes
+  ropeEuler = new Rope(Vector2D(0, 200), Vector2D(-400, 200), 5, config.mass,
+                       config.ks, {0});  // houyi 2021.12.30
+  ropeVerlet = new Rope(Vector2D(0, 200), Vector2D(-400, 200), 5, config.mass,
+                        config.ks, {0});  // houyi 2021.12.30
 }
 
 void Application::render() {
-  //Simulation loops
+  // Simulation loops
   for (int i = 0; i < config.steps_per_frame; i++) {
     ropeEuler->simulateEuler(1 / config.steps_per_frame, config.gravity);
     ropeVerlet->simulateVerlet(1 / config.steps_per_frame, config.gravity);
@@ -85,14 +86,14 @@ void Application::resize(size_t w, size_t h) {
 
 void Application::keyboard_event(int key, int event, unsigned char mods) {
   switch (key) {
-  case '-':
-    if (config.steps_per_frame > 1) {
-      config.steps_per_frame /= 2;
-    }
-    break;
-  case '=':
-    config.steps_per_frame *= 2;
-    break;
+    case '-':
+      if (config.steps_per_frame > 1) {
+        config.steps_per_frame /= 2;
+      }
+      break;
+    case '=':
+      config.steps_per_frame *= 2;
+      break;
   }
 }
 
@@ -104,4 +105,4 @@ string Application::info() {
 
   return steps.str();
 }
-}
+}  // namespace CGL

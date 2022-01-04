@@ -10,7 +10,7 @@ using namespace std;
 namespace CGL {
 
 class Rope {
-public:
+ public:
   Rope(vector<Mass *> &masses, vector<Spring *> &springs)
       : masses(masses), springs(springs) {}
   Rope(Vector2D start, Vector2D end, int num_nodes, float node_mass, float k,
@@ -21,6 +21,6 @@ public:
 
   vector<Mass *> masses;
   vector<Spring *> springs;
-}; // struct Rope
-}
+};  // struct Rope
+}  // namespace CGL
 #endif /* ROPE_H */
