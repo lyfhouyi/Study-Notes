@@ -23,3 +23,26 @@ GLSL Shaders - 8 - start：https://codepen.io/nik-lever/pen/KKPQrdv
 GLSL Shaders - shaping functions -sc：https://codepen.io/nik-lever/pen/VwZdvMq
 
 GLSL Shaders - 9 - start：https://codepen.io/nik-lever/pen/rRWeyJ
+
+> 注意：没有 GLSL Shaders - 10~17 - start，实际上 GLSL Shaders - 10~17 - start 的内容已经融合在 GLSL Shaders - 9 - start 中了。
+
+GLSL Shaders - 18 - start：https://codepen.io/nik-lever/pen/KKPBGRJ
+
+> 注意：没有 GLSL Shaders - 19~23 - start，实际上 GLSL Shaders - 19~23 - start 的内容已经融合在 GLSL Shaders - 18 - start 中了。
+
+GLSL Shaders - 24 - start：https://codepen.io/nik-lever/pen/wvwROaJ
+
+> 注意：没有 GLSL Shaders - 25/26 - start，实际上 GLSL Shaders - 25/26- start 的内容已经融合在 GLSL Shaders - 24 - start 中了。
+
+GLSL Shaders - 27 - start：https://codepen.io/nik-lever/pen/LazwxJ
+
+> 注意：没有 GLSL Shaders - 28 - start，实际上 GLSL Shaders - 28- start 的内容已经融合在 GLSL Shaders - 27 - start 中了。
+
+GLSL Shaders - 29 - start：https://codepen.io/nik-lever/pen/bZYdOM
+
+> 注意：没有 GLSL Shaders - 30/31 - start，实际上 GLSL Shaders - 30/31- start 的内容已经融合在 GLSL Shaders - 29 - start 中了。
+>  GLSL Shaders - 32~35 - start 展示了使用噪声构造火焰的案例。
+
+GLSL Shaders - 36 - start：https://codepen.io/nik-lever/pen/ExYMNNm
+
+GLSL Shaders - 37 - start：https://codepen.io/nik-lever/pen/gEoaez
