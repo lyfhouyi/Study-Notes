@@ -46,3 +46,17 @@ GLSL Shaders - 29 - start：https://codepen.io/nik-lever/pen/bZYdOM
 GLSL Shaders - 36 - start：https://codepen.io/nik-lever/pen/ExYMNNm
 
 GLSL Shaders - 37 - start：https://codepen.io/nik-lever/pen/gEoaez
+
+GLSL Shaders - 38 - start：https://codepen.io/nik-lever/pen/wvwZwMR
+
+> 注意：没有 GLSL Shaders - 39/40 - start，实际上 GLSL Shaders - 39/40- start 的内容已经融合在 GLSL Shaders - 38 - start 中了。
+
+GLSL Shaders - 41 - start：https://codepen.io/nik-lever/pen/PVMQbP
+
+GLSL Shaders - 42 - start：https://codepen.io/nik-lever/pen/ZwgrRR
+
+GLSL Shaders - 43 - start：https://codepen.io/nik-lever/pen/PVMRXa
+
+practice：https://codepen.io/lyfhouyi/pen/dydjgjx?editors=0010
+
+> 注意：practice 为自己练习，综合运用。
