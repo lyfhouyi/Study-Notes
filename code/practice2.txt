@@ -1,71 +1,40 @@
 const vshader = `
-varying vec2 v_uv;
-varying vec3 v_position;
-
+varying vec2 vUv;
 void main() {	
-  v_uv = uv;
-  v_position = position;
-  gl_Position = projectionMatrix * modelViewMatrix * vec4( position * 0.6, 1.0 );
+  vUv = uv;
+  gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
 }
 `
 const fshader = `
 #define PI 3.141592653589
-uniform sampler2D u_tex;
+#define PI2 6.28318530718
+
+uniform vec2 u_mouse;
+uniform vec2 u_resolution;
 uniform float u_time;
-uniform float u_rotate;
-uniform float u_twirls;
+uniform sampler2D u_tex;
 
-varying vec2 v_uv;
-varying vec3 v_position;
+varying vec2 vUv;
 
-vec2 rotate(vec2 uv,float aspect){
-  vec2 center = vec2(0.5);
-  vec2 pt = uv - center;
-  float theta = (cos(0.2 * u_time) + 1.0) * PI * u_rotate;
-  float s = sin(theta);
-  float c = cos(theta);
-  mat2 mat = mat2(c, s, -s, c);
-  pt.y /= aspect;
-  pt = mat * pt;
-  pt.y *= aspect;
-  pt += center;
-  return pt;
+vec2 ripple(vec2 pt, vec2 center){
+  pt -= center;
+  float distance = length(pt);
+  vec2 ripple = pt + pt / pow(distance,1.0) * 0.01 * sin(15.0* distance + 6.0* u_time);
+  // float delta = (sin(u_time) + 1.0) * PI;
+  // vec2 uv = mix(ripple, pt, delta);
+  
+  
+  return ripple + center;
 }
 
-vec2 twirl(vec2 uv){
-  vec2 center = vec2(0.5);
-  vec2 pt = uv - center;
-  float dis = length(pt);
-  float delta = (0.5 - dis) / 0.5;
-  float theta = delta * sin(0.2 * u_time) * 2.0 * PI * u_twirls;
-  float s = sin(theta);
-  float c = cos(theta);
-  mat2 mat = mat2(c, s, -s, c);
-  pt = mat * pt;
-  pt += center;
-  return pt;
-}
-
-float inRect(vec2 uv, vec2 bottomLeft, vec2 topRight){
-  vec2 s = step(bottomLeft, uv) - step(topRight, uv);
-  return s.x * s.y;
-}
-
-void main (){
-  vec2 uv = rotate(v_uv, 2.0/1.5);
-  float inRect = inRect(uv, vec2(0.0), vec2(1.0));
-  uv = twirl(uv);
+void main (void)
+{
+  vec2 uv = vUv;
+  uv = ripple (uv, vec2(0.25));
+  uv = ripple (uv, vec2(0.65, 0.85));
+  vec3 color = texture2D(u_tex, uv).rgb;
   
-  
-  
-  
-  vec3 bg_color = vec3(0.5);
-  vec3 tex_color = texture2D(u_tex, uv).rgb;
-  
-  vec3 color = mix(bg_color, tex_color, inRect);
-  
-  vec4 ret = vec4(color, 1.0);
-  gl_FragColor = ret; 
+  gl_FragColor = vec4(color, 1.0); 
 }
 `
 
@@ -76,7 +45,6 @@ void main (){
 
 const scene = new THREE.Scene();
 const camera = new THREE.OrthographicCamera( -1, 1, 1, -1, 0.1, 10 );
-const assetPath = "https://s3-us-west-2.amazonaws.com/s.cdpn.io/2666677/";
 
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
@@ -84,12 +52,9 @@ document.body.appendChild( renderer.domElement );
 
 const clock = new THREE.Clock();
 
-const geometry = new THREE.PlaneGeometry( 2.0, 1.5 );
+const geometry = new THREE.PlaneGeometry( 2, 1.5 );
 const uniforms = {
-  u_tex: {value: new THREE.TextureLoader().setPath(assetPath).load('sa1.jpg')},
-  u_duration: {value: 8.0},
-  u_twirls: {value: 1.0},
-  u_rotate: {value: 1.0},
+  u_tex: { value: new THREE.TextureLoader().load("https://s3-us-west-2.amazonaws.com/s.cdpn.io/2666677/sa1.jpg") },
   u_time: { value: 0.0 },
   u_mouse: { value:{ x:0.0, y:0.0 }},
   u_resolution: { value:{ x:0, y:0 }}
