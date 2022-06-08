@@ -72,3 +72,12 @@ GLSL Shaders - 46 - start：https://codepen.io/nik-lever/pen/bzXyEE
 > 注意：没有 GLSL Shaders - 47/48 - start，实际上 GLSL Shaders - 47/48- start 的内容已经融合在 GLSL Shaders - 46 - start 中了。
 
 GLSL Shaders - 49 - start：https://codepen.io/nik-lever/pen/PLYRWm
+
+GLSL Shaders - 50 - start：https://codepen.io/nik-lever/pen/LaYbpd
+
+GLSL Shaders - 51 - start：https://codepen.io/nik-lever/pen/xxKNVvX
+
+> GLSL Shaders - 52 - start：https://codepen.io/nik-lever/pen/JzjwmW 为反射环境贴图展示。
+
+GLSL Shaders - 53 - start：https://codepen.io/nik-lever/pen/PLRpze
+
