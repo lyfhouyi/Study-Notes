@@ -1,4 +1,4 @@
-## GLSL
+## GAMES202
 
-b站 《从头开始学习 GLSL 着色器 Learn GLSL Shaders from Scratch》。
+b站 《GAMES202-高质量实时渲染》。
 
