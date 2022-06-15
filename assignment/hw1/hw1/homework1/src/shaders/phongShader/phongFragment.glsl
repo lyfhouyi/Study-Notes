@@ -28,118 +28,153 @@ uniform sampler2D uShadowMap;
 
 varying vec4 vPositionFromLight;
 
-highp float rand_1to1(highp float x ) { 
+highp float rand_1to1(highp float x){
   // -1 -1
-  return fract(sin(x)*10000.0);
+  return fract(sin(x)*10000.);
 }
 
-highp float rand_2to1(vec2 uv ) { 
+highp float rand_2to1(vec2 uv){
   // 0 - 1
-	const highp float a = 12.9898, b = 78.233, c = 43758.5453;
-	highp float dt = dot( uv.xy, vec2( a,b ) ), sn = mod( dt, PI );
-	return fract(sin(sn) * c);
+  const highp float a=12.9898,b=78.233,c=43758.5453;
+  highp float dt=dot(uv.xy,vec2(a,b)),sn=mod(dt,PI);
+  return fract(sin(sn)*c);
 }
 
-float unpack(vec4 rgbaDepth) {
-    const vec4 bitShift = vec4(1.0, 1.0/256.0, 1.0/(256.0*256.0), 1.0/(256.0*256.0*256.0));
-    return dot(rgbaDepth, bitShift);
+float unpack(vec4 rgbaDepth){
+  const vec4 bitShift=vec4(1.,1./256.,1./(256.*256.),1./(256.*256.*256.));
+  return dot(rgbaDepth,bitShift);
 }
 
 vec2 poissonDisk[NUM_SAMPLES];
 
-void poissonDiskSamples( const in vec2 randomSeed ) {
-
-  float ANGLE_STEP = PI2 * float( NUM_RINGS ) / float( NUM_SAMPLES );
-  float INV_NUM_SAMPLES = 1.0 / float( NUM_SAMPLES );
-
-  float angle = rand_2to1( randomSeed ) * PI2;
-  float radius = INV_NUM_SAMPLES;
-  float radiusStep = radius;
-
-  for( int i = 0; i < NUM_SAMPLES; i ++ ) {
-    poissonDisk[i] = vec2( cos( angle ), sin( angle ) ) * pow( radius, 0.75 );
-    radius += radiusStep;
-    angle += ANGLE_STEP;
-  }
-}
-
-void uniformDiskSamples( const in vec2 randomSeed ) {
-
-  float randNum = rand_2to1(randomSeed);
-  float sampleX = rand_1to1( randNum ) ;
-  float sampleY = rand_1to1( sampleX ) ;
-
-  float angle = sampleX * PI2;
-  float radius = sqrt(sampleY);
-
-  for( int i = 0; i < NUM_SAMPLES; i ++ ) {
-    poissonDisk[i] = vec2( radius * cos(angle) , radius * sin(angle)  );
-
-    sampleX = rand_1to1( sampleY ) ;
-    sampleY = rand_1to1( sampleX ) ;
-
-    angle = sampleX * PI2;
-    radius = sqrt(sampleY);
-  }
-}
-
-float findBlocker( sampler2D shadowMap,  vec2 uv, float zReceiver ) {
-	return 1.0;
-}
-
-float PCF(sampler2D shadowMap, vec4 coords) {
-  return 1.0;
-}
-
-float PCSS(sampler2D shadowMap, vec4 coords){
-
-  // STEP 1: avgblocker depth
-
-  // STEP 2: penumbra size
-
-  // STEP 3: filtering
+void poissonDiskSamples(const in vec2 randomSeed){
   
-  return 1.0;
-
+  float ANGLE_STEP=PI2*float(NUM_RINGS)/float(NUM_SAMPLES);
+  float INV_NUM_SAMPLES=1./float(NUM_SAMPLES);
+  
+  float angle=rand_2to1(randomSeed)*PI2;
+  float radius=INV_NUM_SAMPLES;
+  float radiusStep=radius;
+  
+  for(int i=0;i<NUM_SAMPLES;i++){
+    poissonDisk[i]=vec2(cos(angle),sin(angle))*pow(radius,.75);
+    radius+=radiusStep;
+    angle+=ANGLE_STEP;
+  }
 }
 
-
-float useShadowMap(sampler2D shadowMap, vec4 shadowCoord){
-  return 1.0;
+void uniformDiskSamples(const in vec2 randomSeed){
+  
+  float randNum=rand_2to1(randomSeed);
+  float sampleX=rand_1to1(randNum);
+  float sampleY=rand_1to1(sampleX);
+  
+  float angle=sampleX*PI2;
+  float radius=sqrt(sampleY);
+  
+  for(int i=0;i<NUM_SAMPLES;i++){
+    poissonDisk[i]=vec2(radius*cos(angle),radius*sin(angle));
+    
+    sampleX=rand_1to1(sampleY);
+    sampleY=rand_1to1(sampleX);
+    
+    angle=sampleX*PI2;
+    radius=sqrt(sampleY);
+  }
 }
 
-vec3 blinnPhong() {
-  vec3 color = texture2D(uSampler, vTextureCoord).rgb;
-  color = pow(color, vec3(2.2));
+float findBlocker(sampler2D shadowMap,vec2 uv,float zReceiver){
+  // houyi 2022.6.15
+  vec4 shadowMapDepth=texture2D(shadowMap,uv);
+  float shadowMapZ=unpack(shadowMapDepth);
+  float blockerDist=zReceiver-shadowMapZ;
+  return blockerDist;
+}
 
-  vec3 ambient = 0.05 * color;
+float useShadowMap(sampler2D shadowMap,vec4 shadowCoord);// houyi 2022.6.15
+float PCF(sampler2D shadowMap,vec4 coords){
+  // houyi 2022.6.15
+  float filterSize=.003;
+  uniformDiskSamples(vec2(123.,223.));
+  // uniformDiskSamples(coords.xy);
+  float shadow=0.;
+  for(int i=0;i<NUM_SAMPLES;i++){
+    shadow+=useShadowMap(shadowMap,vec4(coords.x+filterSize*poissonDisk[i].x,coords.y+filterSize*poissonDisk[i].y,coords.z,coords.w));
+  }
+  shadow/=float(NUM_SAMPLES);
+  return shadow;
+}
 
-  vec3 lightDir = normalize(uLightPos);
-  vec3 normal = normalize(vNormal);
-  float diff = max(dot(lightDir, normal), 0.0);
-  vec3 light_atten_coff =
-      uLightIntensity / pow(length(uLightPos - vFragPos), 2.0);
-  vec3 diffuse = diff * light_atten_coff * color;
+// houyi 2022.6.15
+float PCF(sampler2D shadowMap,vec4 coords,float filterSize){
+  // uniformDiskSamples(coords.xy);
+  float shadow=0.;
+  for(int i=0;i<NUM_SAMPLES;i++){
+    shadow+=useShadowMap(shadowMap,vec4(coords.x+filterSize*poissonDisk[i].x,coords.y+filterSize*poissonDisk[i].y,coords.z,coords.w));
+  }
+  shadow/=float(NUM_SAMPLES);
+  return shadow;
+}
 
-  vec3 viewDir = normalize(uCameraPos - vFragPos);
-  vec3 halfDir = normalize((lightDir + viewDir));
-  float spec = pow(max(dot(halfDir, normal), 0.0), 32.0);
-  vec3 specular = uKs * light_atten_coff * spec;
+float PCSS(sampler2D shadowMap,vec4 coords){
+  // houyi 2022.6.15
+  uniformDiskSamples(vec2(123.,223.));
+  // STEP 1: avgblocker depth
+  float blockerDistAvg=0.;
+  for(int i=0;i<BLOCKER_SEARCH_NUM_SAMPLES;i++){
+    blockerDistAvg+=findBlocker(shadowMap,coords.xy,coords.z);
+  }
+  blockerDistAvg/=float(BLOCKER_SEARCH_NUM_SAMPLES);
+  // STEP 2: penumbra size
+  float filterSize=.02*blockerDistAvg/(coords.z-blockerDistAvg);
+  // STEP 3: filtering
+  return PCF(shadowMap,coords,filterSize);
+}
 
-  vec3 radiance = (ambient + diffuse + specular);
-  vec3 phongColor = pow(radiance, vec3(1.0 / 2.2));
+float useShadowMap(sampler2D shadowMap,vec4 shadowCoord){
+  // houyi 2022.6.15
+  vec4 shadowMapDepth=texture2D(shadowMap,shadowCoord.xy);
+  float shadowMapZ=unpack(shadowMapDepth);
+  float shadow=shadowCoord.z>shadowMapZ?0.:1.;
+  return shadow;
+}
+
+vec3 blinnPhong(){
+  vec3 color=texture2D(uSampler,vTextureCoord).rgb;
+  color=pow(color,vec3(2.2));
+  
+  vec3 ambient=.05*color;
+  
+  vec3 lightDir=normalize(uLightPos);
+  vec3 normal=normalize(vNormal);
+  float diff=max(dot(lightDir,normal),0.);
+  vec3 light_atten_coff=
+  uLightIntensity/pow(length(uLightPos-vFragPos),2.);
+  vec3 diffuse=diff*light_atten_coff*color;
+  
+  vec3 viewDir=normalize(uCameraPos-vFragPos);
+  vec3 halfDir=normalize((lightDir+viewDir));
+  float spec=pow(max(dot(halfDir,normal),0.),32.);
+  vec3 specular=uKs*light_atten_coff*spec;
+  
+  vec3 radiance=(ambient+diffuse+specular);
+  vec3 phongColor=pow(radiance,vec3(1./2.2));
   return phongColor;
 }
 
-void main(void) {
-
+void main(void){
+  
   float visibility;
-  //visibility = useShadowMap(uShadowMap, vec4(shadowCoord, 1.0));
-  //visibility = PCF(uShadowMap, vec4(shadowCoord, 1.0));
-  //visibility = PCSS(uShadowMap, vec4(shadowCoord, 1.0));
-
-  vec3 phongColor = blinnPhong();
-
-  //gl_FragColor = vec4(phongColor * visibility, 1.0);
-  gl_FragColor = vec4(phongColor, 1.0);
+  
+  // houyi 2022.6.15
+  vec4 shadowCoord=vPositionFromLight/vPositionFromLight.w;
+  shadowCoord.xyz=shadowCoord.xyz/2.+.5;
+  
+  // visibility=useShadowMap(uShadowMap,shadowCoord);
+  // visibility=PCF(uShadowMap,shadowCoord);
+  visibility=PCSS(uShadowMap,shadowCoord);
+  
+  vec3 phongColor=blinnPhong();
+  
+  gl_FragColor=vec4(phongColor*visibility,1.);
 }
