@@ -787,7 +787,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 				onMouseDown( event );
 				break;
 
-			// TODO touch
+			//  touch
 
 		}
 

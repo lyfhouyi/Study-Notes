@@ -1,5 +1,5 @@
 # yue.nicholas@gmail.com
-CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.22)
 
 PROJECT ( ilmbase )
 

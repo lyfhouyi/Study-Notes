@@ -1,0 +1,7 @@
+{
+    "makefile.extensionOutputFolder": "./.vscode",
+    "cmake.configureOnOpen": false,
+    "files.associations": {
+        "*.tcc": "cpp"
+    }
+}
