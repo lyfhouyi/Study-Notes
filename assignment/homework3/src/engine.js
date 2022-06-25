@@ -60,18 +60,18 @@ function GAMES202Main() {
 
 	// Add light
 	let lightPos, lightDir, lightRadiance;
-	/*
+	
 	// Cave
-	lightRadiance = [20, 20, 20];
-	lightPos = [-0.45, 5.40507, 0.637043];
-	lightDir = {
-		'x': 0.39048811,
-		'y': -0.89896828,
-		'z': 0.19843153,
-	};
-	*/
-	// /*
-	// Cube
+	// lightRadiance = [20, 20, 20];
+	// lightPos = [-0.45, 5.40507, 0.637043];
+	// lightDir = {
+	// 	'x': 0.39048811,
+	// 	'y': -0.89896828,
+	// 	'z': 0.19843153,
+	// };
+	
+
+	//Cube
 	lightRadiance = [1, 1, 1];
 	lightPos = [-2, 4, 1];
 	lightDir = {
@@ -79,14 +79,14 @@ function GAMES202Main() {
 		'y': -0.9,
 		'z': -0.2,
 	};
-	// */
+
 	let lightUp = [1, 0, 0];
 	const directionLight = new DirectionalLight(lightRadiance, lightPos, lightDir, lightUp, renderer.gl);
 	renderer.addLight(directionLight);
 
 	// Add shapes
-	loadGLTF(renderer, 'assets/cube/', 'cube1', 'SSRMaterial');
-	// loadGLTF(renderer, 'assets/cube/', 'cube2', 'SSRMaterial');
+	// loadGLTF(renderer, 'assets/cube/', 'cube1', 'SSRMaterial');
+	loadGLTF(renderer, 'assets/cube/', 'cube2', 'SSRMaterial');
 	// loadGLTF(renderer, 'assets/cave/', 'cave', 'SSRMaterial');
 
 	function createGUI() {
