@@ -42,6 +42,14 @@ samplePoints squareToCosineHemisphere(int sample_count){
     return samlpeList;
 }
 
+// houyi 2022.6.27 F 项恒等于 1 
+// houyi 2022.6.27 计算 BRDF
+float CalcBRDF(Vec3f V, float roughness, float NdotV){
+    float nom   = GeometrySmith() * DistributionGGX()
+    float denom = 4 * NdotV * NdotV;
+}
+
+// houyi 2022.6.27 D 项
 float DistributionGGX(Vec3f N, Vec3f H, float roughness)
 {
     float a = roughness*roughness;
@@ -66,6 +74,7 @@ float GeometrySchlickGGX(float NdotV, float roughness) {
     return nom / denom;
 }
 
+// houyi 2022.6.27 G 项
 float GeometrySmith(float roughness, float NoV, float NoL) {
     float ggx2 = GeometrySchlickGGX(NoV, roughness);
     float ggx1 = GeometrySchlickGGX(NoL, roughness);
@@ -83,7 +92,8 @@ Vec3f IntegrateBRDF(Vec3f V, float roughness, float NdotV) {
     samplePoints sampleList = squareToCosineHemisphere(sample_count);
     for (int i = 0; i < sample_count; i++) {
       // TODO: To calculate (fr * ni) / p_o here
-      
+      // houyi 2022.6.27
+
     }
 
     return {A / sample_count, B / sample_count, C / sample_count};
@@ -95,8 +105,8 @@ int main() {
     for (int i = 0; i < resolution; i++) {
         for (int j = 0; j < resolution; j++) {
             float roughness = step * (static_cast<float>(i) + 0.5f);
-            float NdotV = step * (static_cast<float>(j) + 0.5f);
-            Vec3f V = Vec3f(std::sqrt(1.f - NdotV * NdotV), 0.f, NdotV);
+            float NdotV = step * (static_cast<float>(j) + 0.5f); // houyi 2022.6.27 NdotV = sin(theta)
+            Vec3f V = Vec3f(std::sqrt(1.f - NdotV * NdotV), 0.f, NdotV); // houyi 2022.6.27 V=(cos(theta),0,sin(theta))
 
             Vec3f irr = IntegrateBRDF(V, roughness, NdotV);
 
