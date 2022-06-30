@@ -13,8 +13,31 @@ void Denoiser::Reprojection(const FrameInfo &frameInfo) {
     for (int y = 0; y < height; y++) {
         for (int x = 0; x < width; x++) {
             // TODO: Reproject
-            m_valid(x, y) = false;
-            m_misc(x, y) = Float3(0.f);
+            // houyi 2022.6.30
+            int curId = frameInfo.m_id(x,y);
+            if (curId == -1) {
+                m_valid(x, y) = false;
+                m_misc(x, y) = Float3(0.f);
+                continue;
+            }
+            Matrix4x4 modelInverse = Inverse(frameInfo.m_matrix[curId]);
+            Float3 objPos = modelInverse(frameInfo.m_position(x,y),Float3::Point);
+            Float3 preScreenPos = preWorldToScreen(m_preFrameInfo.m_matrix[curId](objPos, Float3::Point), Float3::Point);
+
+            preScreenPos.x = std::min(int(preScreenPos.x),width -1);
+            preScreenPos.x = std::max(int(preScreenPos.x),0);
+            preScreenPos.y = std::min(int(preScreenPos.y),height -1);
+            preScreenPos.y = std::max(int(preScreenPos.y),0);
+
+            int preId = m_preFrameInfo.m_id(preScreenPos.x,preScreenPos.y);
+            if(preId!=curId)
+            {
+                m_valid(x, y) = false;
+                m_misc(x,y) = Float3(0.f);
+                continue;
+            }
+            m_valid(x, y) = true;
+            m_misc(x,y)= m_accColor(preScreenPos.x,preScreenPos.y);
         }
     }
     std::swap(m_misc, m_accColor);
@@ -31,6 +54,29 @@ void Denoiser::TemporalAccumulation(const Buffer2D<Float3> &curFilteredColor) {
             Float3 color = m_accColor(x, y);
             // TODO: Exponential moving average
             float alpha = 1.0f;
+            // houyi 2022.6.30
+            if(m_valid(x,y))
+            {
+                int jXStart = std::max(0,x-kernelRadius);
+                int jXEnd = std::min(width-1,x+kernelRadius);
+                int jYStart = std::max(0,y-kernelRadius);
+                int jYEnd = std::min(height-1,y+kernelRadius); 
+                int cnt = (2*kernelRadius+1)*(2*kernelRadius+1);
+                Float3 mu(0.0);
+                Float3 sigma(0.0);
+                for(int jx = jXStart;jx<=jXEnd;jx++)
+                {
+                    for(int jy=jYStart;jy<=jYEnd;jy++)
+                    {
+                        mu += curFilteredColor(jx,jy);
+                        sigma += Sqr(curFilteredColor(x,y)-curFilteredColor(jx,jy));
+                    }
+                }
+                mu /= float(cnt);
+                sigma = SafeSqrt(sigma / float(cnt));
+                color = Clamp(color,mu-sigma*m_colorBoxK,mu+sigma*m_colorBoxK);
+                alpha = m_alpha;
+            }
             m_misc(x, y) = Lerp(color, curFilteredColor(x, y), alpha);
         }
     }
@@ -114,6 +160,7 @@ Buffer2D<Float3> Denoiser::ProcessFrame(const FrameInfo &frameInfo) {
     filteredColor = Filter(frameInfo);
 
     // Reproject previous frame color to current
+    std::cout<<"m_useTemportal = "<<m_useTemportal<<std::endl;
     if (m_useTemportal) {
         Reprojection(frameInfo);
         TemporalAccumulation(filteredColor);

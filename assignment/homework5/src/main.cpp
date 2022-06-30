@@ -52,8 +52,8 @@ void Denoise(const filesystem::path &inputDir, const filesystem::path &outputDir
 
 int main() {
     // Box
-    filesystem::path inputDir("examples/box/input");
-    filesystem::path outputDir("examples/box/output");
+    filesystem::path inputDir("/home/lyfhouyi/git/Study-Notes/assignment/homework5/examples/box/input");
+    filesystem::path outputDir("/home/lyfhouyi/git/Study-Notes/assignment/homework5/examples/box/output");
     int frameNum = 20;
 
     /*

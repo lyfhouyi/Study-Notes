@@ -1,0 +1,1 @@
+/usr/bin/c++  -fopenmp -rdynamic CMakeFiles/Denoise.dir/src/denoiser.cpp.o CMakeFiles/Denoise.dir/src/main.cpp.o CMakeFiles/Denoise.dir/src/util/image.cpp.o CMakeFiles/Denoise.dir/src/util/imageutil.cpp.o CMakeFiles/Denoise.dir/src/util/mathutil.cpp.o -o Denoise 
