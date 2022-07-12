@@ -42,13 +42,6 @@ samplePoints squareToCosineHemisphere(int sample_count){
     return samlpeList;
 }
 
-// houyi 2022.6.27 F 项恒等于 1 
-// houyi 2022.6.27 计算 BRDF
-float CalcBRDF(Vec3f V, float roughness, float NdotV){
-    float nom   = GeometrySmith() * DistributionGGX()
-    float denom = 4 * NdotV * NdotV;
-}
-
 // houyi 2022.6.27 D 项
 float DistributionGGX(Vec3f N, Vec3f H, float roughness)
 {
@@ -82,6 +75,20 @@ float GeometrySmith(float roughness, float NoV, float NoL) {
     return ggx1 * ggx2;
 }
 
+// houyi 2022.6.27 F 项恒等于 1 
+// houyi 2022.6.27 计算 BRDF
+float CalcBRDF(Vec3f V,Vec3f N, Vec3f L,float roughness){
+    Vec3f H = normalize(V + L);
+    float NoV = std::max(dot(N,V), 0.0f);
+    float NoL = std::max(dot(N,L), 0.0f);
+
+    float G = GeometrySmith(roughness, NoV, NoL);
+    float D = DistributionGGX(N, H, roughness);
+    float F = 1;
+    float fr = D * G * F / std::max((4 * NoL * NoV),0.001f);
+    return fr;
+}
+
 Vec3f IntegrateBRDF(Vec3f V, float roughness, float NdotV) {
     float A = 0.0;
     float B = 0.0;
@@ -92,10 +99,15 @@ Vec3f IntegrateBRDF(Vec3f V, float roughness, float NdotV) {
     samplePoints sampleList = squareToCosineHemisphere(sample_count);
     for (int i = 0; i < sample_count; i++) {
       // TODO: To calculate (fr * ni) / p_o here
-      // houyi 2022.6.27
-
+      // houyi 2022.7.12
+        Vec3f L = sampleList.directions[i];
+        float NoL = std::max(dot(N,L), 0.0f);
+        float pdf = sampleList.PDFs[i];
+        float fr = CalcBRDF(V, N, L,roughness);
+        A += fr * NoL / pdf;
+        B += fr * NoL / pdf;
+        C += fr * NoL / pdf;
     }
-
     return {A / sample_count, B / sample_count, C / sample_count};
 }
 
