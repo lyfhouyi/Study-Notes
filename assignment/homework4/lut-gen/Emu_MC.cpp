@@ -13,28 +13,32 @@
 
 const int resolution = 128;
 
-typedef struct samplePoints {
+typedef struct samplePoints
+{
     std::vector<Vec3f> directions;
-	std::vector<float> PDFs;
-}samplePoints;
+    std::vector<float> PDFs;
+} samplePoints;
 
-samplePoints squareToCosineHemisphere(int sample_count){
+samplePoints squareToCosineHemisphere(int sample_count)
+{
     samplePoints samlpeList;
     const int sample_side = static_cast<int>(floor(sqrt(sample_count)));
 
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_real_distribution<> rng(0.0, 1.0);
-    for (int t = 0; t < sample_side; t++) {
-        for (int p = 0; p < sample_side; p++) {
+    for (int t = 0; t < sample_side; t++)
+    {
+        for (int p = 0; p < sample_side; p++)
+        {
             double samplex = (t + rng(gen)) / sample_side;
             double sampley = (p + rng(gen)) / sample_side;
-            
-            double theta = 0.5f * acos(1 - 2*samplex);
-            double phi =  2 * M_PI * sampley;
+
+            double theta = 0.5f * acos(1 - 2 * samplex);
+            double phi = 2 * M_PI * sampley;
             Vec3f wi = Vec3f(sin(theta) * cos(phi), sin(theta) * sin(phi), cos(theta));
             float pdf = wi.z / PI;
-            
+
             samlpeList.directions.push_back(wi);
             samlpeList.PDFs.push_back(pdf);
         }
@@ -45,19 +49,20 @@ samplePoints squareToCosineHemisphere(int sample_count){
 // houyi 2022.6.27 D 项
 float DistributionGGX(Vec3f N, Vec3f H, float roughness)
 {
-    float a = roughness*roughness;
-    float a2 = a*a;
+    float a = roughness * roughness;
+    float a2 = a * a;
     float NdotH = std::max(dot(N, H), 0.0f);
-    float NdotH2 = NdotH*NdotH;
+    float NdotH2 = NdotH * NdotH;
 
-    float nom   = a2;
+    float nom = a2;
     float denom = (NdotH2 * (a2 - 1.0) + 1.0);
     denom = PI * denom * denom;
 
     return nom / std::max(denom, 0.0001f);
 }
 
-float GeometrySchlickGGX(float NdotV, float roughness) {
+float GeometrySchlickGGX(float NdotV, float roughness)
+{
     float a = roughness;
     float k = (a * a) / 2.0f;
 
@@ -68,42 +73,46 @@ float GeometrySchlickGGX(float NdotV, float roughness) {
 }
 
 // houyi 2022.6.27 G 项
-float GeometrySmith(float roughness, float NoV, float NoL) {
+float GeometrySmith(float roughness, float NoV, float NoL)
+{
     float ggx2 = GeometrySchlickGGX(NoV, roughness);
     float ggx1 = GeometrySchlickGGX(NoL, roughness);
 
     return ggx1 * ggx2;
 }
 
-// houyi 2022.6.27 F 项恒等于 1 
+// houyi 2022.6.27 F 项恒等于 1
 // houyi 2022.6.27 计算 BRDF
-float CalcBRDF(Vec3f V,Vec3f N, Vec3f L,float roughness){
+float CalcBRDF(Vec3f V, Vec3f N, Vec3f L, float roughness)
+{
     Vec3f H = normalize(V + L);
-    float NoV = std::max(dot(N,V), 0.0f);
-    float NoL = std::max(dot(N,L), 0.0f);
+    float NoV = std::max(dot(N, V), 0.0f);
+    float NoL = std::max(dot(N, L), 0.0f);
 
     float G = GeometrySmith(roughness, NoV, NoL);
     float D = DistributionGGX(N, H, roughness);
     float F = 1;
-    float fr = D * G * F / std::max((4 * NoL * NoV),0.001f);
+    float fr = D * G * F / std::max((4 * NoL * NoV), 0.001f);
     return fr;
 }
 
-Vec3f IntegrateBRDF(Vec3f V, float roughness, float NdotV) {
+Vec3f IntegrateBRDF(Vec3f V, float roughness, float NdotV)
+{
     float A = 0.0;
     float B = 0.0;
     float C = 0.0;
     const int sample_count = 1024;
     Vec3f N = Vec3f(0.0, 0.0, 1.0);
-    
+
     samplePoints sampleList = squareToCosineHemisphere(sample_count);
-    for (int i = 0; i < sample_count; i++) {
-      // TODO: To calculate (fr * ni) / p_o here
-      // houyi 2022.7.12
+    for (int i = 0; i < sample_count; i++)
+    {
+        // TODO: To calculate (fr * ni) / p_o here
+        // houyi 2022.7.12
         Vec3f L = sampleList.directions[i];
-        float NoL = std::max(dot(N,L), 0.0f);
+        float NoL = std::max(dot(N, L), 0.0f);
         float pdf = sampleList.PDFs[i];
-        float fr = CalcBRDF(V, N, L,roughness);
+        float fr = CalcBRDF(V, N, L, roughness);
         A += fr * NoL / pdf;
         B += fr * NoL / pdf;
         C += fr * NoL / pdf;
@@ -111,13 +120,16 @@ Vec3f IntegrateBRDF(Vec3f V, float roughness, float NdotV) {
     return {A / sample_count, B / sample_count, C / sample_count};
 }
 
-int main() {
+int main()
+{
     uint8_t data[resolution * resolution * 3];
     float step = 1.0 / resolution;
-    for (int i = 0; i < resolution; i++) {
-        for (int j = 0; j < resolution; j++) {
+    for (int i = 0; i < resolution; i++)
+    {
+        for (int j = 0; j < resolution; j++)
+        {
             float roughness = step * (static_cast<float>(i) + 0.5f);
-            float NdotV = step * (static_cast<float>(j) + 0.5f); // houyi 2022.6.27 NdotV = sin(theta)
+            float NdotV = step * (static_cast<float>(j) + 0.5f);         // houyi 2022.6.27 NdotV = sin(theta)
             Vec3f V = Vec3f(std::sqrt(1.f - NdotV * NdotV), 0.f, NdotV); // houyi 2022.6.27 V=(cos(theta),0,sin(theta))
 
             Vec3f irr = IntegrateBRDF(V, roughness, NdotV);
@@ -129,7 +141,7 @@ int main() {
     }
     stbi_flip_vertically_on_write(true);
     stbi_write_png("GGX_E_MC_LUT.png", resolution, resolution, 3, data, resolution * 3);
-    
+
     std::cout << "Finished precomputed!" << std::endl;
     return 0;
 }
