@@ -9,6 +9,7 @@
 
 ## 软件开发
 + [Objective-C bytedance 期间学习总结](https://github.com/lyfhouyi/Study-Notes/tree/Objective-C)
++ [使用 Objective-C 开发数字数算小游戏](https://github.com/lyfhouyi/Study-Notes/tree/FastCompute)
 + [设计模式的 c++ 实现](https://github.com/lyfhouyi/Study-Notes/tree/Design-Pattern)
 
 ## 计算机图形学
