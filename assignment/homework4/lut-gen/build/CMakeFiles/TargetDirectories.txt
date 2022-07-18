@@ -1,6 +1,0 @@
-/Users/e.hou/git/Study-Notes/assignment/homework4/lut-gen/build/CMakeFiles/lut-Emu-MC.dir
-/Users/e.hou/git/Study-Notes/assignment/homework4/lut-gen/build/CMakeFiles/lut-Eavg-MC.dir
-/Users/e.hou/git/Study-Notes/assignment/homework4/lut-gen/build/CMakeFiles/lut-Emu-IS.dir
-/Users/e.hou/git/Study-Notes/assignment/homework4/lut-gen/build/CMakeFiles/lut-Eavg-IS.dir
-/Users/e.hou/git/Study-Notes/assignment/homework4/lut-gen/build/CMakeFiles/edit_cache.dir
-/Users/e.hou/git/Study-Notes/assignment/homework4/lut-gen/build/CMakeFiles/rebuild_cache.dir

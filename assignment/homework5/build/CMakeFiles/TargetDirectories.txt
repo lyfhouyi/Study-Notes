@@ -1,3 +1,0 @@
-/home/lyfhouyi/git/Study-Notes/assignment/homework5/build/CMakeFiles/Denoise.dir
-/home/lyfhouyi/git/Study-Notes/assignment/homework5/build/CMakeFiles/edit_cache.dir
-/home/lyfhouyi/git/Study-Notes/assignment/homework5/build/CMakeFiles/rebuild_cache.dir
