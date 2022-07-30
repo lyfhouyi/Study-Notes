@@ -1,7 +1,7 @@
 #iChannel0"file://GaussianBlur_pass_1.frag"
 #iChannel1"file://img.jpg"
 
-const float kernelSize=11.;//卷积核单边尺寸
+const float kernelSize=12.;//卷积核单边尺寸
 const float pi=3.141592653;
 const float sigma=3.;
 const float e=2.7182804;
