@@ -1,8 +1,8 @@
 #iChannel0"file://img.jpg"
 
-const float kernelSize = 4.0; //卷积核单边尺寸
+const float kernelSize = 5.0; //卷积核单边尺寸
 const float pi = 3.141592653;
-const float sigma = 1.5;
+const float sigma = 3.0;
 const float e = 2.7182804;
 
 //计算权重

@@ -7,4 +7,8 @@
 
 GaussianBlur.frag
 
+![GaussianBlur_single_pass](Shadertoy/Gaussian Blur/GaussianBlur_single_pass.png)
+
+
 ### 用两次 pass 实现
+
