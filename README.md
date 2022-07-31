@@ -43,6 +43,12 @@
 
 ![ChangeToAutumn_raw](Shadertoy/Change To Autumn/ChangeToAutumn_raw.png)
 
+### 过程中
+
+变化过程使用烧毁效果。
+
+![ChangeToAutumn_changing](Shadertoy/Change To Autumn/ChangeToAutumn_changing.png)
+
 ### 滤镜后
 
 > ChangeToAutumn_double_pass.frag
