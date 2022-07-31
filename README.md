@@ -54,3 +54,15 @@
 > ChangeToAutumn_double_pass.frag
 
 ![ChangeToAutumn_double_pass](Shadertoy/Change To Autumn/ChangeToAutumn_double_pass.png)
+
+
+
+## RGB Split-RGB 分离
+
+一次 pass 即可实现。
+
+### 滤镜后
+
+> RGBSplit_single_pass.frag
+
+![RGBSplit_single_pass](Shadertoy/RGB Split/RGBSplit_single_pass.png)
