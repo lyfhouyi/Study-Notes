@@ -43,11 +43,23 @@
 
 ![ChangeToAutumn_raw](Shadertoy/Change To Autumn/ChangeToAutumn_raw.png)
 
-### 过程中
+### 过程中_1
 
-变化过程使用烧毁效果。
+变化过程按圆形扩散。
+
+> ChangeToAutumn_double_pass.frag
 
 ![ChangeToAutumn_changing](Shadertoy/Change To Autumn/ChangeToAutumn_changing.png)
+
+### 过程中_2
+
+变化过程按纹理扩散。
+
+> ChangeToAutumn_double_pass2.frag
+
+![ChangeToAutumn_changing2](Shadertoy/Change To Autumn/ChangeToAutumn_changing2.png)
+
+
 
 ### 滤镜后
 

@@ -6,7 +6,6 @@ const vec3 rgbRatio=vec3(1.5608,.7608,.7608);//色彩调节参数
 const vec4 color_a=vec4(1.,0.,0.,1.);
 const vec4 color_b=vec4(1.,1.,0.,1.);
 
-const float pi=3.141592653;
 const float durationTime=2.;
 const int centerCnt=100;
 
