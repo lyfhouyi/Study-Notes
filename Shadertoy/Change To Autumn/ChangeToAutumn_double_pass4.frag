@@ -1,4 +1,4 @@
-#iChannel0"file://img3.jpg"
+#iChannel0"file://img2.jpg"
 #iChannel1"file://RandomTexture.jpg"
 
 const float durationTime=4.;
@@ -128,7 +128,7 @@ void mainImage(out vec4 fragColor,in vec2 fragCoord)
     //色彩变换
     if(hsv.x>45.0 && hsv.x<=165.0){
         hsv.x = 56.25 - hsv.x/4.0;
-        // hsv.y *= 0.9;
+        hsv.y *= 1.3;
         // hsv.z *= 1.2;
         // hsv.z = 0.0;
     }
@@ -138,4 +138,5 @@ void mainImage(out vec4 fragColor,in vec2 fragCoord)
     //溶解显示
     float mixRatio = smoothstep(0.7*time,1.0*time,texture2D(iChannel1,uv).r);
     fragColor= mix(colorAutumn,colorBase,mixRatio);
+    // fragColor= colorAutumn;
 }
