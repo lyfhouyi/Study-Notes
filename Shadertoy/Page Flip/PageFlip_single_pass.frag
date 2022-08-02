@@ -2,23 +2,26 @@
 #iChannel1"file://img2.jpg"
 
 const float pi=3.141592653;
-const float durationTime=2.;//翻页时长
-const vec2 direction=normalize(vec2(-.55,-5.));//翻页方向-轴线
+const float durationTime=6.;//翻页时长
 
 //翻页特效
 void mainImage(out vec4 fragColor,in vec2 fragCoord)
 {
-    vec2 directionGeneratorFast=normalize(vec2(-1.,-5.));//翻页方向-快母线
+    float time=fract(iTime/durationTime);//特效开始时长
+
+    vec2 direction=normalize(vec2(-.0-2.0*time,-5.));//翻页方向-轴线
+    vec2 directionGeneratorFast=normalize(vec2(-.5-2.0*time,-5.));//翻页方向-快母线
     vec2 directionGeneratorSlow=normalize(2.*direction-directionGeneratorFast);//翻页方向-慢母线
+    float vAxis=3.5*iResolution.x/durationTime;//中轴运动速度
+
     float cosFastCenter=dot(directionGeneratorFast,direction);//快母线与中轴夹角余弦
     // float cosCenterSlow = dot(direction,directionGeneratorSlow);//中轴与慢母线夹角余弦
     
     // float ratio=.4*time;
-    vec2 uv=fragCoord/iResolution.xy;
-    float time=fract(iTime/durationTime);//特效开始时长
-    float vAxis=2.5*iResolution.x/durationTime;//中轴运动速度
     // vec2 axisCoord=vec2(iResolution.x-time*vAxis*durationTime,0.);//中轴与横轴交点坐标
     vec2 peakCoord=vec2(1.8*iResolution.x-time*vAxis*durationTime,2.*iResolution.y);//圆锥顶点坐标
+    
+    vec2 uv=fragCoord/iResolution.xy;
     float cosCurCenter=dot(normalize(fragCoord-peakCoord),direction);//当前坐标与中轴夹角余弦
     vec3 crossCurCenter=cross(vec3(fragCoord-peakCoord,0.),vec3(direction,0.));
     
@@ -44,7 +47,7 @@ void mainImage(out vec4 fragColor,in vec2 fragCoord)
     //若当前像素处于书背范围，则计算对应折叠处的纹理坐标
     float angle=.5*pi-asin(disCurCenter/r);//折叠角度
     // float arcLength=r*angle;//弧长
-    float arcLength=2.5*time*(r*angle);//弧长
+    float arcLength=1.8*time*(r*angle);//弧长
     float texX=(iResolution.x-arcLength)/iResolution.x;
     
     float x1=peakCoord.x-peakCoord.y*directionGeneratorSlow.x/directionGeneratorSlow.y;
