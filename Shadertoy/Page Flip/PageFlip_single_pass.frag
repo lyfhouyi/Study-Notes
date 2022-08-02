@@ -43,7 +43,6 @@ void mainImage(out vec4 fragColor,in vec2 fragCoord)
             posState=-1;//处于下一页
         }
     }
-    
     //若当前像素处于书背范围，则计算对应折叠处的纹理坐标
     float angle=.5*pi-asin(disCurCenter/r);//折叠角度
     // float arcLength=r*angle;//弧长

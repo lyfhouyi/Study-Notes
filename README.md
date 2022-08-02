@@ -53,7 +53,7 @@
 
 ### 过程中_2
 
-变化过程按纹理扩散。
+变化过程按纹理扩散。使用 smoothstep() 可以实现无显著边界的渐变。
 
 > ChangeToAutumn_double_pass2.frag
 
