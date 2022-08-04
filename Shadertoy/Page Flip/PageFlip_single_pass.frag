@@ -49,8 +49,8 @@ void mainImage(out vec4 fragColor,in vec2 fragCoord)
     float arcLength=1.8*time*(r*angle);//弧长
     float texX=(iResolution.x-arcLength)/iResolution.x;
     
-    float x1=peakCoord.x-peakCoord.y*directionGeneratorSlow.x/directionGeneratorSlow.y;
-    float x2=peakCoord.x+(iResolution.y-peakCoord.y)*directionGeneratorSlow.x/directionGeneratorSlow.y;
+    float x1=peakCoord.x-peakCoord.y*directionGeneratorSlow.x/directionGeneratorSlow.y;//慢母线与屏幕下边界交点 x 坐标
+    float x2=peakCoord.x+(iResolution.y-peakCoord.y)*directionGeneratorSlow.x/directionGeneratorSlow.y;//慢母线与屏幕上边界交点 x 坐标
     
     float texY_zero=dot(vec2(x1,0.)-peakCoord,directionGeneratorFast);
     float texY_one=dot(vec2(x2,iResolution.y)-peakCoord,directionGeneratorFast);
