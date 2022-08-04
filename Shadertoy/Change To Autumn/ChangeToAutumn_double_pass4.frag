@@ -20,13 +20,9 @@ vec3 rgb2hsv(vec3 colorRGB){
     float minRGB=minInRGB(colorRGB).x;
     float maxRGB=maxInRGB(colorRGB).x;
     float deltaRGB=maxRGB-minRGB;
-    float h,s,v;
-    v=maxRGB;
-    if(maxRGB!=0.){
-        s=deltaRGB/maxRGB;
-    }else{
-        s=0.;
-    }
+    float h;
+    float s=maxRGB==0.?0.:deltaRGB/maxRGB;
+    float v=maxRGB;
     
     if(s<=0.){
         h=-1.f;
@@ -40,10 +36,7 @@ vec3 rgb2hsv(vec3 colorRGB){
         }
     }
     
-    h=h*60.;
-    if(h<0.){
-        h+=360.;
-    }
+    h=mod(h*60.+360.,360.);
     return vec3(h,s*1000.,v*1000.);
 }
 
@@ -123,20 +116,20 @@ void mainImage(out vec4 fragColor,in vec2 fragCoord)
     float time=sin(iTime/durationTime)+1.;
     
     vec4 colorBase=texture2D(iChannel0,uv);
-    vec3 hsv=rgb2hsv(colorBase.rgb); 
-
+    vec3 hsv=rgb2hsv(colorBase.rgb);
+    
     //色彩变换
-    if(hsv.x>45.0 && hsv.x<=165.0){
-        hsv.x = 56.25 - hsv.x/4.0;
-        hsv.y *= 1.3;
+    if(hsv.x>45.&&hsv.x<=165.){
+        hsv.x=56.25-hsv.x/4.;
+        hsv.y*=1.3;
         // hsv.z *= 1.2;
         // hsv.z = 0.0;
     }
-    vec4 colorAutumn = vec4(1.0);
+    vec4 colorAutumn=vec4(1.);
     colorAutumn.rgb=hsv2rgb(hsv);
-
+    
     //溶解显示
-    float mixRatio = smoothstep(0.7*time,1.0*time,texture2D(iChannel1,uv).r);
-    fragColor= mix(colorAutumn,colorBase,mixRatio);
+    float mixRatio=smoothstep(.7*time,1.*time,texture2D(iChannel1,uv).r);
+    fragColor=mix(colorAutumn,colorBase,mixRatio);
     // fragColor= colorAutumn;
 }

@@ -1,8 +1,17 @@
-#iChannel0"file://img.jpg"
-#iChannel1"file://img2.jpg"
+#iChannel0"file://img2.jpg"
+#iChannel1"file://img.jpg"
 
 const float pi=3.141592653;
+const float e = 2.7182804;
 const float durationTime=6.;//翻页时长
+
+float sigmoid(float x){
+    return (1.0)/(1.0 + pow(e,-x));
+}
+
+float sigmoid_1(float y){
+    return -log(1.0/y-1.0);
+}
 
 //翻页特效
 void mainImage(out vec4 fragColor,in vec2 fragCoord)
@@ -49,23 +58,28 @@ void mainImage(out vec4 fragColor,in vec2 fragCoord)
     float arcLength=1.8*time*(r*angle);//弧长
     float texX=(iResolution.x-arcLength)/iResolution.x;
     
-    float x1=peakCoord.x-peakCoord.y*directionGeneratorSlow.x/directionGeneratorSlow.y;//慢母线与屏幕下边界交点 x 坐标
-    float x2=peakCoord.x+(iResolution.y-peakCoord.y)*directionGeneratorSlow.x/directionGeneratorSlow.y;//慢母线与屏幕上边界交点 x 坐标
+    vec2 coorBottom=vec2 (peakCoord.x+(0.1*iResolution.y-peakCoord.y)*directionGeneratorSlow.x/directionGeneratorSlow.y,0.1*iResolution.y);//慢母线与屏幕下边界交点 x 坐标
+    vec2 coorTop=vec2 (peakCoord.x+(iResolution.y-peakCoord.y)*directionGeneratorSlow.x/directionGeneratorSlow.y,iResolution.y);//慢母线与屏幕上边界交点 x 坐标
     
-    float texY_zero=dot(vec2(x1,0.)-peakCoord,directionGeneratorFast);
-    float texY_one=dot(vec2(x2,iResolution.y)-peakCoord,directionGeneratorFast);
+    float texY_zero=dot(coorBottom-peakCoord,directionGeneratorFast);
+    float texY_one=dot(coorTop-peakCoord,directionGeneratorFast);
+    float x=  disCurGeneratorFast/length(coorBottom-peakCoord-alongCurGeneratorFast*directionGeneratorFast);
+    // float texY=(texY_zero-alongCurGeneratorFast)/(texY_zero-texY_one)+0.05*sin(x*2.0*pi);
+    float y = (texY_zero-alongCurGeneratorFast)/(texY_zero-texY_one)+0.02*sigmoid_1(x);
+    // y=clamp(y,0.2,1.0);
     float texY=(texY_zero-alongCurGeneratorFast)/(texY_zero-texY_one);
-    
+
     // float texY=(length(fragCoord-peakCoord-disCurCenter*direction) + r*direction.y/direction.x)/iResolution.y;
     vec2 unwrappedTextureCoord=vec2(texX,texY);//折叠处的纹理坐标
-    if(texY<0.){
+    if(posState==0 && (y<0.||false)){
         posState=1;
     }
     
+
     // fragColor=vec4(1.0,0.0,0.0,1.0);
     switch(posState){
         case 1:fragColor=texture2D(iChannel0,uv);break;//当前页
-        case 0:fragColor=texture2D(iChannel0,unwrappedTextureCoord);break;//书背
+        case 0:fragColor=vec4(vec3(dot(vec3(0.299,0.587,0.114),texture2D(iChannel0,unwrappedTextureCoord).rgb)),1.0);break;//书背
         case-1:fragColor=texture2D(iChannel1,uv);break;//下一页
     }
 }
