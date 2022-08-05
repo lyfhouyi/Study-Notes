@@ -1,4 +1,4 @@
-#iChannel0"file://img2.jpg"
+#iChannel0"file://123.jpg"
 #iChannel1"file://img.jpg"
 
 const float pi=3.141592653;
