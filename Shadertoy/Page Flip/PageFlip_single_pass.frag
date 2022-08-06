@@ -1,4 +1,4 @@
-#iChannel0"file://123.jpg"
+#iChannel0"file://123.png"
 #iChannel1"file://img.jpg"
 
 const float pi=3.141592653;
@@ -56,6 +56,7 @@ void mainImage(out vec4 fragColor,in vec2 fragCoord)
     float angle=.5*pi-asin(disCurCenter/r);//折叠角度
     // float arcLength=r*angle;//弧长
     float arcLength=1.8*time*(r*angle);//弧长
+    arcLength=1.8*time*disCurGeneratorFast;
     float texX=(iResolution.x-arcLength)/iResolution.x;
     
     vec2 coorBottom=vec2 (peakCoord.x+(0.1*iResolution.y-peakCoord.y)*directionGeneratorSlow.x/directionGeneratorSlow.y,0.1*iResolution.y);//慢母线与屏幕下边界交点 x 坐标
@@ -75,11 +76,14 @@ void mainImage(out vec4 fragColor,in vec2 fragCoord)
         posState=1;
     }
     
-
+    vec3 il = vec3(dot(vec3(0.299,0.587,0.114),texture2D(iChannel0,unwrappedTextureCoord).rgb));
+    // il = step(vec3(0.5),il);
+    il = mix(0.8*il,vec3(1.0),0.6);
+    vec3 il2 = texture2D(iChannel0,unwrappedTextureCoord).rrr;
     // fragColor=vec4(1.0,0.0,0.0,1.0);
     switch(posState){
         case 1:fragColor=texture2D(iChannel0,uv);break;//当前页
-        case 0:fragColor=vec4(vec3(dot(vec3(0.299,0.587,0.114),texture2D(iChannel0,unwrappedTextureCoord).rgb)),1.0);break;//书背
+        case 0:fragColor=vec4(il,0.1);break;//书背
         case-1:fragColor=texture2D(iChannel1,uv);break;//下一页
     }
 }

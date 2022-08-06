@@ -9,9 +9,9 @@ void mainImage(out vec4 fragColor,in vec2 fragCoord)
     float distanceBase=length(uv-vec2(.5));
     vec2 directionBase=normalize(uv-vec2(.5));
     
-    float distanceR=distanceBase+splitRatio*sin(iTime);
+    float distanceR=distanceBase+splitRatio*sin(10.0);
     float distanceG=distanceBase;
-    float distanceB=distanceBase-splitRatio*sin(iTime);
+    float distanceB=distanceBase-splitRatio*sin(10.0);
     
     vec2 coordR=distanceR*directionBase+vec2(.5);
     vec2 coordG=distanceG*directionBase+vec2(.5);

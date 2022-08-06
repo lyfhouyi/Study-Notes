@@ -25,7 +25,7 @@ vec3 rgb2hsv(vec3 colorRGB){
     float v=maxRGB;
     
     if(s<=0.){
-        h=-1.f;
+        h=-1.;
     }else{
         if(colorRGB.r==maxRGB){
             h=(colorRGB.g-colorRGB.b)/deltaRGB;
@@ -55,15 +55,15 @@ vec3 hsv2rgb(vec3 colorHSV){
         h=0.;
     }
     
-    RGB_max=v*1.f;
-    RGB_min=RGB_max*(1000.-s)/1000.f;
+    RGB_max=v*1.;
+    RGB_min=RGB_max*(1000.-s)/1000.;
     
     i=floor(h/60.);
     difs=mod(h,60.);/* factorial part of h */
     
     
     /* RGB adjustment amount by hue */
-    RGB_Adj=(RGB_max-RGB_min)*difs/60.f;
+    RGB_Adj=(RGB_max-RGB_min)*difs/60.;
     
     switch(int(i)){
         case 0:

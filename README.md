@@ -78,3 +78,32 @@
 > RGBSplit_single_pass.frag
 
 ![RGBSplit_single_pass](Shadertoy/RGB Split/RGBSplit_single_pass.png)
+
+## Tv Open-电视开启
+
+包含白色开场、纵向压缩、水平抖动三部分。
+
+一次 pass 即可实现。
+
+> TvOpen_single_pass.frag
+
+### 白色开场
+
+使用椭圆控制黑白混合比例。
+
+![TvOpen_single_pass1](Shadertoy/Tv Open/TvOpen_single_pass1.png)
+
+### 纵向压缩
+
+纹理压缩，使用 z 分量控制混合比例。
+
+![TvOpen_single_pass2](Shadertoy/Tv Open/TvOpen_single_pass2.png)
+
+
+
+### 水平抖动
+
+包括 RGB 颜色分离、黑色条纹、纹理偏移三部分。
+
+![TvOpen_single_pass3](Shadertoy/Tv Open/TvOpen_single_pass3.png)
+
