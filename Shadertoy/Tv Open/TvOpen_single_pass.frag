@@ -1,5 +1,5 @@
 #iChannel0"file://img3.jpg"
-#iChannel1"file://img2.png"
+#iChannel1"file://background.jpg"
 
 const float durationTime=6.;//特效时长
 const float fps=20.;//帧率
