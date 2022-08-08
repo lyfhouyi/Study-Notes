@@ -2,7 +2,7 @@
 #iChannel1"file://background.jpg"
 
 const float durationTime=6.;//特效时长
-const float fps=20.;//帧率
+const float fps=30.;//帧率
 const float pi=3.141592653;
 
 //计算是否在椭圆内，椭圆心(0.5,0.5)，长轴 majorAxis，短轴 minorAxis
@@ -19,8 +19,9 @@ float Ellipse(vec2 uv,float majorAxis,float minorAxis){
 float calcRatioOpen(vec2 uv,float frameNo){
     float r=frameNo/4.;
     float ratio1=Ellipse(uv,.9*r,.7*r);
-    float ratio2=1.-3.*texture2D(iChannel1,uv).b;
-    return min(ratio1,ratio2);
+    float ratio2=1.-clamp(2.*texture2D(iChannel1,uv).b,0.,1.);
+    float mixRatio=smoothstep(.5*r,r,length(uv-.5));
+    return mix(ratio1,ratio2,mixRatio);
 }
 
 float calcRatioClose(vec2 uv,float frameNo){
@@ -35,7 +36,19 @@ vec3 squeeze(vec2 uv,float frameNo){
     float yRatio=abs(uv.y-.5)/.5;
     vec3 ret;
     ret.y=(uv.y-.5+.5*r)/r;
-    ret.x=uv.x+.06*sin(45.*r*ret.y);
+    ret.x=uv.x+.08*cos(45.*r*ret.y);
+    ret.z=1.-smoothstep(.85,1.,yRatio/r);//调整清晰度
+    return ret;
+}
+
+//计算区域显示后的坐标
+vec3 area(vec2 uv,float frameNo){
+    float r=(frameNo-13.)/6.;
+    float yRatio=abs(uv.y-.5)/.5;
+    vec3 ret=vec3(uv,1.);
+    float frequency=55.*(uv.y-.5+.5*r);
+    float amplification=.15*(1.-r*r);
+    ret.x=uv.x+amplification*sin(frequency-.5*pi);
     ret.z=1.-smoothstep(.85,1.,yRatio/r);//调整清晰度
     return ret;
 }
@@ -47,19 +60,21 @@ float stripe(vec2 uv){
     return 1.-yRatio;
 }
 
+// RGB 分离
+vec3 rgbSplit(vec2 uv,float offset){
+    vec3 color;
+    color.r=texture2D(iChannel0,uv-offset).r;
+    color.g=texture2D(iChannel0,uv).g;
+    color.b=texture2D(iChannel0,uv+offset).b;
+    return color;
+}
+
 vec3 getColor(vec2 uv,bool split,bool offset){
     vec3 color;
     //偏移
     uv-=offset?.01:0.;
-    
     //RGB分离
-    if(split==true){
-        color.r=texture2D(iChannel0,uv-.004).r;
-        color.g=texture2D(iChannel0,uv).g;
-        color.b=texture2D(iChannel0,uv+.004).b;
-    }else{
-        color=texture2D(iChannel0,uv).rgb;
-    }
+    color=split?rgbSplit(uv.xy,.004):texture2D(iChannel0,uv.xy).rgb;
     return color;
 }
 
@@ -69,20 +84,24 @@ void mainImage(out vec4 fragColor,in vec2 fragCoord)
     vec2 uv=fragCoord/iResolution.xy;
     float frameNo=floor(mod(iTime*fps,50.))+1.;
     float ratio;
+    bool split;
+    bool offset;
     
     vec3 color=texture2D(iChannel0,uv).rgb;
-    if(frameNo<=12.){
+    if(frameNo<=13.){
         //白色开场
         ratio=frameNo<=7.?calcRatioOpen(uv,frameNo):calcRatioClose(uv,frameNo);
         color=mix(vec3(1.),vec3(0.),ratio);
     }else if(frameNo<=18.){
         //上下挤压
-        vec3 uvSqueezed=squeeze(uv,frameNo);
-        color=mix(vec3(0.),texture2D(iChannel0,uvSqueezed.xy).rgb,uvSqueezed.z);
+        vec3 uvSqueezed=area(uv,frameNo);
+        split=floor(mod(frameNo+7.,12.))<6.;
+        color=split?rgbSplit(uvSqueezed.xy,.004):texture2D(iChannel0,uvSqueezed.xy).rgb;
+        color=mix(vec3(0.),color,uvSqueezed.z);
     }else if(frameNo<=38.){
         //抖动
-        bool split=floor(mod(frameNo+6.,9.))<4.;
-        bool offset=floor(mod(frameNo,2.))==1.;
+        split=floor(mod(frameNo+7.,12.))<6.;
+        offset=floor(mod(frameNo,2.))==1.;
         float stripe=offset?stripe(uv):1.;
         color=mix(vec3(0.),getColor(uv,split,offset),stripe);
     }

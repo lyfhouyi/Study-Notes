@@ -1,4 +1,4 @@
-#iChannel0"file://RandomTextureZZ.jpg"
+#iChannel0"file://RandomTexture.jpg"
 
 void mainImage( out vec4 fragColor, in vec2 fragCoord )
 {
