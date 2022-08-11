@@ -64,7 +64,7 @@ void mainImage(out vec4 fragColor,in vec2 fragCoord)
         color.rgb=mix(vec3(0.),color.rgb,mixRatio);
     }
     
-    if(!onCylinder&&behindAxis&&pointUnwrapped.y>-0.03*iResolution.y){
+    if(!onCylinder&&behindAxis){
         //右方阴影
         // color.rgb=vec3(0.,1.,0.);
         float mixRatio=mix(1.,smoothstep(0.,.3,abs(disCurAxis)/r-1.),.6);

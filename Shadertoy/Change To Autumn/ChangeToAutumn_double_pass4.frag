@@ -161,38 +161,6 @@ void mainImage(out vec4 fragColor,in vec2 fragCoord)
     float time=fract(iTime/durationTime);
     // time=1.;
 
-    // ///////
-    // const int mSize = 19;
-    // const int kSize = (mSize-1)/2;
-    // float kernel[mSize];
-    // vec3 final_colour = vec3(0.0);
-    // flaot 
-    // //create the 1-D kernel
-    // float sigma = 50.0;
-    // float Z = 0.0;
-    // for (int j = 0; j <= kSize; ++j)
-    // {
-    //     kernel[kSize+j] = kernel[kSize-j] = normpdf(float(j), sigma);
-    // }
-
-    // //get the normalization factor (as the gaussian has been clamped)
-    // for (int j = 0; j < mSize; ++j)
-    // {
-    //     Z += kernel[j];
-    // }
-    
-    // //read out the texels
-    // for (int i=-kSize; i <= kSize; ++i)
-    // {
-    //     for (int j=-kSize; j <= kSize; ++j)
-    //     {
-    //         final_colour += kernel[kSize+j]*kernel[kSize+i]*texture(iChannel0, (fragCoord.xy+vec2(float(i),float(j))) / iResolution.xy).rgb;
-    //     }
-    // }
-
-    // ///////
-    float weights[int(2.*kernelSize+1.)*int(2.*kernelSize+1.)];
-
     //计算显示权重
     float greenWeight=0.;
     vec2 pixelStep=vec2(1.)/iResolution.xy;
@@ -209,14 +177,10 @@ void mainImage(out vec4 fragColor,in vec2 fragCoord)
     vec4 colorBase=texture2D(iChannel0,uv);
     vec4 colorAutumn=mix(calcUnGreen(colorBase),calcGreen(colorBase),greenWeight/totalWeight);
     
-    // //溶解显示
-    // float mixRatio=smoothstep(.7*time,1.*time,texture2D(iChannel1,uv).r);
-    // fragColor=mix(colorAutumn,colorBase,mixRatio);
-
-
     float mask =texture2D(iChannel1,uv).r;
     
     float mixRatio = smoothstep(1.0*time,5.0*time,1.0*mask);//对于归一化的mask，第一个参数应该与第三个参数保持一致，其与第二个参数的相对大小决定了mask变化的尾部时长
+    mixRatio = smoothstep(0.0,0.5,abs(mask-time));
     //    float mixRatio = smoothstep(0.3*time,0.5*time,mask);
     //     float mixRatio = step(time,mask);
     // fragColor= mix(colorAutumn,colorBase,mixRatio);
