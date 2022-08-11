@@ -70,7 +70,7 @@ def printBasicInformation(imageArray):
 
 # 查看纹理数据分布
 def checkTexture():
-    image = PIL.Image.open("/Users/e.hou/git/Study-Notes/python/RandomTexture.jpg")
+    image = PIL.Image.open("/Users/e.hou/git/Study-Notes/Shadertoy/Change To Autumn/湍流.jpg")
     imageArray = np.array(image)
     # image.show()
 

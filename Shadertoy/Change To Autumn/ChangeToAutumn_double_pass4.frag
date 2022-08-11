@@ -1,7 +1,10 @@
-#iChannel0"file://img2.jpg"
+#iChannel0"file://test5.jpg"
 #iChannel1"file://RandomTexture.jpg"
 
-const float durationTime=4.;
+const float durationTime=10.;
+const float kernelSize=12.;//滤波核单边尺寸
+const float pi=3.141592653;
+const float sigma=5.;
 
 vec3 maxInRGB(vec3 color){
     float maxValue=max(max(color.r,color.g),color.b);
@@ -11,6 +14,11 @@ vec3 maxInRGB(vec3 color){
 vec3 minInRGB(vec3 color){
     float minValue=min(min(color.r,color.g),color.b);
     return vec3(minValue);
+}
+
+//计算权重
+float gaussianWeight(float distance){
+    return(1./pow(sqrt(2.*pi*pow(sigma,2.)),2.))*exp(-((distance*distance)/(2.*pow(sigma,2.))));
 }
 
 // RGB 转 HSV
@@ -109,27 +117,124 @@ vec3 hsv2rgb(vec3 colorHSV){
     return ret;
 }
 
+//计算绿色部分的颜色变换
+vec4 calcGreen(vec4 colorBase){
+    vec4 color_changed=vec4(1.);
+    vec3 hsv_changed=rgb2hsv(colorBase.rgb);
+    hsv_changed.x=45.+(hsv_changed.x-45.)/10.3;
+    hsv_changed.y*=2.5;
+    hsv_changed.y=clamp(hsv_changed.y,0.,1000.);
+    hsv_changed.z=mix(hsv_changed.z,600.+.4*hsv_changed.z,.4);
+    hsv_changed.z*=1.2;
+    hsv_changed.z=clamp(hsv_changed.z,0.,1000.);
+    color_changed.rgb=hsv2rgb(hsv_changed);
+    color_changed.g*=.8;
+    color_changed.b*=.8;
+    color_changed.rgb*=1.2;
+    return color_changed;
+}
+
+//计算非绿色部分的颜色变换
+vec4 calcUnGreen(vec4 colorBase){
+    vec4 color_changed=vec4(1.);
+    vec3 hsv_changed=rgb2hsv(colorBase.rgb);
+    // hsv_change.y *=1.0;
+    // hsv_change.y = clamp(hsv_change.y,0.0,1000.0);
+    hsv_changed.z=mix(hsv_changed.z,600.+.4*hsv_changed.z,.4);
+    hsv_changed.z=clamp(hsv_changed.z,0.,1000.);
+    color_changed.rgb=hsv2rgb(hsv_changed);
+    color_changed.rgb*=1.2;
+    return color_changed;
+}
+
+//判断当前像素是否为绿色部分
+float isGreen(vec4 colorBase){
+    vec3 hsv=rgb2hsv(colorBase.rgb);
+    return(hsv.x>45.&&hsv.x<=200.&&hsv.y>200.?1.0:0.0);
+    // return(hsv.x>45.&&hsv.x<=200.?1.0:0.0);
+}
+
 //树叶变黄特效
 void mainImage(out vec4 fragColor,in vec2 fragCoord)
 {
     vec2 uv=fragCoord/iResolution.xy;
-    float time=sin(iTime/durationTime)+1.;
+    float time=fract(iTime/durationTime);
+    // time=1.;
+
+    // ///////
+    // const int mSize = 19;
+    // const int kSize = (mSize-1)/2;
+    // float kernel[mSize];
+    // vec3 final_colour = vec3(0.0);
+    // flaot 
+    // //create the 1-D kernel
+    // float sigma = 50.0;
+    // float Z = 0.0;
+    // for (int j = 0; j <= kSize; ++j)
+    // {
+    //     kernel[kSize+j] = kernel[kSize-j] = normpdf(float(j), sigma);
+    // }
+
+    // //get the normalization factor (as the gaussian has been clamped)
+    // for (int j = 0; j < mSize; ++j)
+    // {
+    //     Z += kernel[j];
+    // }
+    
+    // //read out the texels
+    // for (int i=-kSize; i <= kSize; ++i)
+    // {
+    //     for (int j=-kSize; j <= kSize; ++j)
+    //     {
+    //         final_colour += kernel[kSize+j]*kernel[kSize+i]*texture(iChannel0, (fragCoord.xy+vec2(float(i),float(j))) / iResolution.xy).rgb;
+    //     }
+    // }
+
+    // ///////
+    float weights[int(2.*kernelSize+1.)*int(2.*kernelSize+1.)];
+
+    //计算显示权重
+    float greenWeight=0.;
+    vec2 pixelStep=vec2(1.)/iResolution.xy;
+    float weight;
+    float totalWeight = 0.;
+    for(float j=-kernelSize;j<=kernelSize;j++){
+        for(float i=-kernelSize;i<=kernelSize;i++){
+            weight=gaussianWeight(abs(j)+abs(i));
+            totalWeight+=weight;
+            greenWeight+=isGreen(texture2D(iChannel0,uv+vec2(i,j)*pixelStep))*weight;
+        }
+    }
     
     vec4 colorBase=texture2D(iChannel0,uv);
-    vec3 hsv=rgb2hsv(colorBase.rgb);
+    vec4 colorAutumn=mix(calcUnGreen(colorBase),calcGreen(colorBase),greenWeight/totalWeight);
     
-    //色彩变换
-    if(hsv.x>45.&&hsv.x<=165.){
-        hsv.x=56.25-hsv.x/4.;
-        hsv.y*=1.3;
-        // hsv.z *= 1.2;
-        // hsv.z = 0.0;
+    // //溶解显示
+    // float mixRatio=smoothstep(.7*time,1.*time,texture2D(iChannel1,uv).r);
+    // fragColor=mix(colorAutumn,colorBase,mixRatio);
+
+
+    float mask =texture2D(iChannel1,uv).r;
+    
+    float mixRatio = smoothstep(1.0*time,5.0*time,1.0*mask);//对于归一化的mask，第一个参数应该与第三个参数保持一致，其与第二个参数的相对大小决定了mask变化的尾部时长
+    //    float mixRatio = smoothstep(0.3*time,0.5*time,mask);
+    //     float mixRatio = step(time,mask);
+    // fragColor= mix(colorAutumn,colorBase,mixRatio);
+
+    // fragColor= mix(vec4(vec3(1.0),1.0),vec4(vec3(0.0),1.0),mixRatio);
+
+    if(mixRatio<=0.05){
+    fragColor=vec4(0.0,1.0,0.0,1.0);
     }
-    vec4 colorAutumn=vec4(1.);
-    colorAutumn.rgb=hsv2rgb(hsv);
-    
-    //溶解显示
-    float mixRatio=smoothstep(.7*time,1.*time,texture2D(iChannel1,uv).r);
-    fragColor=mix(colorAutumn,colorBase,mixRatio);
-    // fragColor= colorAutumn;
+
+    if(mixRatio<=0.0){
+    fragColor=vec4(1.0,0.0,0.0,1.0);
+    }
+    if(mixRatio>=1.0){
+    fragColor=vec4(0.0,0.0,1.0,1.0);
+    }
+
+
+    // fragColor=colorAutumn;
+    // fragColor= colorBase;
 }
