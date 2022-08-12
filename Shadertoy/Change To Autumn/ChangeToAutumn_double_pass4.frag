@@ -1,7 +1,7 @@
-#iChannel0"file://test5.jpg"
+#iChannel0"file://test3.jpg"
 #iChannel1"file://RandomTexture.jpg"
 
-const float durationTime=10.;
+const float durationTime=30.;
 const float kernelSize=12.;//滤波核单边尺寸
 const float pi=3.141592653;
 const float sigma=5.;
@@ -130,7 +130,7 @@ vec4 calcGreen(vec4 colorBase){
     color_changed.rgb=hsv2rgb(hsv_changed);
     color_changed.g*=.8;
     color_changed.b*=.8;
-    color_changed.rgb*=1.2;
+    color_changed.rgb*=1.1;
     return color_changed;
 }
 
@@ -150,7 +150,12 @@ vec4 calcUnGreen(vec4 colorBase){
 //判断当前像素是否为绿色部分
 float isGreen(vec4 colorBase){
     vec3 hsv=rgb2hsv(colorBase.rgb);
-    return(hsv.x>45.&&hsv.x<=200.&&hsv.y>200.?1.0:0.0);
+    float ret = 0.0;
+    if(hsv.x>45.&&hsv.x<=200.){
+        ret = smoothstep(100.0,300.0,hsv.y);
+    }
+    return ret;
+    // return(hsv.x>45.&&hsv.x<=200.&&hsv.y>200.?1.0:0.0);
     // return(hsv.x>45.&&hsv.x<=200.?1.0:0.0);
 }
 
@@ -158,8 +163,17 @@ float isGreen(vec4 colorBase){
 void mainImage(out vec4 fragColor,in vec2 fragCoord)
 {
     vec2 uv=fragCoord/iResolution.xy;
-    float time=fract(iTime/durationTime);
-    // time=1.;
+    float progress=fract(iTime/durationTime);
+    float time;
+
+    if(progress<0.1){
+        time = 0.5*progress;
+    }else if(progress<0.9){
+        time = 0.05+(progress-0.1)*0.45/0.8;
+    }else{
+        time = 0.5 + 5.0*(progress - 0.9);
+    }
+    // time = 0.5;
 
     //计算显示权重
     float greenWeight=0.;
@@ -177,27 +191,35 @@ void mainImage(out vec4 fragColor,in vec2 fragCoord)
     vec4 colorBase=texture2D(iChannel0,uv);
     vec4 colorAutumn=mix(calcUnGreen(colorBase),calcGreen(colorBase),greenWeight/totalWeight);
     
-    float mask =texture2D(iChannel1,uv).r;
-    
+    float mask =texture2D(iChannel1,uv.yx).r;
+    // mask = pow(mask,0.5);
+    mask=uv.x;
+    mask = pow(mask,0.5);
+    mask *= smoothstep(-0.5,0.5,time);
+    // mask *=time;
+
+    mask  =1.0-mask;
     float mixRatio = smoothstep(1.0*time,5.0*time,1.0*mask);//对于归一化的mask，第一个参数应该与第三个参数保持一致，其与第二个参数的相对大小决定了mask变化的尾部时长
-    mixRatio = smoothstep(0.0,0.5,abs(mask-time));
     //    float mixRatio = smoothstep(0.3*time,0.5*time,mask);
     //     float mixRatio = step(time,mask);
-    // fragColor= mix(colorAutumn,colorBase,mixRatio);
+    // mixRatio = mixRatio* smoothstep(-0.5,0.5,time);
+    // mixRatio = 1.0;
+    fragColor= mix(colorAutumn,colorBase,mixRatio);
 
     // fragColor= mix(vec4(vec3(1.0),1.0),vec4(vec3(0.0),1.0),mixRatio);
 
-    if(mixRatio<=0.05){
-    fragColor=vec4(0.0,1.0,0.0,1.0);
-    }
+    // if(mixRatio<=0.1){
+    // fragColor=vec4(0.0,1.0,0.0,1.0);
+    // }
 
-    if(mixRatio<=0.0){
-    fragColor=vec4(1.0,0.0,0.0,1.0);
-    }
-    if(mixRatio>=1.0){
-    fragColor=vec4(0.0,0.0,1.0,1.0);
-    }
+    // if(mixRatio<=0.0){
+    // fragColor=vec4(1.0,0.0,0.0,1.0);
+    // }
+    // if(mixRatio>=1.0){
+    // fragColor=vec4(0.0,0.0,1.0,1.0);
+    // }
 
+    // fragColor = vec4(vec3(mask),1.0);
 
     // fragColor=colorAutumn;
     // fragColor= colorBase;
