@@ -113,3 +113,24 @@
 
 ## Page Flip-翻页
 
+包含纹理贴图、添加阴影、抗锯齿三部分。
+
+### 纹理贴图
+
+将当前页右下角与圆柱面固接，通过圆柱向左侧滚动实现翻页效果。通过计算当前点坐标按弧面展开坐标判断当前点是否处于书背 or 当前页扭曲处。圆柱运动方向与圆柱轴线方向垂直，可调参数有两个：圆柱运动方向、圆柱半径。
+
+> PageFlip_pass_1.frag
+
+![PageFlip_pass_1](Shadertoy/Page Flip/PageFlip_pass_1.png)
+
+### 添加阴影
+
+分别在书背左方、下方、右方添加了三处阴影，通过将当前颜色与黑色混合实现。
+
+### 抗锯齿
+
+对书背左方、右方处进行了抗锯齿处理，通过第二次 pass 的高斯模糊实现。
+
+> PageFlip_double_pass.frag
+
+![PageFlip_double_pass](Shadertoy/Page Flip/PageFlip_double_pass.png)
