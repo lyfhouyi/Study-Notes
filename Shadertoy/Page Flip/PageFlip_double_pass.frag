@@ -1,4 +1,4 @@
-#iChannel0"file://PageFlip_single_pass2.frag"
+#iChannel0"file://PageFlip_pass_1.frag"
 
 const float kernelSize=3.;//滤波核单边尺寸
 const float pi=3.141592653;
