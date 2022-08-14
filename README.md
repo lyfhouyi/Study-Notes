@@ -134,3 +134,23 @@
 > PageFlip_double_pass.frag
 
 ![PageFlip_double_pass](Shadertoy/Page Flip/PageFlip_double_pass.png)
+
+
+
+## FXAA
+
+### 原图
+
+![FXAA_raw](Shadertoy/FXAA/FXAA_raw.png)
+
+### FXAA-Quality 反走样
+
+> FXAA-Quality_single_pass.frag
+
+![FXAA-Quality_single_pass](Shadertoy/FXAA/FXAA-Quality_single_pass.png)
+
+### FXAA-Console 反走样
+
+> FXAA-Console_single_pass.frag
+
+![FXAA-Console_single_pass](Shadertoy/FXAA/FXAA-Console_single_pass.png)
