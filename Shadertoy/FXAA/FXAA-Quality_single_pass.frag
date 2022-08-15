@@ -11,7 +11,7 @@ float calcLuma(vec3 color){
     return dot(vec3(.213,.715,.072),color);
 }
 
-//FXAA-一次 pass
+// FXAA-一次 pass
 void mainImage(out vec4 fragColor,in vec2 fragCoord)
 {
     vec2 uv=fragCoord/iResolution.xy;
