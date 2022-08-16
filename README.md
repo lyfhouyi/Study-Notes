@@ -139,6 +139,8 @@
 
 ## FXAA
 
+基于视觉的抗锯齿。
+
 ### 原图
 
 ![FXAA_raw](Shadertoy/FXAA/FXAA_raw.png)
@@ -159,6 +161,10 @@
 
 ## LUT Filter-色彩滤镜
 
+通过 LUT 查表得到颜色映射值。
+
+> OrientationBlur_single_pass.frag
+
 ### 原图
 
 * 原始色彩图
@@ -178,3 +184,23 @@
 * 滤镜后 LUT 图
 
   ![lut_autumn](Shadertoy/LUT Filter/lut_autumn.jpg)
+
+
+
+## Orientation Blur-方向模糊
+
+在指定方向上加权平均。
+
+> OrientationBlur_single_pass.frag
+
+### 原图
+
+![OrientationBlur_raw](Shadertoy/Orientation Blur/OrientationBlur_raw.png)
+
+### 定向模糊
+
+![OrientationBlur_single_pass_oriented](Shadertoy/Orientation Blur/OrientationBlur_single_pass_oriented.png)
+
+### 径向模糊
+
+![OrientationBlur_single_pass_radial](Shadertoy/Orientation Blur/OrientationBlur_single_pass_radial.png)
