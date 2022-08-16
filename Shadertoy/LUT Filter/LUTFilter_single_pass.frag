@@ -1,5 +1,5 @@
-#iChannel0"file://test3.jpg"
-#iChannel1"file://lut_blue.png"
+#iChannel0"file://test5.jpg"
+#iChannel1"file://lut_autumn.jpg"
 
 
 // LUT 滤镜-一次 pass
