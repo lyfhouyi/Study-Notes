@@ -193,7 +193,7 @@ void mainImage(out vec4 fragColor,in vec2 fragCoord)
     
     float mask =texture2D(iChannel1,uv.yx).r;
     // mask = pow(mask,0.5);
-    mask=uv.x;
+    mask=uv.y;
     mask = pow(mask,0.5);
     mask *= smoothstep(-0.5,0.5,time);
     // mask *=time;

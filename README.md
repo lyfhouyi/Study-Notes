@@ -204,3 +204,19 @@
 ### 径向模糊
 
 ![OrientationBlur_single_pass_radial](Shadertoy/Orientation Blur/OrientationBlur_single_pass_radial.png)
+
+
+
+## Unsharpen Mask-USM 锐化
+
+通过在原图上叠加高频分量实现锐化。radius 控制低通滤波核半径，amount 控制叠加的高频分量程度，threshold 为是否锐化阈值。
+
+> UnsharpenMask_single_pass.frag
+
+### 原图
+
+![Unsharpen Mask_raw](Shadertoy/Unsharpen Mask/Unsharpen Mask_raw.png)
+
+### 锐化后
+
+![UnsharpenMask_single_pass](Shadertoy/Unsharpen Mask/UnsharpenMask_single_pass.png)
