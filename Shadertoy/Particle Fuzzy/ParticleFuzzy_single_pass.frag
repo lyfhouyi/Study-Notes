@@ -1,7 +1,7 @@
 #iChannel0"file://img.jpg"
 
-const float radius = 0.01;
-const float durationTime =6.0;
+const float radius = 0.05;
+const float durationTime =3.0;
 
 
 
@@ -13,7 +13,7 @@ float random(vec2 st){
 //返回 0 - 1 之间的随机向量
 vec2 random2f(vec2 st){
     float randomF = random(st);
-    return vec2()
+    return vec2(random(st+randomF),random(st-randomF));
 }
 
 //粒子模糊-一次 pass
@@ -21,12 +21,10 @@ void mainImage(out vec4 fragColor,in vec2 fragCoord)
 {
     vec2 uv=fragCoord/iResolution.xy;
     float progress=fract(iTime/durationTime);
-    float time;
+    float time = 1.0-progress;
+    time =0.5;
 
-    vec2 uvRandom = uv+radius*(2.0*random(uv)-1.0);
+    vec2 uvRandom = uv+radius*(2.0*random2f(uv)-1.0)*time;
     
-    vec4 colorBase=texture2D(iChannel0,uvRandom);
-    
-    float mixRatio=sin(.5*iTime);
-    fragColor=colorBase;
+    fragColor=texture2D(iChannel0,uvRandom);
 }
