@@ -240,3 +240,12 @@
 
 ![PageFlip_double_pass](Shadertoy/Page Flip/PageFlip_double_pass.png)
 
+
+
+## Magnify-放大
+
+> Magnify_single_pass.frag
+
+### 过程中
+
+![Magnify_single_pass](Shadertoy/Magnify/Magnify_single_pass.png)

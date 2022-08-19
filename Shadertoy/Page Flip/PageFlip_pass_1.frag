@@ -3,7 +3,7 @@
 
 const float pi=3.141592653;
 
-//翻页特效-第一次 pass，翻页效果
+//翻页转场-第一次 pass，翻页效果
 void mainImage(out vec4 fragColor,in vec2 fragCoord)
 {
     float r=.15*iResolution.x;//圆柱半径
