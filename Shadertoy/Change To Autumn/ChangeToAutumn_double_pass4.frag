@@ -200,6 +200,7 @@ void mainImage(out vec4 fragColor,in vec2 fragCoord)
 
     mask  =1.0-mask;
     float mixRatio = smoothstep(1.0*time,5.0*time,1.0*mask);//对于归一化的mask，第一个参数应该与第三个参数保持一致，其与第二个参数的相对大小决定了mask变化的尾部时长
+    // float mixRatio = smoothstep(time - 0.3,time,1.0*mask-0.3);//对于归一化的mask，第一个参数应该与第三个参数保持一致，其与第二个参数的相对大小决定了mask变化的尾部时长
     //    float mixRatio = smoothstep(0.3*time,0.5*time,mask);
     //     float mixRatio = step(time,mask);
     // mixRatio = mixRatio* smoothstep(-0.5,0.5,time);

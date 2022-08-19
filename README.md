@@ -1,5 +1,5 @@
-# Shadertoy
-常用的特效 shader
+# 滤镜特效
+滤镜特效，单输入流
 
 ## Gaussian Blur-高斯模糊
 
@@ -60,7 +60,6 @@
 ![ChangeToAutumn_changing2](Shadertoy/Change To Autumn/ChangeToAutumn_changing2.png)
 
 
-
 ### 滤镜后
 
 > ChangeToAutumn_double_pass.frag
@@ -108,32 +107,6 @@
 包括 RGB 颜色分离、黑色条纹、纹理偏移三部分。
 
 ![TvOpen_single_pass3](Shadertoy/Tv Open/TvOpen_single_pass3.png)
-
-
-
-## Page Flip-翻页
-
-包含纹理贴图、添加阴影、抗锯齿三部分。
-
-### 纹理贴图
-
-将当前页右下角与圆柱面固接，通过圆柱向左侧滚动实现翻页效果。通过计算当前点坐标按弧面展开坐标判断当前点是否处于书背 or 当前页扭曲处。圆柱运动方向与圆柱轴线方向垂直，可调参数有两个：圆柱运动方向、圆柱半径。
-
-> PageFlip_pass_1.frag
-
-![PageFlip_pass_1](Shadertoy/Page Flip/PageFlip_pass_1.png)
-
-### 添加阴影
-
-分别在书背左方、下方、右方添加了三处阴影，通过将当前颜色与黑色混合实现。
-
-### 抗锯齿
-
-对书背左方、右方处进行了抗锯齿处理，通过第二次 pass 的高斯模糊实现。
-
-> PageFlip_double_pass.frag
-
-![PageFlip_double_pass](Shadertoy/Page Flip/PageFlip_double_pass.png)
 
 
 
@@ -220,3 +193,50 @@
 ### 锐化后
 
 ![UnsharpenMask_single_pass](Shadertoy/Unsharpen Mask/UnsharpenMask_single_pass.png)
+
+
+
+## Particle Fuzzy-粒子模糊
+
+随机在周围采样贴纹理颜色。
+
+> ParticleFuzzy_single_pass.frag
+
+### 原图
+
+![ParticleFuzzy_raw](Shadertoy/Particle Fuzzy/ParticleFuzzy_raw.png)
+
+### 滤镜后
+
+![ParticleFuzzy_single_pass](Shadertoy/Particle Fuzzy/ParticleFuzzy_single_pass.png)
+
+
+
+# 转场特效
+
+转场特效，双输入流
+
+## Page Flip-翻页
+
+包含纹理贴图、添加阴影、抗锯齿三部分。
+
+### 纹理贴图
+
+将当前页右下角与圆柱面固接，通过圆柱向左侧滚动实现翻页效果。通过计算当前点坐标按弧面展开坐标判断当前点是否处于书背 or 当前页扭曲处。圆柱运动方向与圆柱轴线方向垂直，可调参数有两个：圆柱运动方向、圆柱半径。
+
+> PageFlip_pass_1.frag
+
+![PageFlip_pass_1](Shadertoy/Page Flip/PageFlip_pass_1.png)
+
+### 添加阴影
+
+分别在书背左方、下方、右方添加了三处阴影，通过将当前颜色与黑色混合实现。
+
+### 抗锯齿
+
+对书背左方、右方处进行了抗锯齿处理，通过第二次 pass 的高斯模糊实现。
+
+> PageFlip_double_pass.frag
+
+![PageFlip_double_pass](Shadertoy/Page Flip/PageFlip_double_pass.png)
+
