@@ -1,4 +1,17 @@
+# 基础绘图
+
+包括基础几何图形的绘制及坐标计算。
+
+绘制：椭圆、凸多边形、圆角矩形、线段。
+
+计算：正五边形（方向向上）顶点、两直线交点。
+
+> DrawShape_single_pass.frag
+
+
+
 # 滤镜特效
+
 滤镜特效，单输入流
 
 ## Gaussian Blur-高斯模糊
@@ -166,10 +179,6 @@
 
 > OrientationBlur_single_pass.frag
 
-### 原图
-
-![OrientationBlur_raw](Shadertoy/Orientation Blur/OrientationBlur_raw.png)
-
 ### 定向模糊
 
 ![OrientationBlur_single_pass_oriented](Shadertoy/Orientation Blur/OrientationBlur_single_pass_oriented.png)
@@ -201,10 +210,6 @@
 随机在周围采样贴纹理颜色。
 
 > ParticleFuzzy_single_pass.frag
-
-### 原图
-
-![ParticleFuzzy_raw](Shadertoy/Particle Fuzzy/ParticleFuzzy_raw.png)
 
 ### 滤镜后
 
@@ -249,3 +254,15 @@
 ### 过程中
 
 ![Magnify_single_pass](Shadertoy/Magnify/Magnify_single_pass.png)
+
+
+
+## Shutter-快门
+
+包括正五边形的绘制、线段绘制两部分。
+
+> Shutter_single_pass.frag
+
+### 过程中
+
+![Shutter_single_pass](Shadertoy/Shutter/Shutter_single_pass.png)

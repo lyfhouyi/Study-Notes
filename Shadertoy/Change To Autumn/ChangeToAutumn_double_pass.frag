@@ -1,5 +1,5 @@
 #iChannel0"file://ChangeToAutumn_green_cutout.frag"
-#iChannel1"file://img3.jpg"
+#iChannel1"file://asset/img2.jpg"
 
 const vec3 rgbRatio=vec3(1.5608,.7608,.7608);//色彩调节参数
 // const float exposure=3.;//过曝参数

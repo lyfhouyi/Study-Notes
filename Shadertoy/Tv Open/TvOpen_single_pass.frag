@@ -1,4 +1,4 @@
-#iChannel0"file://img3.jpg"
+#iChannel0"file://asset/img8.jpg"
 #iChannel1"file://background.jpg"
 
 const float durationTime=6.;//特效时长

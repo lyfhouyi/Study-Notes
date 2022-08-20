@@ -1,4 +1,4 @@
-#iChannel0"file://img3.jpg"
+#iChannel0"file://asset/img2.jpg"
 
 // RGB 颜色空间转换至 HSV 颜色空间
 vec3 rgb2hsv(vec3 colorRGB){

@@ -1,4 +1,4 @@
-#iChannel0"file://test5.jpg"
+#iChannel0"file://test.jpg"
 #iChannel1"file://lut_autumn.jpg"
 
 const float durationTime=6.;

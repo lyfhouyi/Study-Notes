@@ -1,5 +1,5 @@
 #iChannel0"file://PageFlip_pass_1.png"
-// #iChannel0"file://img.jpg"
+// #iChannel0"file://asset/img1.jpg"
 
 const float contrastThreshold=.3;
 const float relativeThreshold=.3;

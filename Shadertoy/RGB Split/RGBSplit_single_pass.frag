@@ -1,4 +1,4 @@
-#iChannel0"file://img.jpg"
+#iChannel0"file://asset/img8.jpg"
 
 const float splitRatio=.02;
 

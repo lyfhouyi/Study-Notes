@@ -1,4 +1,4 @@
-#iChannel0"file://img.jpg"
+#iChannel0"file://asset/img4.jpg"
 
 const float kernelSize=12.;//卷积核单边尺寸
 const float pi=3.141592653;

@@ -1,4 +1,4 @@
-#iChannel0"file://img.jpg"
+#iChannel0"file://asset/img9.jpg"
 
 const float radius = 0.05;
 const float durationTime =3.0;

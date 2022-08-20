@@ -1,11 +1,9 @@
 #iChannel0"file://ChangeToAutumn_green_cutout.frag"
-#iChannel1"file://img2.jpg"
+#iChannel1"file://asset/img2.jpg"
 #iChannel2"file://RandomTexture.jpg"
 
 const vec3 rgbRatio=vec3(1.98,.58,.58);//色彩调节参数
 const float durationTime=2.;
-
-
 
 vec3 maxInRGB(vec3 color){
     float maxValue =max(max(color.r,color.g),color.b);

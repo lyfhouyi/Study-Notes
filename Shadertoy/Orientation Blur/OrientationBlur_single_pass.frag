@@ -1,4 +1,4 @@
-#iChannel0"file://img.jpg"
+#iChannel0"file://asset/img0.jpg"
 
 const uint ORIENTED=0x00000001u;//方向模糊
 const uint RADIAL=0x00000002u;//径向模糊

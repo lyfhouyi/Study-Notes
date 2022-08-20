@@ -1,4 +1,4 @@
-#iChannel0"file://img.jpg"
+#iChannel0"file://asset/img9.jpg"
 
 const float durationTime=6.;
 const float pi=3.141592653;

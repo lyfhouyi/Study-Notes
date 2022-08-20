@@ -1,5 +1,5 @@
-#iChannel0"file://123.png"
-#iChannel1"file://img.jpg"
+#iChannel0"file://asset/img8.jpg"
+#iChannel1"file://asset/img0.jpg"
 
 const float pi=3.141592653;
 

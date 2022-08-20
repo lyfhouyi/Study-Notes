@@ -1,5 +1,5 @@
-#iChannel0"file://img.jpg"
-#iChannel1"file://img2.jpg"
+#iChannel0"file://asset/img0.jpg"
+#iChannel1"file://asset/img2.jpg"
 
 const float durationTime=6.;
 const float maxRatio=2.;

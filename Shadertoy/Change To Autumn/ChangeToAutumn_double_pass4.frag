@@ -1,4 +1,4 @@
-#iChannel0"file://test3.jpg"
+#iChannel0"file://asset/img0.jpg"
 #iChannel1"file://RandomTexture.jpg"
 
 const float durationTime=30.;

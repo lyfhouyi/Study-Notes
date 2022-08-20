@@ -1,110 +1,102 @@
-#iChannel0"file://img3.jpg"
-#iChannel1"file://background.jpg"
+#iChannel0"file://asset/img7.jpg"
+#iChannel1"file://asset/img8.jpg"
 
-const float durationTime=6.;//特效时长
-const float fps=30.;//帧率
+const float durationTime=3.;//特效时长
 const float pi=3.141592653;
 
-//计算是否在椭圆内，椭圆心(0.5,0.5)，长轴 majorAxis，短轴 minorAxis
-float Ellipse(vec2 uv,float majorAxis,float minorAxis){
-    if(majorAxis<=0.||minorAxis<=0.){
-        return 1.;
+//计算正五边形（方向向上）顶点坐标：形心坐标 center，变长 edgeLength
+vec2[5]calcPentagon(vec2 center,float edgeLength){
+    center.y=center.y-.5*edgeLength*tan(.3*pi);//计算底边中点坐标
+    vec2 vertex_0=vec2(.5*edgeLength,0.)+center;
+    vec2 vertex_1=vec2(edgeLength*cos(.2*pi),edgeLength*sin(.4*pi))+center;
+    vec2 vertex_2=vec2(0.,edgeLength*sin(.4*pi)+edgeLength*sin(.2*pi))+center;
+    vec2 vertex_3=vec2(-edgeLength*cos(.2*pi),edgeLength*sin(.4*pi))+center;
+    vec2 vertex_4=vec2(-.5*edgeLength,0.)+center;
+    return vec2[5](vertex_0,vertex_1,vertex_2,vertex_3,vertex_4);
+}
+
+//计算两直线交点：直线 A 上两点 lineAP1、lineAP2，直线 B 上两点 lineBP1、lineBP2
+vec2 calcInterPoint(vec2 lineAP1,vec2 lineAP2,vec2 lineBP1,vec2 lineBP2){
+    vec3 dirA=vec3(normalize(lineAP2-lineAP1),0.);
+    vec3 dirB=vec3(normalize(lineBP2-lineBP1),0.);
+    vec3 tmp=vec3(lineBP1-lineAP1,0.);
+    float t=cross(tmp,dirB).z/cross(dirA,dirB).z;
+    return lineAP1+dirA.xy*t;
+}
+
+//绘制凸多边形：定点个数 vertexCnt，顶点数组 vertexs，目前只支持过渡带在边界内
+float convexPolygon(vec2 pt,int vertexCnt,vec2[10]vertexs,bool smoothInner){
+    if(vertexCnt<3){
+        return 0.;
     }
-    uv=uv-vec2(.5);
-    float xDa=(uv.x*uv.x)/(majorAxis*majorAxis);
-    float yDb=(uv.y*uv.y)/(minorAxis*minorAxis);
-    return smoothstep(.6,1.,xDa+yDb);
+    
+    float minDisEdge=iResolution.x*iResolution.y;
+    float maxRange=0.;
+    bool inLeft=true;
+    for(int indexStart=0;indexStart<vertexCnt;indexStart++){
+        int indexEnd=int(mod(float(indexStart)+1.,float(vertexCnt)));
+        maxRange=max(maxRange,length(vertexs[indexEnd]-vertexs[indexStart]));
+        vec3 edgePolygon=normalize(vec3(vertexs[indexEnd]-vertexs[indexStart],0.));
+        vec3 edgePt=normalize(vec3(pt-vertexs[indexStart],0.));
+        float sinTheta=cross(edgePolygon,edgePt).z;
+        float disEdge=length(pt-vertexs[indexStart])*sinTheta;
+        minDisEdge=min(minDisEdge,abs(disEdge));
+        
+        inLeft=indexStart==0?(sinTheta>0.?true:false):inLeft;
+        if(inLeft!=(sinTheta>0.)){
+            return 0.;
+        }
+    }
+    return smoothstep(0.,0.,20.*minDisEdge/maxRange);
 }
 
-float calcRatioOpen(vec2 uv,float frameNo){
-    float r=frameNo/4.;
-    float ratio1=Ellipse(uv,.9*r,.7*r);
-    float ratio2=1.-clamp(2.*texture2D(iChannel1,uv).b,0.,1.);
-    float mixRatio=smoothstep(.5*r,r,length(uv-.5));
-    return mix(ratio1,ratio2,mixRatio);
-}
-
-float calcRatioClose(vec2 uv,float frameNo){
-    float r=(11.-frameNo)/4.;
-    float ratio1=Ellipse(uv,.5+.1*r,.9*r);
-    return ratio1;
-}
-
-//计算纵向压缩后的坐标
-vec3 squeeze(vec2 uv,float frameNo){
-    float r=(frameNo-13.)/6.;
-    float yRatio=abs(uv.y-.5)/.5;
-    vec3 ret;
-    ret.y=(uv.y-.5+.5*r)/r;
-    ret.x=uv.x+.08*cos(45.*r*ret.y);
-    ret.z=1.-smoothstep(.85,1.,yRatio/r);//调整清晰度
-    return ret;
-}
-
-//计算区域显示后的坐标
-vec3 area(vec2 uv,float frameNo){
-    float r=(frameNo-13.)/6.;
-    float yRatio=abs(uv.y-.5)/.5;
-    vec3 ret=vec3(uv,1.);
-    float frequency=55.*(uv.y-.5+.5*r);
-    float amplification=.15*(1.-r*r);
-    ret.x=uv.x+amplification*sin(frequency-.5*pi);
-    ret.z=1.-smoothstep(.85,1.,yRatio/r);//调整清晰度
-    return ret;
-}
-
-//生成横向条纹
-float stripe(vec2 uv){
-    float yRatio=.5*(cos(28.*2.*pi*uv.y)+1.);
-    yRatio*=.1;//调整亮度
-    return 1.-yRatio;
-}
-
-// RGB 分离
-vec3 rgbSplit(vec2 uv,float offset){
-    vec3 color;
-    color.r=texture2D(iChannel0,uv-offset).r;
-    color.g=texture2D(iChannel0,uv).g;
-    color.b=texture2D(iChannel0,uv+offset).b;
-    return color;
-}
-
-vec3 getColor(vec2 uv,bool split,bool offset){
-    vec3 color;
-    //偏移
-    uv-=offset?.01:0.;
-    //RGB分离
-    color=split?rgbSplit(uv.xy,.004):texture2D(iChannel0,uv.xy).rgb;
-    return color;
+//绘制线段：起点 vertexStart，终点 vertexEnd，过渡带单侧宽度 lineWidth，过渡带是否在双侧或只在左侧 smoothBilateral
+float drawLineSegment(vec2 pt,vec2 vertexStart,vec2 vertexEnd,float lineWidth,bool smoothBilateral){
+    vec3 edgeRay=normalize(vec3(vertexEnd-vertexStart,0.));
+    vec3 edgePtStart=normalize(vec3(pt-vertexStart,0.));
+    vec3 edgePtEnd=normalize(vec3(pt-vertexEnd,0.));
+    float sinThetaStart=cross(edgeRay,edgePtStart).z;
+    float cosThetaStart=dot(edgeRay,edgePtStart);
+    float cosThetaEnd=dot(edgeRay,edgePtEnd);
+    float disEdge=length(pt-vertexStart)*sinThetaStart;
+    // if(cosThetaStart<0.0 ||cosThetaEnd>0.0||(smoothLeft&&sinThetaStart<0.0)||(!smoothLeft&&sinThetaStart>0.0)){
+        //     return 0.0;
+    // }
+    if(cosThetaStart<0.||cosThetaEnd>0.){
+        return 0.;
+    }
+    if(!smoothBilateral&&sinThetaStart<0.){
+        //非双侧过渡，则需去除右侧过渡带
+        return 0.;
+    }
+    return 1.-smoothstep(0.,1.,abs(disEdge)/lineWidth);
 }
 
 //快门转场-一次 pass
 void mainImage(out vec4 fragColor,in vec2 fragCoord)
 {
     vec2 uv=fragCoord/iResolution.xy;
-    float frameNo=floor(mod(iTime*fps,50.))+1.;
-    float ratio;
-    bool split;
-    bool offset;
+    float progress=fract(iTime/durationTime);
+    float time=2.*sign(progress-.5)*(progress-.5);
     
-    vec3 color=texture2D(iChannel0,uv).rgb;
-    if(frameNo<=13.){
-        //白色开场
-        ratio=frameNo<=7.?calcRatioOpen(uv,frameNo):calcRatioClose(uv,frameNo);
-        color=mix(vec3(1.),vec3(0.),ratio);
-    }else if(frameNo<=18.){
-        //上下挤压
-        vec3 uvSqueezed=area(uv,frameNo);
-        split=floor(mod(frameNo+7.,12.))<6.;
-        color=split?rgbSplit(uvSqueezed.xy,.004):texture2D(iChannel0,uvSqueezed.xy).rgb;
-        color=mix(vec3(0.),color,uvSqueezed.z);
-    }else if(frameNo<=38.){
-        //抖动
-        split=floor(mod(frameNo+7.,12.))<6.;
-        offset=floor(mod(frameNo,2.))==1.;
-        float stripe=offset?stripe(uv):1.;
-        color=mix(vec3(0.),getColor(uv,split,offset),stripe);
-    }
+    float edgeLength=max(iResolution.x,iResolution.y)*time;
+    //计算正五边形顶点坐标
+    vec2[5]vertexsPolygon=calcPentagon(vec2(.5)*iResolution.xy,edgeLength);
+    vec2 vertexs[10]=vec2[10](vertexsPolygon[0],vertexsPolygon[1],vertexsPolygon[2],vertexsPolygon[3],vertexsPolygon[4],vec2(0.),vec2(0.),vec2(0.),vec2(0.),vec2(0.));
     
+    //绘制五边形
+    float ratioPolygon=convexPolygon(fragCoord,5,vertexs,true);
+    
+    //绘制射线
+    float ratioRay=drawLineSegment(fragCoord,vertexsPolygon[0],calcInterPoint(vertexsPolygon[0],vertexsPolygon[1],vec2(0.,1.)*iResolution.xy,vec2(1.,1.)*iResolution.xy),10.,false)+
+    +drawLineSegment(fragCoord,vertexsPolygon[1],calcInterPoint(vertexsPolygon[1],vertexsPolygon[2],vec2(0.,1.)*iResolution.xy,vec2(1.,1.)*iResolution.xy),10.,false)+
+    +drawLineSegment(fragCoord,vertexsPolygon[2],calcInterPoint(vertexsPolygon[2],vertexsPolygon[3],vec2(0.,0.)*iResolution.xy,vec2(0.,1.)*iResolution.xy),10.,false)+
+    +drawLineSegment(fragCoord,vertexsPolygon[3],calcInterPoint(vertexsPolygon[3],vertexsPolygon[4],vec2(0.,0.)*iResolution.xy,vec2(1.,0.)*iResolution.xy),10.,false)+
+    +drawLineSegment(fragCoord,vertexsPolygon[4],calcInterPoint(vertexsPolygon[4],vertexsPolygon[0],vec2(1.,0.)*iResolution.xy,vec2(1.,1.)*iResolution.xy),10.,false);
+    
+    vec3 colorBase=progress<.5?texture2D(iChannel0,uv).rgb:texture2D(iChannel1,uv).rgb;
+    vec3 colorBackground=vec3(.18);
+    vec3 color=mix(colorBackground,colorBase,ratioPolygon);
+    color=mix(color,vec3(0.),.3*ratioRay);
     fragColor=vec4(color,1.);
 }
