@@ -4,14 +4,20 @@
 const float durationTime=3.;//特效时长
 const float pi=3.141592653;
 
-//计算正五边形（方向向上）顶点坐标：形心坐标 center，变长 edgeLength
-vec2[5]calcPentagon(vec2 center,float edgeLength){
-    center.y=center.y-.5*edgeLength*tan(.3*pi);//计算底边中点坐标
-    vec2 vertex_0=vec2(.5*edgeLength,0.)+center;
-    vec2 vertex_1=vec2(edgeLength*cos(.2*pi),edgeLength*sin(.4*pi))+center;
-    vec2 vertex_2=vec2(0.,edgeLength*sin(.4*pi)+edgeLength*sin(.2*pi))+center;
-    vec2 vertex_3=vec2(-edgeLength*cos(.2*pi),edgeLength*sin(.4*pi))+center;
-    vec2 vertex_4=vec2(-.5*edgeLength,0.)+center;
+//计算正五边形顶点坐标：形心坐标 center，边长 edgeLength，以形心为轴自旋角度 theta
+vec2[5]calcPentagon(vec2 center,float edgeLength,float theta){
+    vec2 vertex_0=vec2(.5*edgeLength,-.5*edgeLength*tan(.3*pi));
+    vec2 vertex_1=vec2(edgeLength*cos(.2*pi),edgeLength*sin(.4*pi)-.5*edgeLength*tan(.3*pi));
+    vec2 vertex_2=vec2(0.,edgeLength*sin(.4*pi)+edgeLength*sin(.2*pi)-.5*edgeLength*tan(.3*pi));
+    vec2 vertex_3=vec2(-edgeLength*cos(.2*pi),edgeLength*sin(.4*pi)-.5*edgeLength*tan(.3*pi));
+    vec2 vertex_4=vec2(-.5*edgeLength,-.5*edgeLength*tan(.3*pi));
+    
+    mat2 rotateMatrix=mat2(cos(theta),sin(theta),-sin(theta),cos(theta));
+    vertex_0=rotateMatrix*vertex_0+center;
+    vertex_1=rotateMatrix*vertex_1+center;
+    vertex_2=rotateMatrix*vertex_2+center;
+    vertex_3=rotateMatrix*vertex_3+center;
+    vertex_4=rotateMatrix*vertex_4+center;
     return vec2[5](vertex_0,vertex_1,vertex_2,vertex_3,vertex_4);
 }
 
@@ -25,7 +31,7 @@ vec2 calcInterPoint(vec2 lineAP1,vec2 lineAP2,vec2 lineBP1,vec2 lineBP2){
 }
 
 //绘制凸多边形：定点个数 vertexCnt，顶点数组 vertexs，目前只支持过渡带在边界内
-float convexPolygon(vec2 pt,int vertexCnt,vec2[10]vertexs,bool smoothInner){
+float drawConvexPolygon(vec2 pt,int vertexCnt,vec2[10]vertexs,bool smoothInner){
     if(vertexCnt<3){
         return 0.;
     }
@@ -79,13 +85,13 @@ void mainImage(out vec4 fragColor,in vec2 fragCoord)
     float progress=fract(iTime/durationTime);
     float time=2.*sign(progress-.5)*(progress-.5);
     
-    float edgeLength=max(iResolution.x,iResolution.y)*time;
     //计算正五边形顶点坐标
-    vec2[5]vertexsPolygon=calcPentagon(vec2(.5)*iResolution.xy,edgeLength);
+    float edgeLength=max(iResolution.x,iResolution.y)*time;
+    vec2[5]vertexsPolygon=calcPentagon(vec2(.5)*iResolution.xy,edgeLength,-time*.4*pi);
     vec2 vertexs[10]=vec2[10](vertexsPolygon[0],vertexsPolygon[1],vertexsPolygon[2],vertexsPolygon[3],vertexsPolygon[4],vec2(0.),vec2(0.),vec2(0.),vec2(0.),vec2(0.));
     
     //绘制五边形
-    float ratioPolygon=convexPolygon(fragCoord,5,vertexs,true);
+    float ratioPolygon=drawConvexPolygon(fragCoord,5,vertexs,true);
     
     //绘制射线
     float ratioRay=drawLineSegment(fragCoord,vertexsPolygon[0],calcInterPoint(vertexsPolygon[0],vertexsPolygon[1],vec2(0.,1.)*iResolution.xy,vec2(1.,1.)*iResolution.xy),10.,false)+
