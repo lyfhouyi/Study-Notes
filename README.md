@@ -268,3 +268,15 @@
 ### 过程中
 
 ![Shutter_single_pass](Shadertoy/Shutter/Shutter_single_pass.png)
+
+
+
+## Slip Off-滑出
+
+包括阴影的添加。
+
+> SlipOff_single_pass.frag
+
+### 过程中
+
+![SlipOff_single_pass](Shadertoy/Slip Off/SlipOff_single_pass.png)

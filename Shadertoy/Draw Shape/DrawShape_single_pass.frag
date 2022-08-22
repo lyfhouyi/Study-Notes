@@ -80,6 +80,7 @@ float drawEllipse(vec2 pt,vec2 center,float majorAxis,float minorAxis,bool smoot
 }
 
 //绘制扇形：圆心 center，半径 radius，起始角 thetaStart，结束角 thetaEnd，过渡带是否在边界内 smoothInner
+//输入应为像素坐标 fragCoord
 float drawSector(vec2 pt,vec2 center,float radius,float thetaStart,float thetaEnd,bool smoothInner){
     thetaStart=mod(thetaStart,2.*pi);
     thetaEnd=mod(thetaEnd,2.*pi);
