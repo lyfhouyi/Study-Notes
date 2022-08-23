@@ -100,31 +100,51 @@ float drawSector(vec2 pt,vec2 center,float radius,float thetaStart,float thetaEn
     return thetaStart<thetaEnd?ratioRound*min(ratio1,ratio2):ratioRound*max(ratio1,ratio2);
 }
 
-//绘制凸多边形：定点个数 vertexCnt，顶点数组 vertexs
-//目前只支持过渡带在边界内
+//绘制凸多边形：顶点个数 vertexCnt，顶点数组 vertexs，过渡带是否在边界内 smoothInner
 float drawConvexPolygon(vec2 pt,int vertexCnt,vec2[10]vertexs,bool smoothInner){
     if(vertexCnt<3){
         return 0.;
     }
     
+    float thickness=.05;
     float minDisEdge=iResolution.x*iResolution.y;
     float maxRange=0.;
-    bool inLeft=true;
+    
+    //判断顶点顺序是否为逆时针
+    bool anticlockwise=cross(normalize(vec3(vertexs[1]-vertexs[0],0.)),normalize(vec3(vertexs[2]-vertexs[1],0.))).z>0.?true:false;
+    
+    //计算顶点法线
+    vec2[10]vertexNormal;
     for(int indexStart=0;indexStart<vertexCnt;indexStart++){
         int indexEnd=int(mod(float(indexStart)+1.,float(vertexCnt)));
-        maxRange=max(maxRange,length(vertexs[indexEnd]-vertexs[indexStart]));//计算过渡带范围
-        vec3 edgePolygon=normalize(vec3(vertexs[indexEnd]-vertexs[indexStart],0.));
-        vec3 edgePt=normalize(vec3(pt-vertexs[indexStart],0.));
-        float sinTheta=cross(edgePolygon,edgePt).z;
-        float disEdge=length(pt-vertexs[indexStart])*sinTheta;
-        minDisEdge=min(minDisEdge,abs(disEdge));
+        int indexLast=int(mod(float(indexStart)-1.,float(vertexCnt)));
         
-        inLeft=indexStart==0?(sinTheta>0.?true:false):inLeft;
-        if(inLeft!=(sinTheta>0.)){
+        vec2 edgeStart2End=normalize(vertexs[indexEnd]-vertexs[indexStart]);
+        maxRange=max(maxRange,length(vertexs[indexEnd]-vertexs[indexStart]));//计算边长范围
+        vec2 edgeLast2Start=normalize(vertexs[indexStart]-vertexs[indexLast]);
+        vertexNormal[indexStart]=anticlockwise?normalize(vec2(edgeStart2End.y,-edgeStart2End.x)+vec2(edgeLast2Start.y,-edgeLast2Start.x)):normalize(vec2(-edgeStart2End.y,edgeStart2End.x)+vec2(-edgeLast2Start.y,edgeLast2Start.x));
+    }
+    
+    for(int indexStart=0;indexStart<vertexCnt;indexStart++){
+        int indexEnd=int(mod(float(indexStart)+1.,float(vertexCnt)));
+        
+        //顶点外展
+        vec2 vStart=vertexs[indexStart]+(smoothInner?vec2(0.):vertexNormal[indexStart]*.3*thickness*maxRange);
+        vec2 vEnd=vertexs[indexEnd]+(smoothInner?vec2(0.):vertexNormal[indexEnd]*.3*thickness*maxRange);
+        
+        //判断当前点是否位于多边形内
+        vec3 edgePolygon=normalize(vec3(vEnd-vStart,0.));
+        vec3 edgePt=normalize(vec3(pt-vStart,0.));
+        float sinThetaStart=cross(edgePolygon,edgePt).z;
+        float disEdge=length(pt-vStart)*sinThetaStart;
+        minDisEdge=min(minDisEdge,abs(disEdge));
+        if(anticlockwise!=(sinThetaStart>0.)){
             return 0.;
         }
     }
-    return smoothstep(0.,1.,20.*minDisEdge/maxRange);
+    
+    //过渡带绘制于外展后的边界内侧
+    return smoothstep(0.,1.,minDisEdge/(thickness*maxRange));
 }
 
 //绘制圆角矩形
@@ -167,6 +187,7 @@ void mainImage(out vec4 fragColor,in vec2 fragCoord)
     
     // vec2 a[10] = vec2[10](vec2(0.1,0.5),vec2(0.4,0.2),vec2(0.9,0.9),vec2(1.0),vec2(1.0),vec2(1.0),vec2(1.0),vec2(1.0),vec2(1.0),vec2(1.0));
     vec2 a[10]=vec2[10](vec2(.9,.9)*iResolution.xy,vec2(.4,.2)*iResolution.xy,vec2(.1,.1)*iResolution.xy,vec2(.1,.5)*iResolution.xy,vec2(.3,1.)*iResolution.xy,vec2(1.),vec2(1.),vec2(1.),vec2(1.),vec2(1.));
+    // vec2 a[10]=vec2[10](vec2(.3,1.)*iResolution.xy,vec2(.1,.5)*iResolution.xy,vec2(.1,.1)*iResolution.xy,vec2(.4,.2)*iResolution.xy,vec2(.9,.9)*iResolution.xy,vec2(1.),vec2(1.),vec2(1.),vec2(1.),vec2(1.));
     float x=drawConvexPolygon(fragCoord,5,a,true);
     
     //绘制椭圆
@@ -185,7 +206,7 @@ void mainImage(out vec4 fragColor,in vec2 fragCoord)
     float ratioSector=drawSector(fragCoord,vec2(.5,.5)*iResolution.xy,.4*iResolution.y,-.5*pi,1.2*pi,false);
     
     // vec3 color=mix(colorBackground,colorA,calcDifference(ratioEllipse,ratioPolygon));
-    vec3 color=mix(colorBackground,colorA,ratioSector);
+    vec3 color=mix(colorBackground,colorA,ratioPolygon);
     // if(x ==1.0){
         //     color = colorB;
     // }
