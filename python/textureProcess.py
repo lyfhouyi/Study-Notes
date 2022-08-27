@@ -16,7 +16,7 @@ def imageDistribution(imageArray, indexs=[0, 1, 2]):
         value.append(arr[0])
         count.append(0)
         for i in arr:
-            if (i == value[-1]):
+            if i == value[-1]:
                 count[-1] += 1
             else:
                 value.append(i)
