@@ -202,15 +202,61 @@ def easeInOutBounce(x):
         return 1 + easeOutBounce(2 * x - 1) / 2
 
 
+def ehEaseInElasticBounce(x):
+    c4 = (2 * np.pi) / 3  # 可调
+
+    if x == 0:
+        return 0
+    elif x == 1:
+        return 1
+    else:
+        return abs(-pow(2, 10 * x - 10) * np.sin((x * 10 - 10.75) * c4))
+
+
+def ehEaseOutElasticBounce(x):
+    c4 = (2 * np.pi) / 3  # 可调
+
+    if x == 0:
+        return 0
+    elif x == 1:
+        return 1
+    else:
+        y = pow(2, -10 * x) * np.sin((x * 10 - 0.75) * c4) + 1
+        if y > 1:
+            y = 2 - y
+        return y
+
+
+def ehEaseInOutElasticBounce(x):
+    c5 = (2 * np.pi) / 4.5  # 可调
+
+    if x == 0:
+        return 0
+    elif x == 1:
+        return 1
+    elif x < 0.5:
+        return abs(-(pow(2, 20 * x - 10) * np.sin((20 * x - 11.125) * c5)) / 2)
+    else:
+        y = (pow(2, -20 * x + 10) * np.sin((20 * x - 11.125) * c5)) / 2 + 1
+        if y > 1:
+            y = 2 - y
+        return y
+
+
+def ehEaseCustom(x):
+    return 1 - easeOutBounce(x)
+
+
 # 绘制缓动曲线
 def plotEaseCurve(func):
-    x = np.arange(0, 1.005, 0.01)
+    x = np.arange(0, 1.0005, 0.001)
     ret = []
     for t in x:
         ret.append(func(t))
     y = np.array(ret)
 
     plt.plot(x, y, linewidth=3)
+    plt.title(func.__name__)
     plt.grid()
     plt.show()
 
@@ -241,5 +287,5 @@ def plotCubicBezier(p1_x, p1_y, p2_x, p2_y):
     plt.show()
 
 
-# plotEaseCurve(easeOutBounce)
-plotCubicBezier(0.79, 0.11, 0.18, 0.71)
+plotEaseCurve(ehEaseCustom)
+# plotCubicBezier(0.79, 0.11, 0.18, 0.71)

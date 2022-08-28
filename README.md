@@ -280,3 +280,15 @@
 ### 过程中
 
 ![SlipOff_single_pass](Shadertoy/Slip Off/SlipOff_single_pass.png)
+
+
+
+## Slip Into-滑入
+
+在 Slip Out 的基础上使用缓动曲线控制下一页位置。
+
+> SlipInto_single_pass.frag
+
+### 过程中
+
+![SlipInto_single_pass](Shadertoy/Slip Into/SlipInto_single_pass.png)
