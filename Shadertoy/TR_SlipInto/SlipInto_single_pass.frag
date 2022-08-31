@@ -2,7 +2,7 @@
 #iChannel1"file://asset/img5.jpg"
 
 const float durationTime=3.;//特效时长
-const vec2 slipDirection=normalize(vec2(3.,-1.));//滑动方向
+const vec2 slipDirection=normalize(vec2(-1.,-1.));//滑动方向
 const float sSlip=1.3;//滑动距离
 
 //缓动曲线
@@ -14,13 +14,13 @@ float easeOutBounce(float x){
         return 1.-n1*x*x;
     }else if(x<2.*d1){
         x-=1.5*d1;
-        return .25-n1*x*x;
+        return.25-n1*x*x;
     }else if(x<2.5*d1){
         x-=2.25*d1;
-        return .0625-n1*x*x;
+        return.0625-n1*x*x;
     }else{
         x-=2.625*d1;
-        return .015625-n1*x*x;
+        return.015625-n1*x*x;
     }
 }
 

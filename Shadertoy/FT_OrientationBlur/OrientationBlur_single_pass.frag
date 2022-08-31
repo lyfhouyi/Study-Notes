@@ -2,8 +2,8 @@
 
 const uint ORIENTED=0x00000001u;//方向模糊
 const uint RADIAL=0x00000002u;//径向模糊
-const uint mode=RADIAL;
-// const uint mode=ORIENTED;
+// const uint mode=RADIAL;
+const uint mode=ORIENTED;
 const vec2 direction=vec2(-1.,1.);
 const float stepCnt=61.;
 const float sqrt_2=1.414213562373095;
