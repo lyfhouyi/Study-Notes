@@ -306,3 +306,15 @@
 ### 过程中
 
 ![SlipInto_single_pass](Shadertoy/TR_SlipInto/SlipInto_single_pass.png)
+
+
+
+## TR_Spin-自旋
+
+通过矩形面旋转实现自旋效果。
+
+> Spin_single_pass.frag
+
+### 过程中
+
+![Spin_single_pass](Shadertoy/TR_Spin/Spin_single_pass.png)
