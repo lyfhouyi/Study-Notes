@@ -219,6 +219,20 @@
 
 
 
+## FT_Voronoi-泰森多边形
+基于 Voronoi 剖分为像素点贴上不同的纹理。
+>Voronoi_single_pass.frag
+
+### 过程中
+
+![Voronoi_changing](Shadertoy/FT_Voronoi/Voronoi_changing.png)
+
+### 滤镜后
+
+![Voronoi_single_pass](Shadertoy/FT_Voronoi/Voronoi_single_pass.png)
+
+
+
 # 转场特效
 
 转场特效，双输入流

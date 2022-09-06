@@ -2,7 +2,7 @@
 
 const float splitRatio=.02;
 
-// RGB 分离
+// RGB 分离特效-一次 pass
 void mainImage(out vec4 fragColor,in vec2 fragCoord)
 {
     vec2 uv=fragCoord/iResolution.xy;
