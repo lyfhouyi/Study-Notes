@@ -10,7 +10,6 @@
 #iChannel9"file://asset/img9.jpg"
 
 const float durationTime=10.;
-const float maxRatio=2.;
 
 vec2[]controlPoint=vec2[10](vec2(.81,.36),vec2(.33,.71),vec2(.54,.39),vec2(.53,.94),vec2(.98,.61),vec2(.50,.45),vec2(.14,.63),vec2(.74,.58),vec2(.23,.01),vec2(.27,.57));
 

@@ -233,6 +233,40 @@
 
 
 
+## FT_CircumBlur-圆周模糊
+
+在同心圆上多次采样取平均。注意图像边缘的处理。
+>CircumBlur_single_pass.frag
+
+### 滤镜后
+
+![CircumBlur_single_pass](Shadertoy/FT_CircumBlur/CircumBlur_single_pass.png)
+
+
+
+## FT_BilateralFilter-双边滤波
+
+使用双边滤波实现磨皮效果。双边滤波与高斯模糊的区别在于高斯模糊的权重域只有空间域（spatial domain S），而双边滤波的权重域还包括像素范围域（即像素值的欧氏距离，range domain R）。权重域中加入像素范围域使得原图中颜色变化大的部分权重较低，从而更多地保留了边界信息。
+>BilateralFilter_single_pass.frag
+
+### 滤镜后
+
+![BilateralFilter_single_pass](Shadertoy/FT_BilateralFilter/BilateralFilter_single_pass.png)
+
+
+
+## FT_SurfaceBlur-表面模糊
+
+使用双边滤波实现磨皮效果。双边滤波与高斯模糊的区别在于高斯模糊的权重域只有空间域（spatial domain S），而双边滤波的权重域还包括像素范围域（即像素值的欧氏距离，range domain R）。权重域中加入像素范围域使得原图中颜色变化大的部分权重较低，从而更多地保留了边界信息。
+
+>SurfaceBlur_single_pass.frag
+
+### 滤镜后
+
+![SurfaceBlur_single_pass](Shadertoy/FT_SurfaceBlur/SurfaceBlur_single_pass.png)
+
+
+
 # 转场特效
 
 转场特效，双输入流

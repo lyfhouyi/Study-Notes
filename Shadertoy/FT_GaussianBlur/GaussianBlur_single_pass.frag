@@ -6,8 +6,8 @@ const float sigma=3.;
 const float e=2.7182804;
 
 //计算权重
-float gaussianWeight(float distance){
-    return(1./pow(sqrt(2.*pi*pow(sigma,2.)),2.))*pow(e,-((distance*distance)/(2.*pow(sigma,2.))));
+float gaussianWeight(float dis){
+    return(1./pow(sqrt(2.*pi*pow(sigma,2.)),2.))*pow(e,-((dis*dis)/(2.*pow(sigma,2.))));
 }
 
 //高斯模糊-一次 pass
