@@ -7,6 +7,7 @@ const uint mode=ORIENTED;
 const vec2 direction=vec2(-1.,1.);
 const float stepCnt=61.;
 const float sqrt_2=1.414213562373095;
+const float pi=3.141592653;
 const float durationTime=6.;
 
 //方向模糊-一次 pass
@@ -21,6 +22,8 @@ void mainImage(out vec4 fragColor,in vec2 fragCoord)
     vec2 dir;
     vec2 stepLength;
     
+    float theta=2.*pi*time;
+    vec2 direction=vec2(cos(theta),sin(theta));
     if(mode==ORIENTED){
         dir=normalize(direction);
         stepLength=pixelStep;
@@ -29,7 +32,7 @@ void mainImage(out vec4 fragColor,in vec2 fragCoord)
         stepLength=pixelStep*smoothstep(0.,.5*sqrt_2,length(uv-vec2(.5)));
     }
     
-    stepLength*=time;
+    // stepLength*=time;
     for(float stepI=0.;stepI<stepCnt;stepI++){
         color+=texture2D(iChannel0,uv-dir*stepLength*stepI);
     }

@@ -10,7 +10,7 @@ void mainImage(out vec4 fragColor,in vec2 fragCoord)
     float vAxis=-1.6*iResolution.x;//圆柱运动速度
     float progress=fract(iTime/4.);//特效进度
     vec2 vDirection=normalize(vec2(-5.,1.));//圆柱运动方向（与圆柱轴线垂直）
-
+    
     vec2 pointAxisBottom=vec2(iResolution.x+progress*vAxis,0.);//中轴与屏幕下边界交点，将第一张图 (iResolution.x, 0.0) 点与圆柱初始中轴处固接
     
     float disCurAxis=dot(fragCoord-pointAxisBottom,vDirection);//当前点到中轴距离
@@ -36,13 +36,19 @@ void mainImage(out vec4 fragColor,in vec2 fragCoord)
     }else{
         //下一页
         color=texture2D(iChannel1,fragCoord/iResolution.xy);
+        
+        //三角阴影
+        if(onCylinder){
+            // color.rgb=vec3(0.,1.,0.);
+            color.rgb=mix(vec3(0.),color.rgb,.6);
+        }
     }
     
     if(behindAxis&&pointUnwrapped.x>iResolution.x){
         //右方阴影
         // color.rgb=vec3(0.,1.,0.);
         // float mixRatio= mix(1.,smoothstep(0.,.03,pointUnwrapped.x/iResolution.x-1.0),.8);
-        float mixRatio=mix(1.,pointUnwrapped.x/iResolution.x-1.,.6);
+        float mixRatio=mix(1.,pointUnwrapped.x/iResolution.x-1.,.2);
         color.rgb=mix(vec3(0.),color.rgb,mixRatio);
     }
     
@@ -68,14 +74,14 @@ void mainImage(out vec4 fragColor,in vec2 fragCoord)
     if(!onCylinder&&behindAxis){
         //右方阴影
         // color.rgb=vec3(0.,1.,0.);
-        float mixRatio=mix(1.,smoothstep(0.,.3,abs(disCurAxis)/r-1.),.6);
+        float mixRatio=mix(1.,smoothstep(0.,.4,abs(disCurAxis)/r-1.),.4);
         color.rgb=mix(vec3(0.),color.rgb,mixRatio);
     }
     
     if(pointUnwrapped.x<iResolution.x&&onCylinder&&pointUnwrapped.y<0.){
         //下方阴影
         // color.rgb=vec3(.0,0.,1.);
-        float mixRatio=mix(1.,smoothstep(0.,1.,20.*abs(pointUnwrapped.y/iResolution.y)),.4);
+        float mixRatio=mix(1.,smoothstep(0.,1.,20.*abs(pointUnwrapped.y/iResolution.y)),.13);
         color.rgb=mix(vec3(0.),color.rgb,mixRatio);
     }
     

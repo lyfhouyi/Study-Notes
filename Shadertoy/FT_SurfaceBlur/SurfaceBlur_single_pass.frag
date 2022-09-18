@@ -16,10 +16,10 @@ void mainImage(out vec4 fragColor,in vec2 fragCoord)
     vec2 uv=fragCoord/iResolution.xy;
     float progress=fract(iTime/durationTime);
     float time=progress;
+    time=1.;
     float mixRatio=time;
     vec3 colorBase=texture2D(iChannel0,uv).rgb;
     vec2 pixelStep=vec2(1.)/iResolution.xy;
-    float dis;
     vec3 weight;
     vec3 totalWeight=vec3(0.);
     vec3 colorSurface=vec3(0.);
@@ -27,7 +27,6 @@ void mainImage(out vec4 fragColor,in vec2 fragCoord)
         for(float i=-kernelSize;i<=kernelSize;i++){
             vec2 st=uv+vec2(i,j)*pixelStep;
             vec3 colorSt=texture2D(iChannel0,st).rgb;
-            dis=distance(uv,st);
             weight=surfaceWeight(colorSt-colorBase);
             colorSurface+=colorSt*weight;
             totalWeight+=weight;
