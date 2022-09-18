@@ -14,5 +14,9 @@
 
 ## 计算机图形学
 + [GAMES101-现代计算机图形学入门 B站闫令琪老师课程的学习笔记](https://github.com/lyfhouyi/Study-Notes/tree/GAMES101)
++ [GAMES102-几何建模与处理 B站中科大刘利刚老师课程的PPT](https://github.com/lyfhouyi/Study-Notes/tree/GAMES102)
++ [GAMES104-现代游戏引擎：从入门到实践 B站王希老师课程的PPT](https://github.com/lyfhouyi/Study-Notes/tree/GAMES104)
 + [GAMES202-高质量实时渲染 B站闫令琪老师课程的学习笔记](https://github.com/lyfhouyi/Study-Notes/tree/GAMES202)
 + [从头开始学习 GLSL 着色器 Learn GLSL Shaders from Scratch 课程的学习笔记](https://github.com/lyfhouyi/Study-Notes/tree/GLSL)
++ [数字图像处理与应用 B站浙大陆系群老师课程的学习笔记](https://github.com/lyfhouyi/Study-Notes/tree/Digital-Image-Processing-And-Application)
++ [滤镜/转场效果实现 Fragment Shader](https://github.com/lyfhouyi/Study-Notes/tree/Shadertoy)
