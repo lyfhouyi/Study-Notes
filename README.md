@@ -16,6 +16,20 @@
 
 滤镜特效，单输入流
 
+
+
+## FT_Base-基础滤镜
+
+通过将原图颜色直接缩放实现亮度滤镜，通过原图与亮度图的混合实现饱和度滤镜，通过原图与纯灰色的混合实现对比度滤镜。
+
+> Base_single_pass.frag
+
+### 滤镜后
+
+![Base_single_pass](Shadertoy/FT_Base/Base_single_pass.png)
+
+
+
 ## FT_GaussianBlur-高斯模糊
 
 使用高斯核对图片各像素点做卷积。
@@ -40,13 +54,122 @@
 
 ![GaussianBlur_double_pass](Shadertoy/FT_GaussianBlur/GaussianBlur_double_pass.png)
 
-
-
 下图是第一次 pass 的中间输出，第一次 pass 只对水平方向模糊。
 
 > GaussianBlur_pass_1.frag
 
 ![GaussianBlur_pass_1](Shadertoy/FT_GaussianBlur/GaussianBlur_pass_1.png)
+
+
+
+## FT_BilateralFilter-双边滤波
+
+使用双边滤波实现磨皮效果。双边滤波与高斯模糊的区别在于高斯模糊的权重域只有空间域（spatial domain S），而双边滤波的权重域还包括像素范围域（即像素值的欧氏距离，range domain R）。权重域中加入像素范围域使得原图中颜色变化大的部分权重较低，从而更多地保留了边界信息。
+>BilateralFilter_single_pass.frag
+
+### 滤镜后
+
+![BilateralFilter_single_pass](Shadertoy/FT_BilateralFilter/BilateralFilter_single_pass.png)
+
+
+
+## FT_SurfaceBlur-表面模糊
+
+表面模糊与高斯模糊的区别在于使用的权重不同，高斯模糊根据空间域的距离计算权重，表面模糊根据像素域颜色的曼哈顿距离计算权重。
+
+>SurfaceBlur_single_pass.frag
+
+### 滤镜后
+
+![SurfaceBlur_single_pass](Shadertoy/FT_SurfaceBlur/SurfaceBlur_single_pass.png)
+
+
+
+## FT_OrientationBlur-方向模糊
+
+在指定方向上加权平均。
+
+> OrientationBlur_single_pass.frag
+
+### 定向模糊
+
+![OrientationBlur_single_pass_oriented](Shadertoy/FT_OrientationBlur/OrientationBlur_single_pass_oriented.png)
+
+### 径向模糊
+
+![OrientationBlur_single_pass_radial](Shadertoy/FT_OrientationBlur/OrientationBlur_single_pass_radial.png)
+
+
+
+## FT_CircumBlur-圆周模糊
+
+在同心圆上多次采样取平均。注意图像边缘的处理。
+>CircumBlur_single_pass.frag
+
+### 滤镜后
+
+![CircumBlur_single_pass](Shadertoy/FT_CircumBlur/CircumBlur_single_pass.png)
+
+
+
+
+## FT_BokehBlur-散景模糊
+
+通过在圆形散景上采样实现散景模糊。值得注意的是各采样颜色的加权方式，在 BokehBlur 中使用的（以采样值累和作为分母的）加权方式在效果上略优于其他模糊方法中使用的（以采样次数作为分母的）加权方式。
+
+> BokehBlur_single_pass.frag
+
+CoC 值反映了散景程度，当 CoC 增大时，应适当增加采样次数，以避免明显的采样伪迹。
+
+### CoC = 0.4  sampleCnt = 100
+
+![BokehBlur_single_pass_CoC04Cnt100](Shadertoy/FT_BokehBlur/BokehBlur_single_pass_CoC04Cnt100.png)
+
+### CoC = 0.8  sampleCnt = 100
+
+![BokehBlur_single_pass_CoC08Cnt100](Shadertoy/FT_BokehBlur/BokehBlur_single_pass_CoC08Cnt100.png)
+
+### CoC = 1.6  sampleCnt = 100
+
+![BokehBlur_single_pass_CoC16Cnt100](Shadertoy/FT_BokehBlur/BokehBlur_single_pass_CoC16Cnt100.png)
+
+### CoC = 1.6  sampleCnt = 500
+
+![BokehBlur_single_pass_CoC16Cnt500](Shadertoy/FT_BokehBlur/BokehBlur_single_pass_CoC16Cnt500.png)
+
+
+
+## DepthOfField-景深
+
+使用 BokehBlur 模拟景深效果，将深度图作为 mask，一定深度范围内的物体不进行景深处理。注意，深度图 mask 的阶跃性造成了人像边界处的模糊。
+
+### 用一次 pass 实现
+
+> DepthOfField_single_pass.frag
+
+![DepthOfField_single_pass](Shadertoy/FT_DepthOfField/DepthOfField_single_pass.png)
+
+### 用两次 pass 实现
+
+第一次 pass 使用高斯模糊对深度图做模糊处理，以降低深度图 mask 的阶跃性。第二次 pass 将模糊后的深度度作为 mask，使用 BokehBlur 模拟景深效果。
+
+使用经过模糊后的深度图在效果上优于使用原始深度图，这体现在当人像边界处模糊程度一致时（人像边界处的模糊是深度图跃性造成的），前后景可以模拟出更明显的景深效果。
+
+> DepthOfField_double_pass.frag
+
+![DepthOfField_double_pass](Shadertoy/FT_DepthOfField/DepthOfField_double_pass.png)
+
+
+
+## FT_ParticleBlur-粒子模糊
+
+随机在周围采样贴纹理颜色。
+
+> ParticleBlur_single_pass.frag
+
+### 滤镜后
+
+![ParticleBlur_single_pass](Shadertoy/FT_ParticleBlur/ParticleBlur_single_pass.png)
 
 
 
@@ -125,7 +248,7 @@
 
 
 
-## FT_FXAA
+## FT_FXAA-反走样算法
 
 基于视觉的抗锯齿。
 
@@ -175,22 +298,6 @@
 
 
 
-## FT_OrientationBlur-方向模糊
-
-在指定方向上加权平均。
-
-> OrientationBlur_single_pass.frag
-
-### 定向模糊
-
-![OrientationBlur_single_pass_oriented](Shadertoy/FT_OrientationBlur/OrientationBlur_single_pass_oriented.png)
-
-### 径向模糊
-
-![OrientationBlur_single_pass_radial](Shadertoy/FT_OrientationBlur/OrientationBlur_single_pass_radial.png)
-
-
-
 ## FT_UnsharpenMask-USM 锐化
 
 通过在原图上叠加高频分量实现锐化。radius 控制低通滤波核半径，amount 控制叠加的高频分量程度，threshold 为是否锐化阈值。
@@ -205,17 +312,6 @@
 
 ![UnsharpenMask_single_pass](Shadertoy/FT_UnsharpenMask/UnsharpenMask_single_pass.png)
 
-
-
-## FT_ParticleBlur-粒子模糊
-
-随机在周围采样贴纹理颜色。
-
-> ParticleBlur_single_pass.frag
-
-### 滤镜后
-
-![ParticleBlur_single_pass](Shadertoy/FT_ParticleBlur/ParticleBlur_single_pass.png)
 
 
 
@@ -233,93 +329,11 @@
 
 
 
-## FT_CircumBlur-圆周模糊
-
-在同心圆上多次采样取平均。注意图像边缘的处理。
->CircumBlur_single_pass.frag
-
-### 滤镜后
-
-![CircumBlur_single_pass](Shadertoy/FT_CircumBlur/CircumBlur_single_pass.png)
-
-
-
-## FT_BilateralFilter-双边滤波
-
-使用双边滤波实现磨皮效果。双边滤波与高斯模糊的区别在于高斯模糊的权重域只有空间域（spatial domain S），而双边滤波的权重域还包括像素范围域（即像素值的欧氏距离，range domain R）。权重域中加入像素范围域使得原图中颜色变化大的部分权重较低，从而更多地保留了边界信息。
->BilateralFilter_single_pass.frag
-
-### 滤镜后
-
-![BilateralFilter_single_pass](Shadertoy/FT_BilateralFilter/BilateralFilter_single_pass.png)
-
-
-
-## FT_SurfaceBlur-表面模糊
-
-表面模糊与高斯模糊的区别在于使用的权重不同，高斯模糊根据空间域的距离计算权重，表面模糊根据像素域颜色的曼哈顿距离计算权重。
-
->SurfaceBlur_single_pass.frag
-
-### 滤镜后
-
-![SurfaceBlur_single_pass](Shadertoy/FT_SurfaceBlur/SurfaceBlur_single_pass.png)
-
-
-
-## FT_BokehBlur-散景模糊
-
-通过在圆形散景上采样实现散景模糊。值得注意的是各采样颜色的加权方式，在 BokehBlur 中使用的（以采样值累和作为分母的）加权方式在效果上略优于其他模糊方法中使用的（以采样次数作为分母的）加权方式。
-
-> BokehBlur_single_pass.frag
-
-CoC 值反映了散景程度，当 CoC 增大时，应适当增加采样次数，以避免明显的采样伪迹。
-
-### CoC = 0.4  sampleCnt = 100
-
-![BokehBlur_single_pass_CoC04Cnt100](Shadertoy/FT_BokehBlur/BokehBlur_single_pass_CoC04Cnt100.png)
-
-### CoC = 0.8  sampleCnt = 100
-
-![BokehBlur_single_pass_CoC08Cnt100](Shadertoy/FT_BokehBlur/BokehBlur_single_pass_CoC08Cnt100.png)
-
-### CoC = 1.6  sampleCnt = 100
-
-![BokehBlur_single_pass_CoC16Cnt100](Shadertoy/FT_BokehBlur/BokehBlur_single_pass_CoC16Cnt100.png)
-
-### CoC = 1.6  sampleCnt = 500
-
-![BokehBlur_single_pass_CoC16Cnt500](Shadertoy/FT_BokehBlur/BokehBlur_single_pass_CoC16Cnt500.png)
-
-
-
-## DepthOfField-景深
-
-使用 BokehBlur 模拟景深效果，将深度图作为 mask，一定深度范围内的物体不进行景深处理。注意，深度图 mask 的阶跃性造成了人像边界处的模糊。
-
-### 用一次 pass 实现
-
-> DepthOfField_single_pass.frag
-
-![DepthOfField_single_pass](Shadertoy/FT_DepthOfField/DepthOfField_single_pass.png)
-
-
-
-### 用两次 pass 实现
-
-第一次 pass 使用高斯模糊对深度图做模糊处理，以降低深度图 mask 的阶跃性。第二次 pass 将模糊后的深度度作为 mask，使用 BokehBlur 模拟景深效果。
-
-使用经过模糊后的深度图在效果上优于使用原始深度图，这体现在当人像边界处模糊程度一致时（人像边界处的模糊是深度图跃性造成的），前后景可以模拟出更明显的景深效果。
-
-> DepthOfField_double_pass.frag
-
-![DepthOfField_double_pass](Shadertoy/FT_DepthOfField/DepthOfField_double_pass.png)
-
-
-
 # 转场特效
 
 转场特效，双输入流
+
+
 
 ## TR_PageFlip-翻页
 

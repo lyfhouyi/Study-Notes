@@ -1,4 +1,5 @@
 import PIL.Image
+import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -123,5 +124,22 @@ def checkTexture():
     imageNormalized.save(
         "/Users/e.hou/git/Study-Notes/python/RandomTextureZZ.jpg", quality=95)
 
+# 绘制灰度直方图
+def plotGrayHist(grayHist):
+    plt.plot(range(256), grayHist, 'r', linewidth=1.5, c='red')
+    y_maxValue = np.max(grayHist)
+    plt.axis([0, 255, 0, y_maxValue]) # x和y的范围
+    plt.xlabel("gray Level")
+    plt.ylabel("Number Of Pixels")
+    plt.show()
 
-checkTexture()
+
+def test():
+    img=cv2.imread("/Users/e.hou/git/Study-Notes/python/RandomTexture.jpg",0)
+    grayHist = cv2.calcHist([img], [0], None, [256], [0, 256])
+
+    # 绘制灰度直方图
+    plotGrayHist(grayHist)
+
+# checkTexture()
+test()
