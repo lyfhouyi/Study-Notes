@@ -248,7 +248,7 @@ CoC 值反映了散景程度，当 CoC 增大时，应适当增加采样次数�
 
 
 
-## FT_FXAA-反走样算法
+## FT_FXAA-FXAA 反走样
 
 基于视觉的抗锯齿。
 
@@ -314,7 +314,6 @@ CoC 值反映了散景程度，当 CoC 增大时，应适当增加采样次数�
 
 
 
-
 ## FT_Voronoi-泰森多边形
 基于 Voronoi 剖分为像素点贴上不同的纹理。
 >Voronoi_single_pass.frag
@@ -326,6 +325,38 @@ CoC 值反映了散景程度，当 CoC 增大时，应适当增加采样次数�
 ### 滤镜后
 
 ![Voronoi_single_pass](Shadertoy/FT_Voronoi/Voronoi_single_pass.png)
+
+
+
+## FT_Mosaic-马赛克
+
+使一定范围内的像素点显示相同的颜色。
+>Mosaic_single_pass.frag
+
+### 滤镜后
+
+![Mosaic_single_pass](Shadertoy/FT_Mosaic/Mosaic_single_pass.png)
+
+
+
+## FT_Halftone-半色调
+
+在马赛克效果的基础上计算变换后的纹理坐标与原始纹理坐标的偏移量，根据偏移量决定二值化的阈值。受当前像素灰度值影响的二值化阈值使得二值化图像越接近黑色的部分墨迹点越大。
+>Halftone_single_pass.frag
+
+不同的马赛克块尺寸与墨迹点尺寸的组合可以呈现出不同的滤镜效果。
+
+### tileSize = 2  dotSize = 1.5
+
+![Halftone_single_pass_T2D1_5.](Shadertoy/FT_Halftone/Halftone_single_pass_T2D1_5..png)
+
+### tileSize = 3  dotSize = 4
+
+![Halftone_single_pass_T3D4.](Shadertoy/FT_Halftone/Halftone_single_pass_T3D4..png)
+
+### tileSize = 8  dotSize = 6
+
+![Halftone_single_pass_T8D6.](Shadertoy/FT_Halftone/Halftone_single_pass_T8D6..png)
 
 
 
