@@ -85,6 +85,20 @@
 
 
 
+## FT_BilateralTextureFilter-双边纹理滤波
+
+与传统双边滤波不同的是，双边纹理滤波计算权重时使用指导图像 T，而不是原始图像 I，因为指导图像 T 更多地反映了纹理信息。
+
+指导图像 T 的计算：对原图 I 中的每个像素点 p，计算其 k✖️k 邻域范围内平均值得到 B_p；对每个像素点 p，有 k✖️k 个候选块，选择这 k✖️k 个候选块中灰度差值最小的的那个候选块作为像素 p 的指导图像块 q。则指导图像在像素 p 的值 T_p = B_q。
+
+> BilateralTextureFilter_quartic_pass.frag
+
+### 滤镜后
+
+![BilateralTextureFilter_quartic_pass](Shadertoy/FT_BilateralTextureFilter/BilateralTextureFilter_quartic_pass.png)
+
+
+
 ## FT_OrientationBlur-方向模糊
 
 在指定方向上加权平均。
