@@ -461,3 +461,19 @@ CoC 值反映了散景程度，当 CoC 增大时，应适当增加采样次数�
 ### 过程中
 
 ![Spin_single_pass](Shadertoy/TR_Spin/Spin_single_pass.png)
+
+
+
+## TR_Split-切分
+
+通过计算变换后的纹理坐标实现切分效果。注意镜像纹理包裹模式的实现。
+
+> Split_single_pass.frag
+
+### 过程中_1
+
+![Split_single_pass1](Shadertoy/TR_Split/Split_single_pass1.png)
+
+### 过程中_2
+
+![Split_single_pass2](Shadertoy/TR_Split/Split_single_pass2.png)
