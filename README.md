@@ -374,6 +374,18 @@ CoC 值反映了散景程度，当 CoC 增大时，应适当增加采样次数�
 
 
 
+## FT_LocalExplosion-局部爆炸
+
+注意圆环的绘制方式，水平方向的缩放将圆环形状与视口宽高比解耦。
+
+> LocalExplosion_single_pass.frag
+
+### 滤镜后
+
+![LocalExplosion_single_pass](Shadertoy/FT_LocalExplosion/LocalExplosion_single_pass.png)
+
+
+
 # 转场特效
 
 转场特效，双输入流
