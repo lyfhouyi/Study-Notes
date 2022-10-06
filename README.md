@@ -386,6 +386,18 @@ CoC 值反映了散景程度，当 CoC 增大时，应适当增加采样次数�
 
 
 
+## FT_RoundSwell-圆形鼓包
+
+将当前点纹理坐标沿球面展开。可调参数包括球心坐标、半径。
+
+> RoundSwell_single_pass.frag
+
+### 滤镜后
+
+![RoundSwell_single_pass](Shadertoy/FT_RoundSwell/RoundSwell_single_pass.png)
+
+
+
 # 转场特效
 
 转场特效，双输入流
