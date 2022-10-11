@@ -33,7 +33,7 @@ void mainImage(out vec4 fragColor,in vec2 fragCoord)
     float minLuma=min(min(min(lumaN,lumaS),min(lumaW,lumaE)),lumaM);
     float contrast=maxLuma-minLuma;
     
-    //通过确定水平和垂直方向上像素点的亮度差，来计算对比度。当对比度较大时，认为处于边缘，需要进行抗锯齿处理。
+    //通过确定水平和垂直方向上像素点的亮度差，来计算对比度。当对比度较大时，认为处于边缘，需要进行抗锯齿处理
     if(contrast<max(contrastThreshold,maxLuma*relativeThreshold)){
         fragColor=origin;
         // fragColor = vec4(0.0,0.0,0.0,1.0);

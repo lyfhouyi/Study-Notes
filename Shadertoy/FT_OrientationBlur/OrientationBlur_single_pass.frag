@@ -1,14 +1,13 @@
 #iChannel0"file://asset/img0.jpg"
 
+const float durationTime=6.;
 const uint ORIENTED=0x00000001u;//方向模糊
 const uint RADIAL=0x00000002u;//径向模糊
 // const uint mode=RADIAL;
 const uint mode=ORIENTED;
-const vec2 direction=vec2(-1.,1.);
-const float stepCnt=61.;
+const float stepCnt=61.;//迭代次数
 const float sqrt_2=1.414213562373095;
 const float pi=3.141592653;
-const float durationTime=6.;
 
 //方向模糊-一次 pass
 void mainImage(out vec4 fragColor,in vec2 fragCoord)

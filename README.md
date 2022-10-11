@@ -232,6 +232,38 @@ CoC 值反映了散景程度，当 CoC 增大时，应适当增加采样次数�
 
 
 
+## FT_OutlineOff-轮廓错位
+
+基于亮度的边缘检测。
+
+> OutlineOff_single_pass.frag
+
+### 定向错位
+
+![OutlineOff_single_pass_oriented](Shadertoy/FT_OutlineOff/OutlineOff_single_pass_oriented.png)
+
+### 径向错位
+
+![OutlineOff_single_pass_radial](Shadertoy/FT_OutlineOff/OutlineOff_single_pass_radial.png)
+
+
+
+## FT_RGBSplitOutlineOff-轮廓错位 RGB 分离
+
+在轮廓错位的基础上进行 RGB 分离。RGB 三个通道需分别进行边缘检测。
+
+> RGBSplitOutlineOff_single_pass.frag
+
+### 定向分离
+
+![RGBSplitOutlineOff_single_pass_oriented](Shadertoy/FT_RGBSplitOutlineOff/RGBSplitOutlineOff_single_pass_oriented.png)
+
+### 径向分离
+
+![RGBSplitOutlineOff_single_pass_radial](Shadertoy/FT_RGBSplitOutlineOff/RGBSplitOutlineOff_single_pass_radial.png)
+
+
+
 ## FT_TvOpen-电视开启
 
 包含白色开场、纵向压缩、水平抖动三部分。
