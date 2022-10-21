@@ -273,10 +273,23 @@ void mainImage(out vec4 fragColor,in vec2 fragCoord)
     vec2[5]vertexsPolygon=calcPentagon(vec2(.5)*iResolution.xy,.2*iResolution.y,progress*2.*pi);
     vec2 vertexs[10]=vec2[10](vertexsPolygon[0],vertexsPolygon[1],vertexsPolygon[2],vertexsPolygon[3],vertexsPolygon[4],vec2(0.),vec2(0.),vec2(0.),vec2(0.),vec2(0.));
     vertexs[2].y-=150.;
+    
+    //有相交边的复杂多边形
+    vertexs[0]=vec2(.55,.95);
+    vertexs[1]=vec2(.45,.05);
+    vertexs[2]=vec2(.1,.5);
+    vertexs[3]=vec2(.8,.85);
+    vertexs[4]=vec2(.95,.2);
+    vertexs[5]=vec2(.05,.1);
+    vertexs[6]=vec2(.75,.35);
+    
     //绘制五边形
     // float ratioPolygon=drawConvexPolygon(fragCoord,5,vertexs,true);
-    float ratioPolygon=drawPolygon_oddEven(fragCoord,5,vertexs,true);
+    // float ratioPolygon=drawPolygon_oddEven(fragCoord,5,vertexs,true);
     // float ratioPolygon=drawPolygon_nonzeroWindingNumber(fragCoord,5,vertexs,true);
+    
+    // float ratioPolygon=drawPolygon_oddEven(uv,7,vertexs,true);
+    float ratioPolygon=drawPolygon_nonzeroWindingNumber(uv,7,vertexs,true);
     
     //绘制扇形
     float ratioSector=drawSector(fragCoord,vec2(.5,.5)*iResolution.xy,.4*iResolution.y,-.5*pi,1.2*pi,false);
