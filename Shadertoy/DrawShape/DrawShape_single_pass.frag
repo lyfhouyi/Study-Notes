@@ -25,12 +25,29 @@ vec2[5]calcPentagon(vec2 center,float edgeLength,float theta){
 }
 
 //计算两直线交点：直线 A 上两点 lineAP1、lineAP2，直线 B 上两点 lineBP1、lineBP2
-vec2 calcInterPoint(vec2 lineAP1,vec2 lineAP2,vec2 lineBP1,vec2 lineBP2){
+//返回值第三分量：交点相对于直线 A 起点 lineAP1 的参数坐标。
+vec3 calcInterPoint_straightLines(vec2 lineAP1,vec2 lineAP2,vec2 lineBP1,vec2 lineBP2){
     vec3 dirA=vec3(normalize(lineAP2-lineAP1),0.);
     vec3 dirB=vec3(normalize(lineBP2-lineBP1),0.);
     vec3 tmp=vec3(lineBP1-lineAP1,0.);
     float t=cross(tmp,dirB).z/cross(dirA,dirB).z;
-    return lineAP1+dirA.xy*t;
+    return vec3(lineAP1+dirA.xy*t,t);
+}
+
+//计算射线与线段交点：射线端点 rayP1、射线方向上一点 rayP2，线段两端点 segmentP1、segmentP2
+//返回值第三分量：交点相对于射线端点 rayP1 的参数坐标，若小于 0，说明射线与线段不相交，此时返回值的前两个分量无意义。
+vec3 calcInterPoint_raySegment(vec2 rayP1,vec2 rayP2,vec2 segmentP1,vec2 segmentP2){
+    vec3 interPoint_straightLines = calcInterPoint_straightLines(rayP1,rayP2,segmentP1,segmentP2);
+    if(interPoint_straightLines.z<0.){
+        return interPoint_straightLines;
+    }
+    float segmentLength = distance(segmentP1,segmentP2);
+    float interPointSegmentP1 = distance(interPoint_straightLines.xy,segmentP1);
+    float interPointSegmentP2 = distance(interPoint_straightLines.xy,segmentP2);
+    if(interPointSegmentP1>segmentLength || interPointSegmentP2>segmentLength){
+        return vec3(interPoint_straightLines.xy,-1.);
+    }
+    return interPoint_straightLines;
 }
 
 //计算两向量的夹角（从向量 A 逆时针转到向量 B）：向量 A vecA，向量 B vecB
@@ -147,6 +164,63 @@ float drawConvexPolygon(vec2 pt,int vertexCnt,vec2[10]vertexs,bool smoothInner){
     return smoothstep(0.,1.,minDisEdge/(thickness*maxRange));
 }
 
+//绘制任意多边形（奇偶规则）：顶点个数 vertexCnt，顶点数组 vertexs，过渡带是否在边界内 smoothInner
+float drawPolygon_oddEven(vec2 pt,int vertexCnt,vec2[10]vertexs,bool smoothInner){
+    if(vertexCnt<3){
+        return 0.;
+    }
+    
+    vec2 outPoint=vec2(-1.);
+    int intersectCnt=0;
+    for(int indexStart=0;indexStart<vertexCnt;indexStart++){
+        int indexEnd=int(mod(float(indexStart)+1.,float(vertexCnt)));
+        vec2 edgeStart2End=normalize(vertexs[indexEnd]-vertexs[indexStart]);
+        vec3 interPoint_raySegment=calcInterPoint_raySegment(pt,outPoint,vertexs[indexStart],vertexs[indexEnd]);
+        if(interPoint_raySegment.z>0.){
+            //射线与多边形边相交
+            intersectCnt++;
+        }
+    }
+    
+    //若从当前位置指向多边形外一点的射线与多边形相交的边数为奇数，则当前点处于多边形内部，否则处于多边形外部
+    if(int(mod(float(intersectCnt),float(2.)))==1){
+        return 1.;
+    }else{
+        return 0.;
+    }
+}
+
+//绘制任意多边形（非零环绕数规则）：顶点个数 vertexCnt，顶点数组 vertexs，过渡带是否在边界内 smoothInner
+float drawPolygon_nonzeroWindingNumber(vec2 pt,int vertexCnt,vec2[10]vertexs,bool smoothInner){
+    if(vertexCnt<3){
+        return 0.;
+    }
+    
+    vec2 outPoint=vec2(-1.);
+    vec2 edgeU=outPoint-pt;
+    int windingNumber=0;
+    for(int indexStart=0;indexStart<vertexCnt;indexStart++){
+        int indexEnd=int(mod(float(indexStart)+1.,float(vertexCnt)));
+        vec2 edgeStart2End=normalize(vertexs[indexEnd]-vertexs[indexStart]);
+        vec3 interPoint_raySegment=calcInterPoint_raySegment(pt,outPoint,vertexs[indexStart],vertexs[indexEnd]);
+        if(interPoint_raySegment.z>0.){
+            //射线与多边形边相交
+            if(cross(vec3(edgeU,0.),vec3(edgeStart2End,0.)).z>0.){
+                windingNumber++;
+            }else{
+                windingNumber--;
+            }
+        }
+    }
+    
+    //若当前位置的环绕数非零，则当前点处于多边形内部，否则处于多边形外部
+    if(windingNumber!=0){
+        return 1.;
+    }else{
+        return 0.;
+    }
+}
+
 //绘制圆角矩形
 float drawRoundRect(vec2 pt,vec2 center,float majorAxis,float minorAxis,bool smoothInner){
     return 0.;
@@ -180,7 +254,7 @@ void mainImage(out vec4 fragColor,in vec2 fragCoord)
 {
     vec2 uv=fragCoord/iResolution.xy;
     float progress=fract(iTime/durationTime);
-    
+    progress=0.;
     vec3 colorA=vec3(1.,1.,0.);
     vec3 colorB=vec3(1.,0.,1.);
     vec3 colorBackground=vec3(0.);
@@ -198,9 +272,11 @@ void mainImage(out vec4 fragColor,in vec2 fragCoord)
     
     vec2[5]vertexsPolygon=calcPentagon(vec2(.5)*iResolution.xy,.2*iResolution.y,progress*2.*pi);
     vec2 vertexs[10]=vec2[10](vertexsPolygon[0],vertexsPolygon[1],vertexsPolygon[2],vertexsPolygon[3],vertexsPolygon[4],vec2(0.),vec2(0.),vec2(0.),vec2(0.),vec2(0.));
-    
+    vertexs[2].y-=150.;
     //绘制五边形
-    float ratioPolygon=drawConvexPolygon(fragCoord,5,vertexs,true);
+    // float ratioPolygon=drawConvexPolygon(fragCoord,5,vertexs,true);
+    float ratioPolygon=drawPolygon_oddEven(fragCoord,5,vertexs,true);
+    // float ratioPolygon=drawPolygon_nonzeroWindingNumber(fragCoord,5,vertexs,true);
     
     //绘制扇形
     float ratioSector=drawSector(fragCoord,vec2(.5,.5)*iResolution.xy,.4*iResolution.y,-.5*pi,1.2*pi,false);
