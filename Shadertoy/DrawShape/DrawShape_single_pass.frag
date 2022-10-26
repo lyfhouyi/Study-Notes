@@ -61,6 +61,25 @@ float calcAngle(vec2 vecA,vec2 vecB){
     return sinTheta>=0.0?theta:2.0*pi-theta;
 }
 
+//计算点到直线距离：点 point，直线上两点 lineP1、lineP2
+float calcDistance_pointStraightLine(vec2 point,vec2 lineP1,vec2 lineP2){
+    vec2 lineDirection=normalize(lineP2-lineP1);
+    vec2 vecLineP1ToPoint=point-lineP1;
+    return abs(cross(vec3(lineDirection,0.),vec3(vecLineP1ToPoint,0.)).z);
+}
+
+//计算点到线段距离：点 point，线段两端点 segmentP1、segmentP2
+//若返回值小于 0，说明点到线段的投影不在线段上，此时返回值的绝对值为点到线段最近端端点的距离。
+float calcDistance_pointSegment(vec2 point,vec2 segmentP1,vec2 segmentP2){
+    vec2 lineDirection=normalize(segmentP2-segmentP1);
+    vec2 vecSegmentP1ToPoint=point-segmentP1;
+    if(dot(lineDirection,vecSegmentP1ToPoint)>0. && dot(-lineDirection,point-segmentP2)>0.){
+        return abs(cross(vec3(lineDirection,0.),vec3(vecSegmentP1ToPoint,0.)).z);
+    }else{
+        return -min(distance(point,segmentP1),distance(point,segmentP2));
+    }
+}
+
 //两图形求交
 float calcIntersection(float geomA,float geomB){
     return min(geomA,geomB);
@@ -301,5 +320,15 @@ void mainImage(out vec4 fragColor,in vec2 fragCoord)
     // }
     // vec3 color = mix(colorBackground,colorA,x);
     // color = mix(color,colorBackground,round(uv));
+    
+    //点到直线距离
+    // if(calcDistance_pointStraightLine(uv,vec2(0.2),vec2(.6))<0.1){
+        //     color = vec3(1.0,0.0,0.);
+    // }
+    
+    //点到线段距离
+    if(abs(calcDistance_pointSegment(uv,vec2(.2),vec2(.6)))<.2){
+        color=vec3(1.,0.,0.);
+    }
     fragColor=vec4(color,1.);
 }

@@ -3,7 +3,7 @@
 
 const float durationTime=5.;
 const float pi=3.141592653;
-const float splitTheta=.6*pi;//切分角度
+const float splitTheta=1.9*pi;//切分角度
 const float speed=2.;//滑动速度
 
 //切分转场-一次 pass
@@ -15,7 +15,7 @@ void mainImage(out vec4 fragColor,in vec2 fragCoord)
     // time = 1.;
     vec2 direction=vec2(cos(splitTheta),sin(splitTheta));
     
-    float splitThetaModulated=mod(splitTheta,.5*pi);
+    float splitThetaModulated=mod(splitTheta,2.*pi);
     splitThetaModulated=min(splitThetaModulated,.5*pi-splitThetaModulated);
     float len=speed*1./cos(splitThetaModulated);//切分线长度
     

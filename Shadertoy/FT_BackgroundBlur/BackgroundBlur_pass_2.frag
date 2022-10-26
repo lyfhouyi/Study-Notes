@@ -1,0 +1,25 @@
+#iChannel0"file://BackgroundBlur_pass_1.frag"
+
+const float kernelSize=60.;//卷积核单边尺寸
+
+//背景模糊-第二次 pass，模糊背景-竖直方向
+void mainImage(out vec4 fragColor,in vec2 fragCoord)
+{
+    vec2 uv=fragCoord/iResolution.xy;
+    float pixelStep=4./iResolution.y;
+    
+    //计算卷积
+    vec3 color=vec3(0.);
+    vec2 st;
+    float sumCnt=0.;
+    for(float i=-kernelSize;i<=kernelSize;i++){
+        st=uv;
+        st.y+=i*pixelStep;
+        if(all(greaterThan(st,vec2(0.)))&&all(lessThan(st,vec2(1.)))){
+            color+=texture2D(iChannel0,st).rgb;
+            sumCnt++;
+        }
+    }
+    color/=sumCnt;
+    fragColor=vec4(color,1.);
+}
