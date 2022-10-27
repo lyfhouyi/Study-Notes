@@ -39,7 +39,7 @@ void mainImage(out vec4 fragColor,in vec2 fragCoord)
         //两侧
         scalingRatio=4.;
         st=scaleMatrix(scalingRatio)*uv+vec2(.5)-time*speed*direction;
-        st+=.5*directionNormal;
+        st+=-.5*directionNormal;
     }else if(cross(vec3(uv-splitPoint_1,0.),vec3(direction,0.)).z<0.&&cross(vec3(uv-splitPoint_2,0.),vec3(direction,0.)).z<0.){
         //两侧
         scalingRatio=4.;

@@ -1,4 +1,3 @@
-from turtle import width
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -281,11 +280,15 @@ def plotCubicBezier(p1_x, p1_y, p2_x, p2_y):
     x = np.array(x)
     y = np.array(y)
 
+    print(x)
+    print(y)
     plt.plot(x, y, linewidth=3)
     plt.plot(t, t, linestyle='--')
+    plt.plot(t,y,linestyle='-.')
+    plt.plot(t,x,linestyle='-.')
     plt.grid()
     plt.show()
 
 
-plotEaseCurve(ehEaseCustom)
-# plotCubicBezier(0.79, 0.11, 0.18, 0.71)
+# plotEaseCurve(ehEaseCustom)
+plotCubicBezier(0, 1.49, 0, -0.61)

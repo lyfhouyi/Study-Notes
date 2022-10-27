@@ -294,6 +294,18 @@ CoC 值反映了散景程度，当 CoC 增大时，应适当增加采样次数�
 
 
 
+## RollingShowOrientation-定向分屏滚动
+
+若想将斜线角度、贴图宽高比与显示分辨率解耦，则不能使用基于显示分辨率的纹理坐标 uv，而应该直接使用当前点坐标 fragCoord 进行坐标变换。
+
+> RollingShowOrientation_single_pass.frag
+
+### 滤镜后
+
+![RollingShowOrientation_single_pass](Shadertoy/FT_RollingShowOrientation/RollingShowOrientation_single_pass.png)
+
+
+
 ## FT_TvOpen-电视开启
 
 包含白色开场、纵向压缩、水平抖动三部分。
@@ -457,6 +469,18 @@ CoC 值反映了散景程度，当 CoC 增大时，应适当增加采样次数�
 ### 滤镜后
 
 ![RoundSwell_single_pass](Shadertoy/FT_RoundSwell/RoundSwell_single_pass.png)
+
+
+
+## GlassBlock-玻璃块
+
+三次贝塞尔的应用。若想将斜线角度与显示分辨率解耦，则不能使用基于显示分辨率的纹理坐标 uv，而应该直接使用当前点坐标 fragCoord 计算斜线坐标。
+
+> GlassBlock_single_pass.frag
+
+### 滤镜后
+
+![GlassBlock_single_pass](Shadertoy/FT_GlassBlock/GlassBlock_single_pass.png)
 
 
 

@@ -80,6 +80,14 @@ float calcDistance_pointSegment(vec2 point,vec2 segmentP1,vec2 segmentP2){
     }
 }
 
+//计算三次贝塞尔：参数 t，四个控制点 p0、p1、p2、p3
+float cubic_bezier(float t,float p0,float p1,float p2,float p3){
+    mat4 mat = mat4(-1.,3.,-3.,1.,3.,-6.,3.,0.,-3.,3.,0.,0.,1.0,0.,0.,0.);
+    vec4 left = vec4(t * t * t, t * t, t, 1.);
+    vec4 right = vec4(p0, p1, p2, p3);
+    return dot(left,mat*right);
+}
+
 //两图形求交
 float calcIntersection(float geomA,float geomB){
     return min(geomA,geomB);
@@ -268,12 +276,48 @@ float drawLineSegment(vec2 pt,vec2 vertexStart,vec2 vertexEnd,float lineWidth,bo
     return 1.-smoothstep(0.,1.,abs(disEdge)/lineWidth);
 }
 
+//绘制三次贝塞尔曲线：两个控制点 p1、p2，线宽 linewidth，过渡带是否在边界内 smoothInner
+//起点为 vec2(0.0,0.0)，终点为 vec2(1.0,1.0)
+//输入应为纹理坐标 uv
+float drawCubicBezier(vec2 pt,vec2 p1,vec2 p2,float linewidth,bool smoothInner){
+    float minDistance=2.0;
+    for(float t=0.;t<=1.;t=t+.001){
+        float bezierX=cubic_bezier(t,0.,p1.x,p2.x,1.);
+        float bezierY=cubic_bezier(t,0.,p1.y,p2.y,1.);
+        minDistance=min(minDistance,distance(pt,vec2(bezierX,bezierY)));
+    }
+    return 1.-smoothstep(0.5,1.0,minDistance/linewidth);
+}
+
+
+/*
+二维几何变换矩阵
+输出为三维矩阵（二维几何变换的齐次坐标形式）。
+*/
+
+//二维平移矩阵：平移向量 t
+mat3 translate2DMatrix(vec2 t){
+    return mat3(1.,0.,0.,0.,1.,0.,t.x,t.y,1);
+}
+
+//二维基准点旋转矩阵：基准点 pivotPt，旋转角度 theta
+mat3 rotate2DMatrix(vec2 pivotPt,float theta){
+    float c=cos(theta);
+    float s=sin(theta);
+    return mat3(c,s,0.,-s,c,0.,pivotPt.x*(1.-c)+pivotPt.y*s,pivotPt.y*(1.-c)-pivotPt.x*s,1.);
+}
+
+//二维基准点缩放矩阵：基准点 fixedPt，缩放系数 s
+mat3 scale2DMatrix(vec2 fixedPt,vec2 s){
+    return mat3(s.x,0.,0.,0.,s.y,0.,fixedPt.x*(1.-s.x),fixedPt.y*(1.-s.y),1.);
+}
+
 //绘制几何图形-一次 pass
 void mainImage(out vec4 fragColor,in vec2 fragCoord)
 {
     vec2 uv=fragCoord/iResolution.xy;
     float progress=fract(iTime/durationTime);
-    progress=0.;
+    float time=progress;
     vec3 colorA=vec3(1.,1.,0.);
     vec3 colorB=vec3(1.,0.,1.);
     vec3 colorBackground=vec3(0.);
@@ -289,46 +333,58 @@ void mainImage(out vec4 fragColor,in vec2 fragCoord)
     float ratio1=drawLineSegment(fragCoord,vec2(.6,.3)*iResolution.xy,vec2(.7,.7)*iResolution.xy,100.,true);
     float ratio2=drawLineSegment(fragCoord,vec2(.6,.3)*iResolution.xy,vec2(.7,.7)*iResolution.xy,100.,false);
     
-    vec2[5]vertexsPolygon=calcPentagon(vec2(.5)*iResolution.xy,.2*iResolution.y,progress*2.*pi);
+    vec2[5]vertexsPolygon=calcPentagon(vec2(.5)*iResolution.xy,.2*iResolution.y,2.*pi);
     vec2 vertexs[10]=vec2[10](vertexsPolygon[0],vertexsPolygon[1],vertexsPolygon[2],vertexsPolygon[3],vertexsPolygon[4],vec2(0.),vec2(0.),vec2(0.),vec2(0.),vec2(0.));
-    vertexs[2].y-=150.;
     
     //有相交边的复杂多边形
-    vertexs[0]=vec2(.55,.95);
-    vertexs[1]=vec2(.45,.05);
-    vertexs[2]=vec2(.1,.5);
-    vertexs[3]=vec2(.8,.85);
-    vertexs[4]=vec2(.95,.2);
-    vertexs[5]=vec2(.05,.1);
-    vertexs[6]=vec2(.75,.35);
+    // vertexs[0]=vec2(.55,.95);
+    // vertexs[1]=vec2(.45,.05);
+    // vertexs[2]=vec2(.1,.5);
+    // vertexs[3]=vec2(.8,.85);
+    // vertexs[4]=vec2(.95,.2);
+    // vertexs[5]=vec2(.05,.1);
+    // vertexs[6]=vec2(.75,.35);
+    
+    mat3 translateMatrix=translate2DMatrix(vec2(100.,-50.));
+    mat3 rotateMatrix=rotate2DMatrix(vertexs[1],time*2.*pi);
+    mat3 scaleMatrix=scale2DMatrix(vertexs[0],vec2(sin(2.*pi*iTime/durationTime)));
+    for(int i=0;i<5;i++){
+        vec3 vertex_homogeneous=scaleMatrix*vec3(vertexs[i],1.);
+        vertexs[i]=vertex_homogeneous.xy;
+    }
     
     //绘制五边形
-    // float ratioPolygon=drawConvexPolygon(fragCoord,5,vertexs,true);
+    float ratioPolygon=drawConvexPolygon(fragCoord,5,vertexs,true);
     // float ratioPolygon=drawPolygon_oddEven(fragCoord,5,vertexs,true);
     // float ratioPolygon=drawPolygon_nonzeroWindingNumber(fragCoord,5,vertexs,true);
     
     // float ratioPolygon=drawPolygon_oddEven(uv,7,vertexs,true);
-    float ratioPolygon=drawPolygon_nonzeroWindingNumber(uv,7,vertexs,true);
+    // float ratioPolygon=drawPolygon_nonzeroWindingNumber(uv,7,vertexs,true);
     
     //绘制扇形
     float ratioSector=drawSector(fragCoord,vec2(.5,.5)*iResolution.xy,.4*iResolution.y,-.5*pi,1.2*pi,false);
     
+    //绘制三次贝塞尔曲线
+    float ratioBezier=drawCubicBezier(uv,vec2(.4,1.49),vec2(.64,-.61),.005,true);
+    // float ratioBezier=drawCubicBezier(uv,vec2(.0,1.49),vec2(0,-.61),.005,true);
+    
     // vec3 color=mix(colorBackground,colorA,calcDifference(ratioEllipse,ratioPolygon));
-    vec3 color=mix(colorBackground,colorA,ratioPolygon);
+    vec3 color=mix(colorBackground,colorA,ratioBezier);
     // if(x ==1.0){
         //     color = colorB;
     // }
     // vec3 color = mix(colorBackground,colorA,x);
     // color = mix(color,colorBackground,round(uv));
     
-    //点到直线距离
-    // if(calcDistance_pointStraightLine(uv,vec2(0.2),vec2(.6))<0.1){
-        //     color = vec3(1.0,0.0,0.);
+    // 点到直线距离
+    // if(calcDistance_pointStraightLine(fragCoord,vec2(.5)*iResolution.xy,vec2(.5)*iResolution.xy+vec2(100.,100.))<10.){
+        //     color=vec3(1.,0.,0.);
     // }
     
     //点到线段距离
-    if(abs(calcDistance_pointSegment(uv,vec2(.2),vec2(.6)))<.2){
-        color=vec3(1.,0.,0.);
-    }
+    // if(abs(calcDistance_pointSegment(uv,vec2(.2),vec2(.6)))<.2){
+        //     color=vec3(1.,0.,0.);
+    // }
+    
     fragColor=vec4(color,1.);
 }
