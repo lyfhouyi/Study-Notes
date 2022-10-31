@@ -496,6 +496,18 @@ ElectronicRollingShutter 是逐行 reset 的，因此根据 y 轴坐标在 x 轴
 
 
 
+## FT_SoulOut-灵魂出窍
+
+通过放大+透明度实现灵魂出窍效果。
+
+> SoulOut_single_pass.frag
+
+### 滤镜后
+
+![SoulOut_single_pass](Shadertoy/FT_SoulOut/SoulOut_single_pass.png)
+
+
+
 # 转场特效
 
 转场特效，双输入流

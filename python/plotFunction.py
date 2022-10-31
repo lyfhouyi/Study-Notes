@@ -291,4 +291,4 @@ def plotCubicBezier(p1_x, p1_y, p2_x, p2_y):
 
 
 # plotEaseCurve(ehEaseCustom)
-plotCubicBezier(0, 1.49, 0, -0.61)
+plotCubicBezier(-0.5, 0.5, 0.5, 0.5)
