@@ -498,7 +498,7 @@ ElectronicRollingShutter 是逐行 reset 的，因此根据 y 轴坐标在 x 轴
 
 ## FT_SoulOut-灵魂出窍
 
-通过放大+透明度实现灵魂出窍效果。
+通过放大+透明度变化实现灵魂出窍效果。
 
 > SoulOut_single_pass.frag
 
@@ -611,3 +611,31 @@ ElectronicRollingShutter 是逐行 reset 的，因此根据 y 轴坐标在 x 轴
 ### 过程中_2
 
 ![Split_single_pass2](Shadertoy/TR_Split/Split_single_pass2.png)
+
+
+
+## RouletteInto-轮盘进入
+
+以视口下边界中心为轴旋转进入+圆周模糊。
+
+> RouletteInto_single_pass.frag
+
+### 过程中
+
+![RouletteInto_single_pass](Shadertoy/TR_RouletteInto/RouletteInto_single_pass.png)
+
+
+
+## TR_StretchOff-拉出
+
+简单的坐标变换。
+
+> StretchOff_single_pass.frag
+
+### 过程中_1
+
+![StretchOff_single_pass1](Shadertoy/TR_StretchOff/StretchOff_single_pass1.png)
+
+### 过程中_2
+
+![StretchOff_single_pass2](Shadertoy/TR_StretchOff/StretchOff_single_pass2.png)

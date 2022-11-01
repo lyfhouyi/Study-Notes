@@ -24,7 +24,7 @@ float easeOutBounce(float x){
     }
 }
 
-//滑入转场-一次 pass
+//滑入-一次 pass
 void mainImage(out vec4 fragColor,in vec2 fragCoord)
 {
     vec2 uv=fragCoord/iResolution.xy;

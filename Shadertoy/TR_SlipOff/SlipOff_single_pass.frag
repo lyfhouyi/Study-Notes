@@ -5,7 +5,7 @@ const float durationTime=6.;//特效时长
 const vec2 slipDirection=normalize(vec2(3.,1.));//滑动方向
 const float vSlip=1.5;//滑动速度
 
-//滑出转场-一次 pass
+//滑出-一次 pass
 void mainImage(out vec4 fragColor,in vec2 fragCoord)
 {
     vec2 uv=fragCoord/iResolution.xy;

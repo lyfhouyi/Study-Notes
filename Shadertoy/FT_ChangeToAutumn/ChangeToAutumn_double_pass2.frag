@@ -10,7 +10,7 @@ float random(vec2 st){
 }
 
 
-//树叶变黄特效
+//树叶变黄
 void mainImage(out vec4 fragColor,in vec2 fragCoord)
 {
     vec2 uv=fragCoord/iResolution.xy;

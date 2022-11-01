@@ -6,7 +6,7 @@ const float pi=3.141592653;
 const float splitTheta=1.9*pi;//切分角度
 const float speed=2.;//滑动速度
 
-//切分转场-一次 pass
+//切分-一次 pass
 void mainImage(out vec4 fragColor,in vec2 fragCoord)
 {
     vec2 uv=fragCoord/iResolution.xy;

@@ -35,7 +35,7 @@ float noise(vec2 st){
     (d-b)*u.x*u.y;
 }
 
-//树叶变黄特效
+//树叶变黄
 void mainImage(out vec4 fragColor,in vec2 fragCoord)
 {
     vec2 centerCoords[centerCnt];
@@ -71,7 +71,7 @@ void mainImage(out vec4 fragColor,in vec2 fragCoord)
     colorGreen.rgb*=rgbRatio;
     vec4 colorAutumn=mix(colorBase,colorGreen,colorGreen.a);
     
-    // //过曝特效
+    // 过曝
     // float exposure =1.0*sin(2.0*pi/durationTime*iTime)+1.0;
     // colorAutumn.rgb=colorAutumn.rgb * (exposure+1.0);
     

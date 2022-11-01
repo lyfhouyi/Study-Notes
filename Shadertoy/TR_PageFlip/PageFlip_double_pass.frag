@@ -9,7 +9,7 @@ float gaussianWeight(float distance){
     return(1./pow(sqrt(2.*pi*pow(sigma,2.)),2.))*exp(-((distance*distance)/(2.*pow(sigma,2.))));
 }
 
-//翻页转场-第二次 pass，抗锯齿
+//翻页-第二次 pass，抗锯齿
 vec4 gaussianBlur(vec2 fragCoord){
     //计算显示权重
     float greenWeight=0.;

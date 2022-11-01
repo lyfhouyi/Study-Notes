@@ -10,7 +10,7 @@ vec2 calcCoord(vec2 uv,float magnifyRatio){
     return vec2(.5)+ratio*vec;
 }
 
-//放大转场-一次 pass
+//放大-一次 pass
 void mainImage(out vec4 fragColor,in vec2 fragCoord)
 {
     vec2 uv=fragCoord/iResolution.xy;

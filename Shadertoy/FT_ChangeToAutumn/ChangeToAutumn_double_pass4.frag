@@ -159,7 +159,7 @@ float isGreen(vec4 colorBase){
     // return(hsv.x>45.&&hsv.x<=200.?1.0:0.0);
 }
 
-//树叶变黄特效
+//树叶变黄
 void mainImage(out vec4 fragColor,in vec2 fragCoord)
 {
     vec2 uv=fragCoord/iResolution.xy;

@@ -78,7 +78,7 @@ float drawLineSegment(vec2 pt,vec2 vertexStart,vec2 vertexEnd,float lineWidth,bo
     return 1.-smoothstep(0.,1.,abs(disEdge)/lineWidth);
 }
 
-//快门转场-一次 pass
+//快门-一次 pass
 void mainImage(out vec4 fragColor,in vec2 fragCoord)
 {
     vec2 uv=fragCoord/iResolution.xy;

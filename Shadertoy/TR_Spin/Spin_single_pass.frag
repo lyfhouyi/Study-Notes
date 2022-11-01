@@ -4,7 +4,7 @@
 const float durationTime=16.;
 const float pi=3.141592653;
 
-//自旋转场-一次 pass
+//自旋-一次 pass
 void mainImage(out vec4 fragColor,in vec2 fragCoord)
 {
     vec2 uv=fragCoord/iResolution.xy;

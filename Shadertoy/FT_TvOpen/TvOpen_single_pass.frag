@@ -78,7 +78,7 @@ vec3 getColor(vec2 uv,bool split,bool offset){
     return color;
 }
 
-//电视开启特效-一次 pass
+//电视开启-一次 pass
 void mainImage(out vec4 fragColor,in vec2 fragCoord)
 {
     vec2 uv=fragCoord/iResolution.xy;

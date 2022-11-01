@@ -13,7 +13,7 @@ const float durationTime=10.;
 
 vec2[]controlPoint=vec2[10](vec2(.81,.36),vec2(.33,.71),vec2(.54,.39),vec2(.53,.94),vec2(.98,.61),vec2(.50,.45),vec2(.14,.63),vec2(.74,.58),vec2(.23,.01),vec2(.27,.57));
 
-//泰森多边形特效-一次 pass
+//泰森多边形-一次 pass
 void mainImage(out vec4 fragColor,in vec2 fragCoord)
 {
     vec2 uv=fragCoord/iResolution.xy;
