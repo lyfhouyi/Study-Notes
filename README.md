@@ -175,6 +175,22 @@ CoC 值反映了散景程度，当 CoC 增大时，应适当增加采样次数�
 
 
 
+## FT_TiltShift-移轴摄影
+
+前景使用原图，背景进行散景模糊。
+
+> TiltShift_double_pass.frag
+
+### 圆形
+
+![TiltShift_double_pass_circle](Shadertoy/FT_TiltShift/TiltShift_double_pass_circle.png)
+
+### 水平
+
+![TiltShift_double_pass_horizontal](Shadertoy/FT_TiltShift/TiltShift_double_pass_horizontal.png)
+
+
+
 ## FT_ParticleBlur-粒子模糊
 
 随机在周围采样贴纹理颜色。
