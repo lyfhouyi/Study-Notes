@@ -245,6 +245,9 @@ def ehEaseInOutElasticBounce(x):
 def ehEaseCustom(x):
     return 1 - easeOutBounce(x)
 
+def ehTest(x):
+    return (1-np.cos(x))/2
+
 
 # 绘制缓动曲线
 def plotEaseCurve(func):
@@ -290,5 +293,5 @@ def plotCubicBezier(p1_x, p1_y, p2_x, p2_y):
     plt.show()
 
 
-# plotEaseCurve(ehEaseCustom)
-plotCubicBezier(-0.5, 0.5, 0.5, 0.5)
+plotEaseCurve(ehEaseCustom)
+# plotCubicBezier(-0.5, 0.5, 0.5, 0.5)

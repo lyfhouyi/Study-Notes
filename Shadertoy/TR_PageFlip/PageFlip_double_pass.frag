@@ -38,7 +38,7 @@ void mainImage(out vec4 fragColor,in vec2 fragCoord)
     float progress=fract(iTime/4.);//特效进度
     vec2 vDirection=normalize(vec2(-5.,1.));//圆柱运动方向（与圆柱轴线垂直）
     
-    vec2 pointAxisBottom=vec2(iResolution.x+progress*vAxis,0.);//中轴与屏幕下边界交点，将第一张图 (iResolution.x, 0.0) 点与圆柱初始中轴处固接
+    vec2 pointAxisBottom=vec2(iResolution.x+progress*vAxis,0.);//中轴与画布下边界交点，将第一张图 (iResolution.x, 0.0) 点与圆柱初始中轴处固接
     
     float disCurAxis=dot(fragCoord-pointAxisBottom,vDirection);//当前点到中轴距离
     

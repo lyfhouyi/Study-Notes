@@ -30,6 +30,24 @@
 
 
 
+## FT_StrengthDisplay-颜色分级显示
+
+模拟显示系统只能显示较少强度等级时的效果。人类对光强度的感觉按对数等级变化，这意味着若两个强度的比率与另外两个强度之间的比率相同，则我们所感觉到的两个强度之间的差异也相同。即，强度等级不应该按等差数列划分，而应该按等比数列划分。
+
+### 滤镜后-灰度图
+
+> FT_StrengthDisplay_single_pass.frag
+
+![FT_StrengthDisplay_single_pass](Shadertoy/FT_StrengthDisplay/FT_StrengthDisplay_single_pass.png)
+
+### 滤镜后-彩色图
+
+> FT_StrengthDisplay_single_pass_channels.frag
+
+![FT_StrengthDisplay_single_pass_channels](Shadertoy/FT_StrengthDisplay/FT_StrengthDisplay_single_pass_channels.png)
+
+
+
 ## FT_GaussianBlur-高斯模糊
 
 使用高斯核对图片各像素点做卷积。
@@ -207,13 +225,24 @@ CoC 值反映了散景程度，当 CoC 增大时，应适当增加采样次数�
 
 前两次 pass 用来对原图进行模糊处理，以得到最终的背景图。由于需要颜色比较单一的背景图，因而模糊阶段需要较大的卷积核。若模糊阶段的步长过大，则会在模糊的背景中引入纹理噪声。
 
-注意第三次 pass 时前景纹理坐标的计算方式。
+注意前两次 pass 时卷积核权重的计算方式：卷积位置距离画布边缘越近，权重越大。
+
+注意第三次 pass 时前景纹理坐标的计算方式：
+
+1. 使用 textureResolution 及 fragCoord 保持纹理宽高比；
+2. 根据纹理宽高比及画布宽高比调整纹理尺寸，使纹理充分填充画布。
 
 > BackgroundBlur_triple_pass.frag
 
-### 滤镜后
+### 纹理尺寸调整前
 
 ![BackgroundBlur_triple_pass](Shadertoy/FT_BackgroundBlur/BackgroundBlur_triple_pass.png)
+
+
+
+### 纹理尺寸调整后
+
+![BackgroundBlur_triple_pass_adjust](Shadertoy/FT_BackgroundBlur/BackgroundBlur_triple_pass_adjust.png)
 
 
 
@@ -376,9 +405,9 @@ CoC 值反映了散景程度，当 CoC 增大时，应适当增加采样次数�
 
 ## FT_LUTFilter-色彩滤镜
 
-通过 LUT 查表得到颜色映射值。
+通过 LUT 查表得到颜色映射值。shader 后缀是 lut 表尺寸。
 
-> OrientationBlur_single_pass.frag
+> LUTFilter_single_pass_512_512.frag
 
 ### 原图
 
@@ -446,21 +475,32 @@ CoC 值反映了散景程度，当 CoC 增大时，应适当增加采样次数�
 ## FT_Halftone-半色调
 
 在马赛克效果的基础上计算变换后的纹理坐标与原始纹理坐标的偏移量，根据偏移量决定二值化的阈值。受当前像素灰度值影响的二值化阈值使得二值化图像越接近黑色的部分墨迹点越大。
->Halftone_single_pass.frag
 
 不同的马赛克块尺寸与墨迹点尺寸的组合可以呈现出不同的滤镜效果。
 
-### tileSize = 2  dotSize = 1.5
+### 滤镜后-灰度图
+
+>Halftone_single_pass.frag
+
+* tileSize = 2  dotSize = 1.5
 
 ![Halftone_single_pass_T2D1_5.](Shadertoy/FT_Halftone/Halftone_single_pass_T2D1_5..png)
 
-### tileSize = 3  dotSize = 4
+* tileSize = 3  dotSize = 4
 
 ![Halftone_single_pass_T3D4.](Shadertoy/FT_Halftone/Halftone_single_pass_T3D4..png)
 
-### tileSize = 8  dotSize = 6
+* tileSize = 8  dotSize = 6
 
 ![Halftone_single_pass_T8D6.](Shadertoy/FT_Halftone/Halftone_single_pass_T8D6..png)
+
+### 滤镜后-彩色图
+
+> Halftone_single_pass_channels.frag
+
+* tileSize = 10  dotSize = 10
+
+![Halftone_single_pass_channels_T10D10](Shadertoy/FT_Halftone/Halftone_single_pass_channels_T10D10.png)
 
 
 

@@ -2,7 +2,7 @@
 
 const float durationTime=5.;
 const vec2 tileSize=vec2(8.);//马赛克块尺寸
-const float dotSize=5.;//墨迹点尺寸
+const float dotSize=6.;//墨迹点尺寸
 
 //计算亮度
 float calcLuma(vec3 color){

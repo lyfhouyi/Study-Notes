@@ -24,6 +24,20 @@ vec2[5]calcPentagon(vec2 center,float edgeLength,float theta){
     return vec2[5](vertex_0,vertex_1,vertex_2,vertex_3,vertex_4);
 }
 
+//计算任意正多边形顶点坐标：形心坐标 center，半径 radius，边数 edgeCnt，以形心为轴自旋角度 theta
+vec2[10] calcPolygon(vec2 center,float radius,int edgeCnt,float theta){
+    vec2 vertexs[10];
+    mat2 rotateMatrix=mat2(cos(theta),sin(theta),-sin(theta),cos(theta));
+    for(int i=0;i<edgeCnt;i++){
+        float vertexTheta = 2.0*pi*float(i)/float(edgeCnt);
+        vec2 vertex_i = vec2(cos(vertexTheta),sin(vertexTheta))*radius;
+        vertex_i=rotateMatrix*vertex_i+center;
+        vertexs[i]=vertex_i;
+    }
+    return vertexs;
+}
+
+
 //计算两直线交点：直线 A 上两点 lineAP1、lineAP2，直线 B 上两点 lineBP1、lineBP2
 //返回值第三分量：交点相对于直线 A 起点 lineAP1 的参数坐标。
 vec3 calcInterPoint_straightLines(vec2 lineAP1,vec2 lineAP2,vec2 lineBP1,vec2 lineBP2){
@@ -119,6 +133,18 @@ float drawEllipse(vec2 pt,vec2 center,float majorAxis,float minorAxis,bool smoot
     float xDa=(pt.x*pt.x)/(majorAxis*majorAxis);
     float yDb=(pt.y*pt.y)/(minorAxis*minorAxis);
     
+    float value=xDa+yDb;
+    return smoothInner?(1.-smoothstep(.9,1.,value)):(1.-smoothstep(1.,1.1,value));
+}
+
+//绘制超椭圆：椭圆心 center，长轴 majorAxis，短轴 minorAxis，超参数 s，过渡带是否在边界内 smoothInner
+float drawHyperEllipse(vec2 pt,vec2 center,float majorAxis,float minorAxis,float s,bool smoothInner){
+    if(majorAxis<=0.||minorAxis<=0.){
+        return 0.;
+    }
+    pt=abs(pt-center);
+    float xDa = pow(pt.x/majorAxis,2.0/s);
+    float yDb = pow(pt.y/minorAxis,2.0/s);
     float value=xDa+yDb;
     return smoothInner?(1.-smoothstep(.9,1.,value)):(1.-smoothstep(1.,1.1,value));
 }
@@ -277,7 +303,7 @@ float drawLineSegment(vec2 pt,vec2 vertexStart,vec2 vertexEnd,float lineWidth,bo
 }
 
 //绘制三次贝塞尔曲线：两个控制点 p1、p2，线宽 linewidth，过渡带是否在边界内 smoothInner
-//起点为 vec2(0.0,0.0)，终点为 vec2(1.0,1.0)
+//起点为控制点 p0 vec2(0.0,0.0)，终点为控制点 p3 vec2(1.0,1.0)
 //输入应为纹理坐标 uv
 float drawCubicBezier(vec2 pt,vec2 p1,vec2 p2,float linewidth,bool smoothInner){
     float minDistance=2.0;
@@ -330,11 +356,16 @@ void mainImage(out vec4 fragColor,in vec2 fragCoord)
     //绘制椭圆
     float ratioEllipse=drawEllipse(fragCoord,vec2(.3,.7)*iResolution.xy,.2*iResolution.x,.2*iResolution.y,false);
     
+    //绘制超椭圆
+    float ratioHyperEllipse=drawHyperEllipse(fragCoord,vec2(.3,.7)*iResolution.xy,.2*iResolution.x,.2*iResolution.y,3.,false);
+    
     float ratio1=drawLineSegment(fragCoord,vec2(.6,.3)*iResolution.xy,vec2(.7,.7)*iResolution.xy,100.,true);
     float ratio2=drawLineSegment(fragCoord,vec2(.6,.3)*iResolution.xy,vec2(.7,.7)*iResolution.xy,100.,false);
     
-    vec2[5]vertexsPolygon=calcPentagon(vec2(.5)*iResolution.xy,.2*iResolution.y,2.*pi);
-    vec2 vertexs[10]=vec2[10](vertexsPolygon[0],vertexsPolygon[1],vertexsPolygon[2],vertexsPolygon[3],vertexsPolygon[4],vec2(0.),vec2(0.),vec2(0.),vec2(0.),vec2(0.));
+    vec2[5]vertexsPentagon=calcPentagon(vec2(.5)*iResolution.xy,.2*iResolution.y,2.*pi);
+    vec2[10]vertexsPolygon=calcPolygon(vec2(.5)*iResolution.xy,100.,10,time*pi);
+    
+    vec2 vertexs[10]=vec2[10](vertexsPentagon[0],vertexsPentagon[1],vertexsPentagon[2],vertexsPentagon[3],vertexsPentagon[4],vec2(0.),vec2(0.),vec2(0.),vec2(0.),vec2(0.));
     
     //有相交边的复杂多边形
     // vertexs[0]=vec2(.55,.95);
@@ -354,12 +385,15 @@ void mainImage(out vec4 fragColor,in vec2 fragCoord)
     }
     
     //绘制五边形
-    float ratioPolygon=drawConvexPolygon(fragCoord,5,vertexs,true);
+    // float ratioPolygon=drawConvexPolygon(fragCoord,5,vertexs,true);
     // float ratioPolygon=drawPolygon_oddEven(fragCoord,5,vertexs,true);
     // float ratioPolygon=drawPolygon_nonzeroWindingNumber(fragCoord,5,vertexs,true);
     
     // float ratioPolygon=drawPolygon_oddEven(uv,7,vertexs,true);
     // float ratioPolygon=drawPolygon_nonzeroWindingNumber(uv,7,vertexs,true);
+    
+    //绘制任意多边形
+    float ratioPolygon=drawConvexPolygon(fragCoord,10,vertexsPolygon,true);
     
     //绘制扇形
     float ratioSector=drawSector(fragCoord,vec2(.5,.5)*iResolution.xy,.4*iResolution.y,-.5*pi,1.2*pi,false);
@@ -369,7 +403,9 @@ void mainImage(out vec4 fragColor,in vec2 fragCoord)
     // float ratioBezier=drawCubicBezier(uv,vec2(.0,1.49),vec2(0,-.61),.005,true);
     
     // vec3 color=mix(colorBackground,colorA,calcDifference(ratioEllipse,ratioPolygon));
-    vec3 color=mix(colorBackground,colorA,ratioBezier);
+    vec3 color=mix(colorBackground,colorA,ratioHyperEllipse);
+    // vec3 color=mix(colorBackground,colorA,ratioEllipse);
+    
     // if(x ==1.0){
         //     color = colorB;
     // }
