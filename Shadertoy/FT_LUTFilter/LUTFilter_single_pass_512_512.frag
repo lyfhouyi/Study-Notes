@@ -1,4 +1,4 @@
-#iChannel0"file://test.jpg"
+#iChannel0"file://asset/img2.jpg"
 #iChannel1"file://lut_autumn.jpg"
 
 const float durationTime=6.;
@@ -10,7 +10,7 @@ void mainImage(out vec4 fragColor,in vec2 fragCoord)
     vec4 colorRaw=texture2D(iChannel0,uv);
     float progress=fract(iTime/durationTime);
     float time=progress;
-    time=1.0;
+    time=1.;
     
     //取出两个蓝色通道方格
     float blueColor=colorRaw.b*63.;

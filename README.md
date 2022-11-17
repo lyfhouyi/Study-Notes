@@ -423,7 +423,7 @@ CoC 值反映了散景程度，当 CoC 增大时，应适当增加采样次数�
 
 * 滤镜后色彩图
 
-  ![LUTFilter_single_pass](Shadertoy/FT_LUTFilter/LUTFilter_single_pass.png)
+  ![LUTFilter_single_pass](Shadertoy/FT_LUTFilter/LUTFilter_single_pass_512_512.png)
 
 * 滤镜后 LUT 图
 
