@@ -1,4 +1,4 @@
-#iChannel0"file://asset/img20.jpg"
+#iChannel0"file://asset/img21.jpg"
 #iChannel1"file://BackgroundBlur_pass_2.frag"
 
 //背景模糊-第三次 pass，贴图前景

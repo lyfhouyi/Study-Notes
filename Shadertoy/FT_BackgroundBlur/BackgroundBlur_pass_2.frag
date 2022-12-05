@@ -2,7 +2,7 @@
 
 const float kernelSize=60.;//卷积核单边尺寸
 
-const float sigma=.1;
+const float sigma=.01;
 
 //计算权重
 float distanceWeight(float dis){

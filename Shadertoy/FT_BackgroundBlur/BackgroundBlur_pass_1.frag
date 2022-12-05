@@ -1,8 +1,8 @@
-#iChannel0"file://asset/img20.jpg"
+#iChannel0"file://asset/img21.jpg"
 
 const float kernelSize=60.;//卷积核单边尺寸
 
-const float sigma=.1;
+const float sigma=.01;
 
 //计算权重
 float distanceWeight(float dis){
@@ -15,6 +15,25 @@ void mainImage(out vec4 fragColor,in vec2 fragCoord)
 {
     vec2 uv=fragCoord/iResolution.xy;
     float pixelStep=4./iResolution.x;
+    
+    vec2 textureResolution=iChannelResolution[0].xy;
+    float iAspect=iResolution.x/iResolution.y;//画布宽高比
+    float textureAspect=textureResolution.x/textureResolution.y;//纹理宽高比
+    
+    //根据宽高比调整镜像方式，用图像边缘区域覆盖图像中心区域
+    if(textureAspect>iAspect){
+        if(uv.y>.25&&uv.y<.5){
+            uv.y=.5-uv.y;
+        }else if(uv.y>.5&&uv.y<.75){
+            uv.y=1.5-uv.y;
+        }
+    }else{
+        if(uv.x>.25&&uv.x<.5){
+            uv.x=.5-uv.x;
+        }else if(uv.x>.5&&uv.x<.75){
+            uv.x=1.5-uv.x;
+        }
+    }
     
     //计算卷积
     vec3 color=vec3(0.);
