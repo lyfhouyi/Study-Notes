@@ -568,6 +568,20 @@ ElectronicRollingShutter 是逐行 reset 的，因此根据 y 轴坐标在 x 轴
 
 
 
+## FT_BumpMapping-凹凸映射
+
+基于像素点的颜色估计像素点的法向量，通过 Blinn-Phone 光照模型使图像具有立体感。
+
+通过颜色估计像素点高度。在任一点处，构造以该点为形心的正三角形，通过三角形的两条边计算该三角形的法向量作为该点的法向量。基于 Blinn-Phone 模型计算像素颜色。
+
+> BumpMapping_single_pass.frag
+
+### 滤镜后
+
+![BumpMapping_single_pass](Shadertoy/FT_BumpMapping/BumpMapping_single_pass.png)
+
+
+
 # 转场特效
 
 转场特效，双输入流
