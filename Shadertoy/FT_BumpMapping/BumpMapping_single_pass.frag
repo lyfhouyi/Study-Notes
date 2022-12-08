@@ -48,7 +48,8 @@ void mainImage(out vec4 fragColor,in vec2 fragCoord)
     float disCurToLight=distance(lightPosition,curPosition);
     float NdotL=max(dot(curNormal,curToLight),0.);
     color+=ambient*colorBase;
-    color+=diffuse*NdotL*colorBase;
+    // color+=diffuse*NdotL*colorBase;
+    color+=diffuse*NdotL*colorBase/(disCurToLight*disCurToLight);
     
     fragColor=vec4(color,1.);
 }
