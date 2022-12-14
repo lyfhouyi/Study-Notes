@@ -725,3 +725,19 @@ ElectronicRollingShutter 是逐行 reset 的，因此根据 y 轴坐标在 x 轴
 ### 过程中_2
 
 ![StretchOff_single_pass2](Shadertoy/TR_StretchOff/StretchOff_single_pass2.png)
+
+
+
+## TR_Grid-网格
+
+为网格的每个块贴上不同的纹理图。注意：
+
+1. 当前像素所属块的判定方式；
+2. 基于所属块的纹理坐标矫正方式，目的在于使相对所属块的纹理坐标填满 [0.0, 1.0] 区间；
+3. 类似于 BackgroundBlur，根据所属块宽高比调整纹理尺寸及当前像素基于所属块的相对坐标，使纹理充分平铺于所属块并居中显示。
+
+> Grid_single_pass.frag
+
+### 过程中
+
+![Grid_single_pass](Shadertoy/TR_Grid/Grid_single_pass.png)

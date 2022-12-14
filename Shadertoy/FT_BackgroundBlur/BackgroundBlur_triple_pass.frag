@@ -17,6 +17,7 @@ void mainImage(out vec4 fragColor,in vec2 fragCoord)
         textureResolution.x=textureResolution.y*textureAspect;
     }
     
+    //调整当前像素基于画布的相对坐标，使纹理在画布中居中显示
     vec2 diffResolution=iResolution.xy-textureResolution;
     vec2 foregroundCoord=fragCoord-.5*diffResolution;
     vec2 foregroundUv=foregroundCoord/textureResolution;
