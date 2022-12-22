@@ -20,7 +20,7 @@ void mainImage(out vec4 fragColor,in vec2 fragCoord)
     vec2 pixelStep=2./iResolution.xy;
     float progress=fract(iTime/durationTime);
     float time=progress;
-    time=.3;
+    // time=.3;
     vec3 color=texture2D(iChannel0,uv).rgb;//贴图当前页
     float theta=pi*sin(4.5*pi*(time-1./9.))*exp(-6.*time);//转盘角度
     float omega=pi*exp(-6.*time)*(4.5*pi*cos(4.5*pi*(time-1./9.))-6.*sin(4.5*pi*(time-1./9.)));//转盘角速度

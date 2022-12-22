@@ -25,6 +25,7 @@ void mainImage(out vec4 fragColor,in vec2 fragCoord)
     float selectRowIndex=floor(rowCnt-time*rowCnt);//选中的行索引
     float selectColIndex=floor(fract(time*rowCnt)*colCnt);//选中的列索引
     float selectProgress=1.-(.5+.5*cos(2.*pi*time*rowCnt*colCnt));//单次选中进度
+    // selectProgress=0.;//单次选中进度
     
     float selectWidth=mix(1./colCnt,1.,selectProgress);//选中的宽度
     float unSelectWidth=(1.-selectWidth)/(colCnt-1.);//未被选中的宽度
