@@ -1,14 +1,20 @@
 #iChannel0"file://asset/img21.jpg"
+#iChannel1"file://depth.png"
 
 const float durationTime=6.;
 const float pi=3.141592653;
-const float ambient=.3;//环境光系数
+const float ambient=.0;//环境光系数
 const float diffuse=1.;//漫反射系数
 
 //通过颜色估计高度
 float calcHeight(vec3 color){
     float avg=.5*(color.r+color.g);
     return mix(avg,.5,.985);
+}
+
+//通过深度图估计高度
+float calcHeight_depth(vec3 color){
+    return 0.3*(color.r+color.g+color.b);
 }
 
 //估计像素位置法向量
@@ -20,11 +26,15 @@ vec3 calcNormal(vec2 pt){
     vec2 p2=pt+vec2(.000866,-.0005);
     
     //估计定点高度
-    float h0=calcHeight(texture2D(iChannel0,p0).rgb);
-    float h1=calcHeight(texture2D(iChannel0,p1).rgb);
-    float h2=calcHeight(texture2D(iChannel0,p2).rgb);
-    
-    //估计像素法向量
+    // float h0=calcHeight(texture2D(iChannel0,p0).rgb);
+    // float h1=calcHeight(texture2D(iChannel0,p1).rgb);
+    // float h2=calcHeight(texture2D(iChannel0,p2).rgb);
+    float h0=calcHeight_depth(texture2D(iChannel1,p0).rgb);
+    float h1=calcHeight_depth(texture2D(iChannel1,p1).rgb);
+    float h2=calcHeight_depth(texture2D(iChannel1,p2).rgb);
+
+
+    //计算像素法向量
     return normalize(cross(vec3(p1,h1)-vec3(p0,h0),vec3(p2,h2)-vec3(p0,h0)));
 }
 
