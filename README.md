@@ -10,13 +10,9 @@
 
 > DrawShape_single_pass.frag
 
-
-
 # 滤镜特效
 
 滤镜特效，单输入流
-
-
 
 ## FT_Base-基础滤镜
 
@@ -27,8 +23,6 @@
 ### 滤镜后
 
 ![Base_single_pass](Shadertoy/FT_Base/Base_single_pass.png)
-
-
 
 ## FT_StrengthDisplay-颜色分级显示
 
@@ -45,8 +39,6 @@
 > FT_StrengthDisplay_single_pass_channels.frag
 
 ![FT_StrengthDisplay_single_pass_channels](Shadertoy/FT_StrengthDisplay/FT_StrengthDisplay_single_pass_channels.png)
-
-
 
 ## FT_GaussianBlur-高斯模糊
 
@@ -78,30 +70,25 @@
 
 ![GaussianBlur_pass_1](Shadertoy/FT_GaussianBlur/GaussianBlur_pass_1.png)
 
-
-
 ## FT_BilateralFilter-双边滤波
 
 使用双边滤波实现磨皮效果。双边滤波与高斯模糊的区别在于高斯模糊的权重域只有空间域（spatial domain S），而双边滤波的权重域还包括像素范围域（即像素值的欧氏距离，range domain R）。权重域中加入像素范围域使得原图中颜色变化大的部分权重较低，从而更多地保留了边界信息。
->BilateralFilter_single_pass.frag
+
+> BilateralFilter_single_pass.frag
 
 ### 滤镜后
 
 ![BilateralFilter_single_pass](Shadertoy/FT_BilateralFilter/BilateralFilter_single_pass.png)
 
-
-
 ## FT_SurfaceBlur-表面模糊
 
 表面模糊与高斯模糊的区别在于使用的权重不同，高斯模糊根据空间域的距离计算权重，表面模糊根据像素域颜色的曼哈顿距离计算权重。
 
->SurfaceBlur_single_pass.frag
+> SurfaceBlur_single_pass.frag
 
 ### 滤镜后
 
 ![SurfaceBlur_single_pass](Shadertoy/FT_SurfaceBlur/SurfaceBlur_single_pass.png)
-
-
 
 ## FT_BilateralTextureFilter-双边纹理滤波
 
@@ -114,8 +101,6 @@
 ### 滤镜后
 
 ![BilateralTextureFilter_quartic_pass](Shadertoy/FT_BilateralTextureFilter/BilateralTextureFilter_quartic_pass.png)
-
-
 
 ## FT_OrientationBlur-方向模糊
 
@@ -131,19 +116,15 @@
 
 ![OrientationBlur_single_pass_radial](Shadertoy/FT_OrientationBlur/OrientationBlur_single_pass_radial.png)
 
-
-
 ## FT_CircumBlur-圆周模糊
 
 在同心圆上多次采样取平均。注意图像边缘的处理。
->CircumBlur_single_pass.frag
+
+> CircumBlur_single_pass.frag
 
 ### 滤镜后
 
 ![CircumBlur_single_pass](Shadertoy/FT_CircumBlur/CircumBlur_single_pass.png)
-
-
-
 
 ## FT_BokehBlur-散景模糊
 
@@ -169,8 +150,6 @@ CoC 值反映了散景程度，当 CoC 增大时，应适当增加采样次数�
 
 ![BokehBlur_single_pass_CoC16Cnt500](Shadertoy/FT_BokehBlur/BokehBlur_single_pass_CoC16Cnt500.png)
 
-
-
 ## DepthOfField-景深
 
 使用 BokehBlur 模拟景深效果，将深度图作为 mask，一定深度范围内的物体不进行景深处理。注意，深度图 mask 的阶跃性造成了人像边界处的模糊。
@@ -191,8 +170,6 @@ CoC 值反映了散景程度，当 CoC 增大时，应适当增加采样次数�
 
 ![DepthOfField_double_pass](Shadertoy/FT_DepthOfField/DepthOfField_double_pass.png)
 
-
-
 ## FT_TiltShift-移轴摄影
 
 前景使用原图，背景进行散景模糊。
@@ -207,8 +184,6 @@ CoC 值反映了散景程度，当 CoC 增大时，应适当增加采样次数�
 
 ![TiltShift_double_pass_horizontal](Shadertoy/FT_TiltShift/TiltShift_double_pass_horizontal.png)
 
-
-
 ## FT_ParticleBlur-粒子模糊
 
 随机在周围采样贴纹理颜色。
@@ -218,8 +193,6 @@ CoC 值反映了散景程度，当 CoC 增大时，应适当增加采样次数�
 ### 滤镜后
 
 ![ParticleBlur_single_pass](Shadertoy/FT_ParticleBlur/ParticleBlur_single_pass.png)
-
-
 
 ## FT_BackgroundBlur-背景模糊
 
@@ -242,13 +215,9 @@ CoC 值反映了散景程度，当 CoC 增大时，应适当增加采样次数�
 
 ![BackgroundBlur_triple_pass](Shadertoy/FT_BackgroundBlur/BackgroundBlur_triple_pass.png)
 
-
-
 ### 纹理尺寸调整后
 
 ![BackgroundBlur_triple_pass_adjust](Shadertoy/FT_BackgroundBlur/BackgroundBlur_triple_pass_adjust.png)
-
-
 
 ## FT_ChangeToAutumn-一键变秋天
 
@@ -274,14 +243,11 @@ CoC 值反映了散景程度，当 CoC 增大时，应适当增加采样次数�
 
 ![ChangeToAutumn_changing2](Shadertoy/FT_ChangeToAutumn/ChangeToAutumn_changing2.png)
 
-
 ### 滤镜后
 
 > ChangeToAutumn_double_pass.frag
 
 ![ChangeToAutumn_double_pass](Shadertoy/FT_ChangeToAutumn/ChangeToAutumn_double_pass.png)
-
-
 
 ## FT_RGBSplit-RGB 分离
 
@@ -292,8 +258,6 @@ CoC 值反映了散景程度，当 CoC 增大时，应适当增加采样次数�
 > RGBSplit_single_pass.frag
 
 ![RGBSplit_single_pass](Shadertoy/FT_RGBSplit/RGBSplit_single_pass.png)
-
-
 
 ## FT_OutlineOff-轮廓错位
 
@@ -309,8 +273,6 @@ CoC 值反映了散景程度，当 CoC 增大时，应适当增加采样次数�
 
 ![OutlineOff_single_pass_radial](Shadertoy/FT_OutlineOff/OutlineOff_single_pass_radial.png)
 
-
-
 ## FT_RGBSplitOutlineOff-轮廓错位 RGB 分离
 
 在轮廓错位的基础上进行 RGB 分离。RGB 三个通道需分别进行边缘检测。
@@ -324,8 +286,6 @@ CoC 值反映了散景程度，当 CoC 增大时，应适当增加采样次数�
 ### 径向分离
 
 ![RGBSplitOutlineOff_single_pass_radial](Shadertoy/FT_RGBSplitOutlineOff/RGBSplitOutlineOff_single_pass_radial.png)
-
-
 
 ## FT_RollingShow-分屏滚动
 
@@ -341,8 +301,6 @@ CoC 值反映了散景程度，当 CoC 增大时，应适当增加采样次数�
 
 ![RollingShow_single_pass_horizontal](Shadertoy/FT_RollingShow/RollingShow_single_pass_horizontal.png)
 
-
-
 ## RollingShowOrientation-定向分屏滚动
 
 若想将斜线角度、贴图宽高比与显示分辨率解耦，则不能使用基于显示分辨率的纹理坐标 uv，而应该直接使用当前点坐标 fragCoord 进行坐标变换。
@@ -352,8 +310,6 @@ CoC 值反映了散景程度，当 CoC 增大时，应适当增加采样次数�
 ### 滤镜后
 
 ![RollingShowOrientation_single_pass](Shadertoy/FT_RollingShowOrientation/RollingShowOrientation_single_pass.png)
-
-
 
 ## FT_TvOpen-电视开启
 
@@ -375,15 +331,11 @@ CoC 值反映了散景程度，当 CoC 增大时，应适当增加采样次数�
 
 ![TvOpen_single_pass2](Shadertoy/FT_TvOpen/TvOpen_single_pass2.png)
 
-
-
 ### 水平抖动
 
 包括 RGB 颜色分离、黑色条纹、纹理偏移三部分。
 
 ![TvOpen_single_pass3](Shadertoy/FT_TvOpen/TvOpen_single_pass3.png)
-
-
 
 ## FT_FXAA-FXAA 反走样
 
@@ -405,8 +357,6 @@ CoC 值反映了散景程度，当 CoC 增大时，应适当增加采样次数�
 
 ![FXAA-Console_single_pass](Shadertoy/FT_FXAA/FXAA-Console_single_pass.png)
 
-
-
 ## FT_LUTFilter-色彩滤镜
 
 通过 LUT 查表得到颜色映射值。shader 后缀是 lut 表尺寸。
@@ -416,24 +366,22 @@ CoC 值反映了散景程度，当 CoC 增大时，应适当增加采样次数�
 ### 原图
 
 * 原始色彩图
-
+  
   ![LUTFilter_raw](Shadertoy/FT_LUTFilter/LUTFilter_raw.png)
 
 * 原始 LUT 图
-
+  
   ![lut](Shadertoy/FT_LUTFilter/lut.png)
 
 ### 滤镜后
 
 * 滤镜后色彩图
-
+  
   ![LUTFilter_single_pass](Shadertoy/FT_LUTFilter/LUTFilter_single_pass_512_512.png)
 
 * 滤镜后 LUT 图
-
+  
   ![lut_autumn](Shadertoy/FT_LUTFilter/lut_autumn.jpg)
-
-
 
 ## FT_UnsharpenMask-USM 锐化
 
@@ -449,11 +397,11 @@ CoC 值反映了散景程度，当 CoC 增大时，应适当增加采样次数�
 
 ![UnsharpenMask_single_pass](Shadertoy/FT_UnsharpenMask/UnsharpenMask_single_pass.png)
 
-
-
 ## FT_Voronoi-泰森多边形
+
 基于 Voronoi 剖分为像素点贴上不同的纹理。
->Voronoi_single_pass.frag
+
+> Voronoi_single_pass.frag
 
 ### 过程中
 
@@ -462,8 +410,6 @@ CoC 值反映了散景程度，当 CoC 增大时，应适当增加采样次数�
 ### 滤镜后
 
 ![Voronoi_single_pass](Shadertoy/FT_Voronoi/Voronoi_single_pass.png)
-
-
 
 ## FT_Cullet-碎玻璃
 
@@ -475,18 +421,15 @@ CoC 值反映了散景程度，当 CoC 增大时，应适当增加采样次数�
 
 ![Cullet_single_pass](Shadertoy/FT_Cullet/Cullet_single_pass.png)
 
-
-
 ## FT_Mosaic-马赛克
 
 使一定范围内的像素点显示相同的颜色。
->Mosaic_single_pass.frag
+
+> Mosaic_single_pass.frag
 
 ### 滤镜后
 
 ![Mosaic_single_pass](Shadertoy/FT_Mosaic/Mosaic_single_pass.png)
-
-
 
 ## FT_Halftone-半色调
 
@@ -496,7 +439,7 @@ CoC 值反映了散景程度，当 CoC 增大时，应适当增加采样次数�
 
 ### 滤镜后-灰度图
 
->Halftone_single_pass.frag
+> Halftone_single_pass.frag
 
 * tileSize = 2  dotSize = 1.5
 
@@ -518,8 +461,6 @@ CoC 值反映了散景程度，当 CoC 增大时，应适当增加采样次数�
 
 ![Halftone_single_pass_channels_T10D10](Shadertoy/FT_Halftone/Halftone_single_pass_channels_T10D10.png)
 
-
-
 ## FT_LocalExplosion-局部爆炸
 
 注意圆环的绘制方式，水平方向的缩放将圆环形状与视口宽高比解耦。
@@ -529,8 +470,6 @@ CoC 值反映了散景程度，当 CoC 增大时，应适当增加采样次数�
 ### 滤镜后
 
 ![LocalExplosion_single_pass](Shadertoy/FT_LocalExplosion/LocalExplosion_single_pass.png)
-
-
 
 ## FT_RoundSwell-圆形鼓包
 
@@ -542,8 +481,6 @@ CoC 值反映了散景程度，当 CoC 增大时，应适当增加采样次数�
 
 ![RoundSwell_single_pass](Shadertoy/FT_RoundSwell/RoundSwell_single_pass.png)
 
-
-
 ## GlassBlock-玻璃块
 
 三次贝塞尔的应用。若想将斜线角度与显示分辨率解耦，则不能使用基于显示分辨率的纹理坐标 uv，而应该直接使用当前点坐标 fragCoord 计算斜线坐标。
@@ -553,8 +490,6 @@ CoC 值反映了散景程度，当 CoC 增大时，应适当增加采样次数�
 ### 滤镜后
 
 ![GlassBlock_single_pass](Shadertoy/FT_GlassBlock/GlassBlock_single_pass.png)
-
-
 
 ## FT_ElectronicRollingShutter-电子卷帘快门
 
@@ -566,8 +501,6 @@ ElectronicRollingShutter 是逐行 reset 的，因此根据 y 轴坐标在 x 轴
 
 ![ElectronicRollingShutter_single_pass](Shadertoy/FT_ElectronicRollingShutter/ElectronicRollingShutter_single_pass.png)
 
-
-
 ## FT_SoulOut-灵魂出窍
 
 通过放大+透明度变化实现灵魂出窍效果。
@@ -577,8 +510,6 @@ ElectronicRollingShutter 是逐行 reset 的，因此根据 y 轴坐标在 x 轴
 ### 滤镜后
 
 ![SoulOut_single_pass](Shadertoy/FT_SoulOut/SoulOut_single_pass.png)
-
-
 
 ## FT_BumpMapping-凹凸映射
 
@@ -592,13 +523,9 @@ ElectronicRollingShutter 是逐行 reset 的，因此根据 y 轴坐标在 x 轴
 
 ![BumpMapping_single_pass](Shadertoy/FT_BumpMapping/BumpMapping_single_pass.png)
 
-
-
 # 转场特效
 
 转场特效，双输入流
-
-
 
 ## TR_PageFlip-翻页
 
@@ -624,8 +551,6 @@ ElectronicRollingShutter 是逐行 reset 的，因此根据 y 轴坐标在 x 轴
 
 ![PageFlip_double_pass](Shadertoy/TR_PageFlip/PageFlip_double_pass.png)
 
-
-
 ## TR_Magnify-放大
 
 > Magnify_single_pass.frag
@@ -633,8 +558,6 @@ ElectronicRollingShutter 是逐行 reset 的，因此根据 y 轴坐标在 x 轴
 ### 过程中
 
 ![Magnify_single_pass](Shadertoy/TR_Magnify/Magnify_single_pass.png)
-
-
 
 ## TR_Shutter-快门
 
@@ -646,8 +569,6 @@ ElectronicRollingShutter 是逐行 reset 的，因此根据 y 轴坐标在 x 轴
 
 ![Shutter_single_pass](Shadertoy/TR_Shutter/Shutter_single_pass.png)
 
-
-
 ## TR_SlipOff-滑出
 
 包括阴影的添加。
@@ -657,8 +578,6 @@ ElectronicRollingShutter 是逐行 reset 的，因此根据 y 轴坐标在 x 轴
 ### 过程中
 
 ![SlipOff_single_pass](Shadertoy/TR_SlipOff/SlipOff_single_pass.png)
-
-
 
 ## TR_SlipInto-滑入
 
@@ -670,8 +589,6 @@ ElectronicRollingShutter 是逐行 reset 的，因此根据 y 轴坐标在 x 轴
 
 ![SlipInto_single_pass](Shadertoy/TR_SlipInto/SlipInto_single_pass.png)
 
-
-
 ## TR_Spin-自旋
 
 通过矩形面旋转实现自旋效果。
@@ -681,8 +598,6 @@ ElectronicRollingShutter 是逐行 reset 的，因此根据 y 轴坐标在 x 轴
 ### 过程中
 
 ![Spin_single_pass](Shadertoy/TR_Spin/Spin_single_pass.png)
-
-
 
 ## TR_Split-切分
 
@@ -698,8 +613,6 @@ ElectronicRollingShutter 是逐行 reset 的，因此根据 y 轴坐标在 x 轴
 
 ![Split_single_pass2](Shadertoy/TR_Split/Split_single_pass2.png)
 
-
-
 ## RouletteInto-轮盘进入
 
 以视口下边界中心为轴旋转进入+圆周模糊。
@@ -709,8 +622,6 @@ ElectronicRollingShutter 是逐行 reset 的，因此根据 y 轴坐标在 x 轴
 ### 过程中
 
 ![RouletteInto_single_pass](Shadertoy/TR_RouletteInto/RouletteInto_single_pass.png)
-
-
 
 ## TR_StretchOff-拉出
 
@@ -725,8 +636,6 @@ ElectronicRollingShutter 是逐行 reset 的，因此根据 y 轴坐标在 x 轴
 ### 过程中_2
 
 ![StretchOff_single_pass2](Shadertoy/TR_StretchOff/StretchOff_single_pass2.png)
-
-
 
 ## TR_Grid-网格
 
