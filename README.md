@@ -301,7 +301,7 @@ CoC 值反映了散景程度，当 CoC 增大时，应适当增加采样次数�
 
 ![RollingShow_single_pass_horizontal](Shadertoy/FT_RollingShow/RollingShow_single_pass_horizontal.png)
 
-## RollingShowOrientation-定向分屏滚动
+## FT_RollingShowOrientation-定向分屏滚动
 
 若想将斜线角度、贴图宽高比与显示分辨率解耦，则不能使用基于显示分辨率的纹理坐标 uv，而应该直接使用当前点坐标 fragCoord 进行坐标变换。
 
@@ -310,6 +310,16 @@ CoC 值反映了散景程度，当 CoC 增大时，应适当增加采样次数�
 ### 滤镜后
 
 ![RollingShowOrientation_single_pass](Shadertoy/FT_RollingShowOrientation/RollingShowOrientation_single_pass.png)
+
+## FT_RollingShowScales-比例分屏滚动
+
+简单的坐标变换
+
+> RollingShowScales_single_pass.frag
+
+### 滤镜后
+
+![](/Users/e.hou/git/Study-Notes/Shadertoy/FT_RollingShowScales/RollingShowScales_single_pass.png)
 
 ## FT_TvOpen-电视开启
 
