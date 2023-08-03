@@ -282,9 +282,19 @@ def plotCubicBezier(p1_x, p1_y, p2_x, p2_y):
         y.append(cubic_bezier(ti, 0, p1_y, p2_y, 1))
     x = np.array(x)
     y = np.array(y)
+    str_x = ""
+    for xi in x:
+        str_x+="{:.5f},".format(xi)
+    
+    str_y = ""
+    for yi in y:
+        str_y+="{:.5f},".format(yi)
+        
 
-    print(x)
-    print(y)
+    print("x size =",len(x))
+    print("y size =",len(y))
+    print(str_x)
+    print(str_y)
     plt.plot(x, y, linewidth=3)
     plt.plot(t, t, linestyle='--')
     plt.plot(t,y,linestyle='-.')
@@ -293,5 +303,4 @@ def plotCubicBezier(p1_x, p1_y, p2_x, p2_y):
     plt.show()
 
 
-plotEaseCurve(ehEaseCustom)
-# plotCubicBezier(-0.5, 0.5, 0.5, 0.5)
+plotCubicBezier(.6,.47,.73,.47)

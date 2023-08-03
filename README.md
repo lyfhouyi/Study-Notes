@@ -287,6 +287,16 @@ CoC 值反映了散景程度，当 CoC 增大时，应适当增加采样次数�
 
 ![RGBSplitOutlineOff_single_pass_radial](Shadertoy/FT_RGBSplitOutlineOff/RGBSplitOutlineOff_single_pass_radial.png)
 
+## ## FT_Disco-蹦迪光
+
+简单的贴纸覆盖
+
+> Disco_single_pass.frag
+
+### 覆盖后
+
+![](/Users/e.hou/git/Study-Notes/Shadertoy/FT_Disco/Disco_single_pass.png)
+
 ## FT_RollingShow-分屏滚动
 
 简单的坐标变换。
@@ -313,13 +323,25 @@ CoC 值反映了散景程度，当 CoC 增大时，应适当增加采样次数�
 
 ## FT_RollingShowScales-比例分屏滚动
 
-简单的坐标变换
+用三次 pass 实现，第一次 pass 将原始素材缩小后放入 frame 框中，第二次 pass 将黑边叠加在原始素材上，第三次 pass 根据像素点位置显示前两次 pass 的输出结果。
 
-> RollingShowScales_single_pass.frag
+> RollingShowScales_triple_pass.frag
 
-### 滤镜后
+### 第一次 pass 输出
 
-![](/Users/e.hou/git/Study-Notes/Shadertoy/FT_RollingShowScales/RollingShowScales_single_pass.png)
+![](/Users/e.hou/git/Study-Notes/Shadertoy/FT_RollingShowScales/RollingShowScales_pass_1A.png)
+
+### 第二次 pass 输出
+
+![](/Users/e.hou/git/Study-Notes/Shadertoy/FT_RollingShowScales/RollingShowScales_pass_1B.png)
+
+### 第三次 pass 输出
+
+特效过程由缩小阶段、保持阶段、放大阶段三部分组成。坐标变换比基础版 FT_RollingShow 复杂一些。
+
+注：通过建立 [x, y] 映射表实现了三次贝塞尔曲线控制参数，详见 `getScaleAmplify` 等。
+
+![](/Users/e.hou/git/Study-Notes/Shadertoy/FT_RollingShowScales/RollingShowScales_triple_pass.png)
 
 ## FT_TvOpen-电视开启
 
